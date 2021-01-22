@@ -17,7 +17,7 @@
         <!-- A custom formatted column -->
         <template #cell(name)="data">
           <p class="text-info text-left">
-            <router-link :to="`/user/datasets/${items[1].text}/`">{{
+            <router-link :to="`/user/datasets/${items[1].text}/${data.item._id}`">{{
               data.value
             }}</router-link>
           </p>
@@ -54,7 +54,8 @@ export default {
       ],
       fields: ["index", { key: "name", label: "data item" }, "labelled"],
       data: [],
-      currentPage: 1
+      currentPage: 1,
+      datasets
     };
   },
   computed: {
