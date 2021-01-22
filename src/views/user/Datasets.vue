@@ -9,10 +9,10 @@
                <p style="max-width: 200px;" class="text-left pl-3">{{ data.label }}</p>
           </template>
             <!-- A custom formatted column -->
-            <template #cell(dataset)="data">
-                <p class="text-info text-left"><router-link :to="`/user/datasets/${data.value}`">{{ data.value }}</router-link></p>
+            <template #cell(name)="data">
+                <p class="text-info text-left"><router-link :to="`/user/datasets/${data.item._id}`">{{ data.value}}</router-link></p>
             </template>
-          <template #head(dataset)="data">
+          <template #head(name)="data">
                <p class="text-left">{{ data.label }}</p>
           </template>
       </b-table>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import datasets from "@/services/datasets.js"
 export default {
     name: "user-datasets",
     data() {
@@ -33,18 +34,9 @@ export default {
             ],
             fields: [
                 "index",
-                "dataset"
+                {key: "name", label: "dataset"}
             ],
-            datasets: [
-                {
-                    _id: 1,
-                    dataset: "Cervix Infection"
-                },
-                {
-                    _id: 2,
-                    dataset: "COVID19 Lung Ultrasound UltrasoundUltrasoundUltrasound"
-                }
-            ]
+            datasets
         }
     }
 }
