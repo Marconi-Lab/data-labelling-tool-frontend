@@ -4,15 +4,17 @@
     <b-row style="margin: 0px; min-height: 75vh;">
       <b-col md="7">
         <b-row class="mx-auto">
-          <div class="col-md-6 px-0" v-for="image in data.images" :key="data.images.indexOf(image)">
+          <div
+            class="col-md-6 px-0"
+            v-for="image in data.images"
+            :key="data.images.indexOf(image)"
+          >
             <!-- <b-col md="5"> -->
-              <img class="mx-auto" :src="image" alt="data image">
+            <img class="mx-auto" :src="image" alt="data image" />
             <!-- </b-col> -->
           </div>
         </b-row>
       </b-col>
-
-
 
       <b-col md="5" class="forsec">
         <h3>Annotate Data</h3>
@@ -100,21 +102,21 @@ export default {
     },
   },
   created() {
-    console.log(datasets.filter( x => x.name == this.$route.params.dataset))
+    console.log(datasets.filter((x) => x.name == this.$route.params.dataset));
     this.items.push(this.previous());
     this.items.push(this.current());
     this.data = datasets
       .filter((x) => x.name == this.$route.params.dataset)[0]
       .items.filter((x) => x._id == parseInt(this.$route.params.id))[0];
-    console.log(this.data)
+    console.log(this.data);
   },
 };
 </script>
 
 <style>
-.col-6{
-      padding: 0px;
-  }
+.col-6 {
+  padding: 0px;
+}
 @media (min-width: 768px) {
   .forsec {
     border-left: 1px solid rgb(191, 191, 191);
@@ -125,10 +127,10 @@ export default {
     padding: 20px;
   }
   img {
-      width: 26vw;
-      height: 16rem;
-      padding: 1rem;
-      object-fit: cover;
+    width: 26vw;
+    height: 16rem;
+    padding: 1rem;
+    object-fit: cover;
   }
 }
 @media (max-width: 768px) {
@@ -142,11 +144,11 @@ export default {
   .forsec .container {
     padding: 10px;
   }
-    img {
-      width: 20rem;
-      height: 20rem;
-      object-fit: cover;
-      padding: 1em;
+  img {
+    width: 20rem;
+    height: 20rem;
+    object-fit: cover;
+    padding: 1em;
   }
 }
 </style>

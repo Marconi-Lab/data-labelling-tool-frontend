@@ -1,40 +1,65 @@
 <template>
   <div>
-    <b-breadcrumb :items="items"></b-breadcrumb>
+    <b-breadcrumb class="mb-0" :items="items"></b-breadcrumb>
     <!-- <b-pagination> -->
-    <b-pagination size="md" :total-rows="rows" v-model="currentPage" per-page="7"></b-pagination>
-      <b-table :fields="fields" :items="data" per-page="7" :current-page="currentPage" class="mb-0 list-table">
-        <template #cell(index)="data">
-          <p style="max-width: 200px;" class="text-left pl-3">
-            {{ data.index + 1 }}
-          </p>
-        </template>
-        <template #head(index)="data">
-          <p style="max-width: 200px;" class="text-left pl-3">
-            {{ data.label }}
-          </p>
-        </template>
-        <!-- A custom formatted column -->
-        <template #cell(name)="data">
-          <p class="text-info text-left">
-            <router-link :to="`/user/datasets/${items[1].text}/${data.item._id}`">{{
-              data.value
-            }}</router-link>
-          </p>
-        </template>
-        <template #cell(labelled)="data">
-          <p :class="[data.value ? 'text-success' : 'text-danger' ]">
-              <b-icon v-if="data.value" icon="check-circle-fill" scale="2" variant="success" font-scale="0.7em"></b-icon>
-              <b-icon v-else icon="info-circle-fill" scale="2" variant="danger" font-scale="0.7em"></b-icon>
-          </p>
-        </template>
-        <template #head(name)="data">
-          <p class="text-left">{{ data.label }}</p>
-        </template>
-          <template #head(labelled)="data">
-          <p class="text-center">{{ data.label }}</p>
-        </template>
-      </b-table>
+    <b-pagination
+      size="md"
+      :total-rows="rows"
+      v-model="currentPage"
+      per-page="8"
+    ></b-pagination>
+    <b-table
+      :fields="fields"
+      :items="data"
+      per-page="8"
+      :current-page="currentPage"
+      class="mb-0 list-table"
+    >
+      <template #cell(index)="data">
+        <p style="max-width: 200px;" class="text-left pl-4">
+          {{ data.index + 1 }}
+        </p>
+      </template>
+      <template #head(index)="data">
+        <p style="max-width: 200px;" class="text-left pl-3">
+          {{ data.label }}
+        </p>
+      </template>
+      <!-- A custom formatted column -->
+      <template #cell(name)="data">
+        <p class="text-left pl-2">
+          <router-link
+            class="text-primary"
+            :to="`/user/datasets/${items[1].text}/${data.item._id}`"
+            >{{ data.value }}</router-link
+          >
+        </p>
+      </template>
+      <template #cell(labelled)="data">
+        <p :class="[data.value ? 'text-success' : 'text-danger']">
+          <b-icon
+            v-if="data.value"
+            icon="check-circle-fill"
+            scale="2"
+            variant="success"
+            font-scale="0.5em"
+          ></b-icon>
+          <b-icon
+            v-else
+            icon="info-circle-fill"
+            scale="2"
+            variant="danger"
+            font-scale="0.5em"
+          ></b-icon>
+        </p>
+      </template>
+      <template #head(name)="data">
+        <p class="text-left">{{ data.label }}</p>
+      </template>
+      <template #head(labelled)="data">
+        <p class="text-center">{{ data.label }}</p>
+      </template>
+    </b-table>
     <!-- </b-pagination> -->
   </div>
 </template>
@@ -55,13 +80,13 @@ export default {
       fields: ["index", { key: "name", label: "data item" }, "labelled"],
       data: [],
       currentPage: 1,
-      datasets
+      datasets,
     };
   },
   computed: {
-      rows(){
-          return this.data.length
-      }
+    rows() {
+      return this.data.length;
+    },
   },
   methods: {
     getCurrent() {
@@ -82,16 +107,16 @@ export default {
 </script>
 
 <style scoped>
-p{
-    margin-bottom: 0px;
+p {
+  margin-bottom: 0px;
 }
-.text-danger{
-    color: red;
+.text-danger {
+  color: red;
 }
-.text-success{
-    color: green
+.text-success {
+  color: green;
 }
-.list-table{
-    border: 1px solid rgb(167, 167, 167);
+.list-table {
+  border: 1px solid rgb(167, 167, 167);
 }
 </style>
