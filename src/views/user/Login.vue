@@ -15,7 +15,7 @@
                 type="email"
                 id="email"
               />
-               <!-- <input
+              <!-- <input
                 placeholder="Email"
                 v-validate="'required|email'"
                 v-model="email"
@@ -30,7 +30,13 @@
               > -->
             </div>
             <div class="form-group">
-                <input placeholder="password" class="form-control item field" name="password" type="password" id ="password"/>
+              <input
+                placeholder="password"
+                class="form-control item field"
+                name="password"
+                type="password"
+                id="password"
+              />
               <!-- <input
                 placeholder="password"
                 class="form-control item field"
@@ -56,10 +62,7 @@
             >
             <div class="buttons">
               <div class="login">
-                <button
-                  class="btn btn-primary login"
-                  type="submit"
-                >
+                <button class="btn btn-primary login" type="submit">
                   Login
                 </button>
               </div>
@@ -76,20 +79,18 @@
 </template>
 
 <script>
-
 export default {
   name: "login",
-  components: {
-  },
+  components: {},
   data() {
     return {
       email: "",
       password: "",
-      store_auth: false
+      store_auth: false,
     };
   },
   computed: {},
-  methods: {}
+  methods: {},
 };
 </script>
 
@@ -97,7 +98,7 @@ export default {
 $colors: (
   primary: #09a2ff,
   green: #1fb56f,
-  text: #707070
+  text: #707070,
 );
 @function color($thecolor) {
   @return map-get($colors, $thecolor);
