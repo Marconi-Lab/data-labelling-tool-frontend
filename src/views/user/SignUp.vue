@@ -5,7 +5,16 @@
         <div class="form-card">
           <form>
             <div class="text-center">
-              <p class="text-info">LOGIN</p>
+              <p class="text-info">Sign Up</p>
+            </div>
+            <div class="form-group">
+              <input
+                placeholder="Username"
+                class="form-control item field"
+                name="username"
+                type="name"
+                id="name"
+              />
             </div>
             <div class="form-group">
               <input
@@ -57,21 +66,28 @@
                 }}</small></span
               > -->
             </div>
-            <small class="text-danger" v-if="store_auth" id="msg"
-              >Wrong password or email</small
-            >
+            <div class="form-group">
+              <input
+                placeholder="confirm password"
+                class="form-control item field"
+                name="password"
+                type="password"
+                id="password"
+              />
+            </div>
+
             <div class="buttons">
               <div class="login">
                 <button class="btn btn-primary login" type="submit">
-                  Login
+                  Create Account
                 </button>
               </div>
             </div>
           </form>
         </div>
         <p>
-          Don't have an account?
-          <router-link to="/signup">Signup</router-link>
+          Already have an account?
+          <router-link to="/login">Login</router-link>
         </p>
       </section>
     </main>
@@ -113,7 +129,7 @@ $padding: 15px;
   font-weight: bold;
 }
 .main-body {
-  padding-top: 20vh;
+  padding-top: 10vh;
   p {
     text-align: center;
     padding-top: 30px;
@@ -121,7 +137,7 @@ $padding: 15px;
   }
 }
 .field {
-  border-radius: 10px;
+  border-radius: 15px;
 }
 .form-card {
   max-width: 300px;
@@ -139,7 +155,7 @@ $padding: 15px;
   width: 200px;
   font-size: 15px;
   border-radius: $radius;
-   margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 .buttons {
   text-align: center;
