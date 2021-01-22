@@ -79,17 +79,17 @@
 
 export default {
   name: "login",
-    components: {
-    },
-    data() {
-      return {
-        email: "",
-        password: "",
-        store_auth: false
-      };
-    },
-    computed: {},
-    methods: {}
+  components: {
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+      store_auth: false
+    };
+  },
+  computed: {},
+  methods: {}
 };
 </script>
 
