@@ -8,6 +8,8 @@ import Items from "../views/user/Items";
 import Annotation from "../views/user/Annotation";
 import SignUp from "../views/user/SignUp";
 
+import AdminLogin from "../views/admin/Login"
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -48,6 +50,15 @@ const routes = [
       },
     ],
   },
+
+  {
+      path: "/admin",
+      name: "admin-login",
+      component: AdminLogin,
+      children: [
+          
+      ]
+  }
 ];
 
 const router = new VueRouter({
