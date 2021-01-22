@@ -6,6 +6,7 @@ import Home from "../views/user/Home"
 import HomeView from "../views/user/HomeView"
 import Datasets from "../views/user/Datasets"
 import Items from "../views/user/Items"
+import Annotation from "../views/user/Annotation"
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
                 path: "datasets/:id",
                 name: "data-item",
                 component: Items
+            },
+            {
+                path: "datasets/:dataset/:id",
+                name: "annotation",
+                component: Annotation
             }
         ]
     }
