@@ -1,7 +1,6 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <div class="container">
         <b-navbar-brand href="#">Username</b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -25,7 +24,6 @@
             >
           </b-navbar-nav>
         </b-collapse>
-      </div>
     </b-navbar>
   </div>
 </template>
