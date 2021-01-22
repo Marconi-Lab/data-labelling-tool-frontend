@@ -4,6 +4,7 @@ import Dummy from "../components/dummy"
 import Login from "../views/user/Login"
 import Home from "../views/user/Home"
 import HomeView from "../views/user/HomeView"
+import Datasets from "../views/user/Datasets"
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
                 path: "home",
                 name: "home",
                 component: HomeView
+            },
+            {
+                path: "datasets",
+                name: "user-datasets",
+                component: Datasets
             }
         ]
     }
