@@ -8,7 +8,8 @@ import Items from "../views/user/Items";
 import Annotation from "../views/user/Annotation";
 import SignUp from "../views/user/SignUp";
 
-import AdminLogin from "../views/admin/Login"
+import AdminLogin from "../views/admin/Login";
+import AdminMain from "../views/admin/Main"
 
 Vue.use(VueRouter);
 
@@ -21,7 +22,7 @@ const routes = [
   {
     path: "/signup",
     name: "signup",
-    component: SignUp
+    component: SignUp,
   },
   {
     path: "/user",
@@ -52,13 +53,16 @@ const routes = [
   },
 
   {
-      path: "/admin",
-      name: "admin-login",
-      component: AdminLogin,
-      children: [
-          
-      ]
-  }
+    path: "/administrator",
+    name: "admin-login",
+    component: AdminLogin,
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    component: AdminMain,
+    children: [],
+  },
 ];
 
 const router = new VueRouter({
