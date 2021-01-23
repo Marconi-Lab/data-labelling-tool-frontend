@@ -11,7 +11,7 @@
           <b-nav-item
             ><router-link
               :class="[
-                currentRoute.includes('/user/home')
+                currentRoute.includes('/admin/home')
                   ? 'link-active'
                   : 'link-normal',
               ]"
@@ -22,12 +22,12 @@
           <b-nav-item
             ><router-link
               :class="[
-                currentRoute.includes('datasets')
+                currentRoute.includes('database')
                   ? 'link-active'
                   : 'link-normal',
               ]"
-              to="/user/datasets"
-              >Datasets</router-link
+              to="/admin/database"
+              >Database</router-link
             ></b-nav-item
           >
           <b-nav-item
@@ -46,7 +46,7 @@
 
 <script>
 export default {
-  name: "navbar",
+  name: "admin-navbar",
   data() {
     return {};
   },
