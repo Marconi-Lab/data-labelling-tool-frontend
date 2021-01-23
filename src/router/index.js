@@ -11,6 +11,7 @@ import SignUp from "../views/user/SignUp";
 import AdminLogin from "../views/admin/Login";
 import AdminMain from "../views/admin/Main";
 import AdminHome from "../views/admin/Home";
+import Users from "../views/admin/Users"
 
 Vue.use(VueRouter);
 
@@ -67,6 +68,11 @@ const routes = [
         path: "home",
         name: "admin-home",
         component: AdminHome
+      },
+      {
+        path: "users",
+        name: "users",
+        component: Users
       }
     ],
   },
