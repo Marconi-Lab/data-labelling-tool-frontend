@@ -9,7 +9,8 @@ import Annotation from "../views/user/Annotation";
 import SignUp from "../views/user/SignUp";
 
 import AdminLogin from "../views/admin/Login";
-import AdminMain from "../views/admin/Main"
+import AdminMain from "../views/admin/Main";
+import AdminHome from "../views/admin/Home";
 
 Vue.use(VueRouter);
 
@@ -61,7 +62,13 @@ const routes = [
     path: "/admin",
     name: "admin",
     component: AdminMain,
-    children: [],
+    children: [
+      {
+        path: "home",
+        name: "admin-home",
+        component: AdminHome
+      }
+    ],
   },
 ];
 
