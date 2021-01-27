@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb :items="items"></b-breadcrumb>
     <b-nav>
-      <b-nav-item active
+      <b-nav-item active style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
         ><b-btn variant="info" v-b-modal.modal-center> Add <b-icon icon="plus" style="float: right"></b-icon
       ></b-btn></b-nav-item>
     </b-nav>
@@ -11,7 +11,7 @@
       :rows="rows"
       :pagination-options="{
         enabled: true,
-        perPage: 5,
+        perPage: 7,
       }"
       :search-options="{
         enabled: true,
