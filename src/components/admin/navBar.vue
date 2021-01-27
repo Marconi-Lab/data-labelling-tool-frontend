@@ -15,7 +15,7 @@
                   ? 'link-active'
                   : 'link-normal',
               ]"
-              to="/user/home"
+              to="/admin/home"
               >Home</router-link
             ></b-nav-item
           >
@@ -27,7 +27,18 @@
                   : 'link-normal',
               ]"
               to="/admin/database"
-              >Database</router-link
+              >Datasets</router-link
+            ></b-nav-item
+          >
+           <b-nav-item
+            ><router-link
+              :class="[
+                currentRoute.includes('users')
+                  ? 'link-active'
+                  : 'link-normal',
+              ]"
+              to="/admin/users"
+              >Users</router-link
             ></b-nav-item
           >
           <b-nav-item
