@@ -22,11 +22,11 @@
           <b-nav-item
             ><router-link
               :class="[
-                currentRoute.includes('database')
+                currentRoute.includes('datasets')
                   ? 'link-active'
                   : 'link-normal',
               ]"
-              to="/admin/database"
+              to="/admin/datasets"
               >Datasets</router-link
             ></b-nav-item
           >
