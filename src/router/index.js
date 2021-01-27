@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Landing from "../views/Landing";
 import Login from "../views/user/Login";
 import Home from "../views/user/Home";
 import HomeView from "../views/user/HomeView";
@@ -19,6 +20,11 @@ import AdminAnnotation from "../views/admin/Annotation";
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/",
+    name: "index",
+    component: Landing,
+  },
   {
     path: "/login",
     name: "login",
@@ -70,22 +76,22 @@ const routes = [
       {
         path: "home",
         name: "admin-home",
-        component: AdminHome
+        component: AdminHome,
       },
       {
         path: "users",
         name: "users",
-        component: Users
+        component: Users,
       },
       {
         path: "datasets",
         name: "admin-datasets",
-        component: AdminDatasets
+        component: AdminDatasets,
       },
       {
         path: "datasets/:id",
         name: "admin-particular-dataset",
-        component: AdminItems
+        component: AdminItems,
       },
       {
         path: "datasets/:dataset/:id",
