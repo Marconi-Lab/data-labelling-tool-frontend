@@ -1,83 +1,61 @@
 <template>
   <div>
     <b-breadcrumb class="mb-0" :items="items"></b-breadcrumb>
-    <!-- <b-pagination> -->
-    <b-pagination
-      size="md"
-      :total-rows="rows"
-      v-model="currentPage"
-      per-page="8"
-    ></b-pagination>
-    <b-table
-      :fields="fields"
-      :items="data"
-      per-page="8"
-      :current-page="currentPage"
-      class="mb-0 list-table"
+  
+     <vue-good-table
+      :columns="fields"
+      :rows="data"
+      :pagination-options="{
+        enabled: true,
+        perPage: 8,
+      }"
+      :sort-options="{
+        enabled: false,
+        }"
     >
-      <template #cell(index)="data">
-        <p style="max-width: 200px;" class="text-left pl-4">
-          {{ data.index + 1 }}
-        </p>
-      </template>
-      <template #head(index)="data">
-        <p style="max-width: 200px;" class="text-left pl-3">
-          {{ data.label }}
-        </p>
-      </template>
-      <!-- A custom formatted column -->
-      <template #cell(name)="data">
-        <p class="text-left pl-2">
-          <router-link
-            class="text-primary"
-            :to="`/user/datasets/${items[1].text}/${data.item._id}`"
-            >{{ data.value }}</router-link
-          >
-        </p>
-      </template>
-      <template #cell(labelled)="data">
-        <p :class="[data.value ? 'text-success' : 'text-danger']">
-          <b-icon
-            v-if="data.value"
-            icon="check-circle-fill"
-            scale="2"
-            variant="success"
-            font-scale="0.5em"
-          ></b-icon>
-          <b-icon
-            v-else
-            icon="info-circle-fill"
-            scale="2"
-            variant="danger"
-            font-scale="0.5em"
-          ></b-icon>
-        </p>
-      </template>
-      <template #head(name)="data">
-        <p class="text-left">{{ data.label }}</p>
-      </template>
-      <template #head(labelled)="data">
-        <p class="text-center">{{ data.label }}</p>
-      </template>
-    </b-table>
-    <!-- </b-pagination> -->
+        <template slot="table-row" slot-scope="props">
+            <span v-if="props.column.field=='name'">
+                <router-link class="text-info" :to="`/user/datasets/${items[1].text}/${props.row._id}`">{{props.row.name}}</router-link>
+            </span>
+            <span v-if="props.column.field=='labelled'">
+                <b-icon
+                    v-if="props.row.labelled"
+                    icon="check-circle-fill"
+                    scale="2"
+                    variant="info"
+                    font-scale="0.5em"
+                ></b-icon>
+                <b-icon
+                    v-else
+                    icon="info-circle-fill"
+                    scale="2"
+                    variant="danger"
+                    font-scale="0.5em"
+                ></b-icon>
+            </span>
+        </template>
+    </vue-good-table>
   </div>
 </template>
 
 <script>
 import datasets from "@/services/datasets";
+import { VueGoodTable } from "vue-good-table";
 export default {
   name: "user-data-items",
+  components: {
+      VueGoodTable,
+  },
   data() {
     return {
       items: [
         {
           text: "datasets",
-          href: "/user/datasets",
+          href: "/users/datasets",
           active: false,
         },
       ],
-      fields: ["index", { key: "name", label: "data item" }, "labelled"],
+      fields: [{"field": "name", "label":"Name"}, { "field": "labelled", "label":"Labelled"}],
       data: [],
       currentPage: 1,
       datasets,
