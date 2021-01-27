@@ -13,7 +13,8 @@ import AdminMain from "../views/admin/Main";
 import AdminHome from "../views/admin/Home";
 import Users from "../views/admin/Users";
 import AdminDatasets from "../views/admin/Datasets";
-import AdminItems from "../views/admin/Items"
+import AdminItems from "../views/admin/Items";
+import AdminAnnotation from "../views/admin/Annotation";
 
 Vue.use(VueRouter);
 
@@ -85,7 +86,12 @@ const routes = [
         path: "datasets/:id",
         name: "admin-particular-dataset",
         component: AdminItems
-      }
+      },
+      {
+        path: "datasets/:dataset/:id",
+        name: "admin-annotation",
+        component: AdminAnnotation,
+      },
     ],
   },
 ];
