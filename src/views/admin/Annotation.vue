@@ -72,7 +72,7 @@ export default {
       items: [
         {
           text: "datasets",
-          href: "/user/datasets",
+          href: "/admin/datasets",
           active: false,
         },
       ],
