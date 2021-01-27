@@ -3,7 +3,7 @@
     <b-breadcrumb :items="items"></b-breadcrumb>
     <b-nav>
       <b-nav-item active
-        ><b-btn variant="info"> Add <b-icon icon="plus" style="float: right"></b-icon
+        ><b-btn variant="info" v-b-modal.modal-center> Add <b-icon icon="plus" style="float: right"></b-icon
       ></b-btn></b-nav-item>
     </b-nav>
     <vue-good-table
@@ -24,7 +24,7 @@
 
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field=='name'">
-         <p class="mb-0">{{props.row.name}}</p>
+         <router-link class="mb-0 dataset text-info" style="" :to="`/admin/datasets/${props.row._id}`">{{props.row.name}}</router-link>
         </span>
         <span v-if="props.column.field=='progress'">
           <b-progress :value="props.row.progress*100" variant="info" height="0.5em"></b-progress> 
@@ -51,29 +51,25 @@
         </span>
       </template>
     </vue-good-table>
-
-    <!-- <b-table :fields="fields" :items="datasets">
-      <template #cell(index)="data">
-        <p style="max-width: 200px;" class="text-left pl-3">
-          {{ data.index + 1 }}
-        </p>
+    <b-modal
+      id="modal-center"
+      centered
+      title="Modify Datasets"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <b-form-input v-model="title" placeholder="Enter Dataset title"></b-form-input>
+      <b-form-input v-model="classes" placeholder="Enter classes, e.g (Positive, negative, not sure)" class="mt-3"></b-form-input>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-info" @click="handleDatasetUpdate"
+          >Submit</b-button
+        >
       </template>
-      <template #head(index)="data">
-        <p style="max-width: 200px;" class="text-left pl-3">{{ data.label }}</p>
-      </template>
-
-      <template #cell(name)="data">
-        <p class="text-info text-left">
-          <router-link :to="`/user/datasets/${data.item._id}`">{{
-            data.value
-          }}</router-link>
-        </p>
-      </template>
-
-      <template #head(name)="data">
-        <p class="text-left">{{ data.label }}</p>
-      </template>
-    </b-table> -->
+    </b-modal>
   </div>
 </template>
 
@@ -94,6 +90,8 @@ export default {
           active: true,
         },
       ],
+      title: "",
+      classes: "",
       columns: [
         { field: "name", label: "Dataset" },
         { field: "progress", label: "Progress" },
@@ -106,4 +104,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.dataset:hover{
+  cursor: 'pointer';
+  color: teal;
+}
+</style>
