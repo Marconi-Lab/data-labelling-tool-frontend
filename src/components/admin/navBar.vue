@@ -11,11 +11,11 @@
           <b-nav-item
             ><router-link
               :class="[
-                currentRoute.includes('/user/home')
+                currentRoute.includes('/admin/home')
                   ? 'link-active'
                   : 'link-normal',
               ]"
-              to="/user/home"
+              to="/admin/home"
               >Home</router-link
             ></b-nav-item
           >
@@ -26,8 +26,19 @@
                   ? 'link-active'
                   : 'link-normal',
               ]"
-              to="/user/datasets"
+              to="/admin/datasets"
               >Datasets</router-link
+            ></b-nav-item
+          >
+           <b-nav-item
+            ><router-link
+              :class="[
+                currentRoute.includes('users')
+                  ? 'link-active'
+                  : 'link-normal',
+              ]"
+              to="/admin/users"
+              >Users</router-link
             ></b-nav-item
           >
           <b-nav-item
@@ -46,7 +57,7 @@
 
 <script>
 export default {
-  name: "navbar",
+  name: "admin-navbar",
   data() {
     return {};
   },

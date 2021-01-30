@@ -2,6 +2,8 @@ const datasets = [
   {
     _id: 1,
     name: "Cervical Infection",
+    progress: 0.4,
+    download: "",
     items: [
       {
         _id: 1,
@@ -134,6 +136,8 @@ const datasets = [
   {
     _id: 2,
     name: "COVID19 Lung Ultrasound",
+    progress: 0.3,
+    download: "",
     items: [
       {
         _id: 1,
