@@ -4,27 +4,25 @@
       <b-row class="mt-5">
         <b-col md="6" class="my-3">
           <b-card
-            header="Your Record"
             header-tag="header"
-            footer="Annotations"
+            border-variant="info"
             footer-tag="footer"
-            style="height: 40vh"
+            style="height: 50vh"
+            body-text-variant="info"
           >
             <b-row align-v="center" style="height: 100%">
-              <h1 style="margin: auto">{{ record }}</h1>
+              <h1 style="margin: auto">Record {{ record }}</h1>
             </b-row>
           </b-card>
         </b-col>
         <b-col md="6" class="my-3">
           <b-card
-            header="Your Assignments"
-            header-tag="header"
-            footer="Datasets"
-            footer-tag="footer"
-            style="height: 40vh"
+            text-variant="info"
+            border-variant="info"
+            style="height: 50vh"
           >
             <b-row align-v="center" style="height: 100%">
-              <h1 style="margin: auto">{{ datasets }}</h1>
+              <h1 style="margin: auto">Datasets {{ datasets }}</h1>
             </b-row>
           </b-card>
         </b-col>
