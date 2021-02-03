@@ -16,15 +16,17 @@
           </b-card>
         </b-col>
         <b-col md="6" class="my-3">
-          <b-card
-            text-variant="info"
-            border-variant="info"
-            style="height: 50vh"
-          >
-            <b-row align-v="center" style="height: 100%">
-              <h1 style="margin: auto">Datasets {{ datasets }}</h1>
-            </b-row>
-          </b-card>
+          <router-link style="text-decoration: none" to="/user/datasets">
+            <b-card
+              text-variant="info"
+              border-variant="info"
+              style="height: 50vh"
+            >
+              <b-row align-v="center" style="height: 100%">
+                <h1 style="margin: auto">Datasets {{ datasets }}</h1>
+              </b-row>
+            </b-card>
+          </router-link>
         </b-col>
       </b-row>
     </b-container>
