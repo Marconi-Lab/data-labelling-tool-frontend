@@ -8,7 +8,7 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <router-link class="router-link nav-link" to="/login">
-         signin</router-link
+          signin</router-link
         >
         <router-link class="router-link nav-link" to="/signup">
           signup</router-link
@@ -36,7 +36,7 @@ export default {};
   width: 100vw;
   height: 100vh;
   background-image: url("../assets/1.jpg");
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
