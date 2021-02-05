@@ -24,41 +24,65 @@ const routes = [
     path: "/",
     name: "index",
     component: Landing,
+    meta: {
+      guest: true,
+    },
   },
   {
     path: "/login",
     name: "login",
     component: Login,
+    meta: {
+      guest: true,
+    },
   },
   {
     path: "/signup",
     name: "signup",
     component: SignUp,
+    meta: {
+      guest: true,
+    },
   },
   {
     path: "/user",
     name: "user",
     component: Home,
+    meta: {
+      requires_auth: true,
+    },
     children: [
       {
         path: "home",
         name: "home",
         component: HomeView,
+        meta: {
+          requires_auth: true,
+        },
       },
       {
         path: "datasets",
         name: "user-datasets",
         component: Datasets,
+        meta: {
+          requires_auth: true,
+        },
       },
       {
         path: "datasets/:id",
         name: "data-item",
         component: Items,
+        meta: {
+          requires_auth: true,
+        },
       },
       {
         path: "datasets/:dataset/:id",
         name: "annotation",
         component: Annotation,
+        meta: {
+          requires_auth: true,
+        },
       },
     ],
   },
@@ -72,31 +96,49 @@ const routes = [
     path: "/admin",
     name: "admin",
     component: AdminMain,
+    meta: {
+      requires_auth: true,
+    },
     children: [
       {
         path: "home",
         name: "admin-home",
         component: AdminHome,
+        meta: {
+          requires_auth: true,
+        },
       },
       {
         path: "users",
         name: "users",
         component: Users,
+        meta: {
+          requires_auth: true,
+        },
       },
       {
         path: "datasets",
         name: "admin-datasets",
         component: AdminDatasets,
+        meta: {
+          requires_auth: true,
+        },
       },
       {
         path: "datasets/:id",
         name: "admin-particular-dataset",
         component: AdminItems,
+        meta: {
+          requires_auth: true,
+        },
       },
       {
         path: "datasets/:dataset/:id",
         name: "admin-annotation",
         component: AdminAnnotation,
+        meta: {
+          requires_auth: true,
+        },
       },
     ],
   },
