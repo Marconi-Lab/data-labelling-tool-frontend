@@ -5,7 +5,7 @@
       :is-full-page="true"
       color="#17a2b8"
       background-color="#000"
-      opacity="0.3"
+      :opacity="0.3"
     />
     <router-view></router-view>
   </div>
@@ -14,15 +14,15 @@
 <script>
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
+import { mapGetters } from "vuex";
+
 export default {
   name: "App",
   components: {
     Loading,
   },
-  data() {
-    return {
-      isLoading: false,
-    };
+  computed: {
+    ...mapGetters(["isLoading"]),
   },
 };
 </script>
