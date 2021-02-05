@@ -26,6 +26,7 @@ const routes = [
     component: Landing,
     meta: {
       guest: true,
+      requires_auth: false,
     },
   },
   {
@@ -34,6 +35,7 @@ const routes = [
     component: Login,
     meta: {
       guest: true,
+      requires_auth: false,
     },
   },
   {
@@ -42,6 +44,7 @@ const routes = [
     component: SignUp,
     meta: {
       guest: true,
+      requires_auth: false,
     },
   },
   {
@@ -50,14 +53,16 @@ const routes = [
     component: Home,
     meta: {
       requires_auth: true,
+      is_user: true,
     },
     children: [
       {
         path: "home",
-        name: "home",
+        name: "user-home",
         component: HomeView,
         meta: {
           requires_auth: true,
+          is_user: true,
         },
       },
       {
@@ -66,6 +71,7 @@ const routes = [
         component: Datasets,
         meta: {
           requires_auth: true,
+          is_user: true,
         },
       },
       {
@@ -74,6 +80,7 @@ const routes = [
         component: Items,
         meta: {
           requires_auth: true,
+          is_user: true,
         },
       },
       {
@@ -82,6 +89,7 @@ const routes = [
         component: Annotation,
         meta: {
           requires_auth: true,
+          is_user: true,
         },
       },
     ],
@@ -91,6 +99,10 @@ const routes = [
     path: "/administrator",
     name: "admin-login",
     component: AdminLogin,
+    meta: {
+      guest: true,
+      requires_auth: false,
+    },
   },
   {
     path: "/admin",
@@ -98,6 +110,7 @@ const routes = [
     component: AdminMain,
     meta: {
       requires_auth: true,
+      is_admin: true,
     },
     children: [
       {
@@ -106,6 +119,7 @@ const routes = [
         component: AdminHome,
         meta: {
           requires_auth: true,
+          is_admin: true,
         },
       },
       {
@@ -114,6 +128,7 @@ const routes = [
         component: Users,
         meta: {
           requires_auth: true,
+          is_admin: true,
         },
       },
       {
@@ -122,6 +137,7 @@ const routes = [
         component: AdminDatasets,
         meta: {
           requires_auth: true,
+          is_admin: true,
         },
       },
       {
@@ -130,6 +146,7 @@ const routes = [
         component: AdminItems,
         meta: {
           requires_auth: true,
+          is_admin: true,
         },
       },
       {
@@ -138,6 +155,7 @@ const routes = [
         component: AdminAnnotation,
         meta: {
           requires_auth: true,
+          is_admin: true,
         },
       },
     ],
@@ -147,6 +165,47 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requires_auth)) {
+    if (localStorage.getItem("jwt") === null) {
+      alert("You are not logged in!");
+      next({
+        path: "/",
+        continue: to.fullPath,
+      });
+    } else {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (
+        to.matched.some((record) => record.meta.is_user) &&
+        user.is_admin === ""
+      ) {
+        next();
+      } else if (
+        to.matched.some((record) => record.meta.is_admin) &&
+        user.is_admin === "admin"
+      ) {
+        next();
+      } else {
+        next();
+        return;
+      }
+    }
+    next();
+  } else if (to.matched.some((record) => record.meta.guest)) {
+    if (localStorage.getItem("jwt") == null) {
+      next({});
+    } else {
+      const role = JSON.parse(localStorage.getItem("user")).is_admin
+        ? "admin"
+        : "user";
+      next({ name: `${role}-home` });
+    }
+  } else {
+    next();
+    return;
+  }
 });
 
 export default router;
