@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-good-table": "^2.21.3",
+    "vue-loading-overlay": "^3.4.2",
     "vue-router": "^3.4.9"
   },
   "devDependencies": {
