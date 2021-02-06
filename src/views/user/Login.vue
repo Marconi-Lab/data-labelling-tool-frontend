@@ -14,20 +14,8 @@
                 class="form-control item field"
                 type="email"
                 id="email"
-              />
-              <!-- <input
-                placeholder="Email"
-                v-validate="'required|email'"
                 v-model="email"
-                :class="{ input: true, 'is-danger': errors.has('email') }"
-                name="email"
-                class="form-control item field"
-                type="email"
-                id="email"
               />
-              <span v-show="errors.has('email')" class="help is-danger" id="msg"
-                ><small>{{ errors.first("email") }}</small></span
-              > -->
             </div>
             <div class="form-group">
               <input
@@ -36,33 +24,19 @@
                 name="password"
                 type="password"
                 id="password"
-              />
-              <!-- <input
-                placeholder="password"
-                class="form-control item field"
                 v-model="password"
-                v-validate="'required|max:20|min:7'"
-                name="password"
-                :class="{ 'is-danger': errors.has('password') }"
-                type="password"
-                ref="password"
-                id="password"
-              /> -->
-              <!-- <span
-                v-show="errors.has('password')"
-                class="help is-danger"
-                id="msg"
-                ><small style="color: red">{{
-                  errors.first("password")
-                }}</small></span
-              > -->
+              />
             </div>
-            <small class="text-danger" v-if="store_auth" id="msg"
+            <small class="text-danger" v-if="authError" id="msg"
               >Wrong password or email</small
             >
             <div class="buttons">
               <div class="login">
-                <button class="btn btn-primary login" type="submit">
+                <button
+                  class="btn login btn-info"
+                  type="submit"
+                  @click="handleLogin"
+                >
                   Login
                 </button>
               </div>
@@ -71,7 +45,7 @@
         </div>
         <p>
           Don't have an account?
-          <router-link to="/signup">Signup</router-link>
+          <router-link to="/signup" class="text-info">Signup</router-link>
         </p>
       </section>
     </main>
@@ -79,6 +53,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "login",
   components: {},
@@ -89,8 +65,27 @@ export default {
       store_auth: false,
     };
   },
-  computed: {},
-  methods: {},
+  computed: {
+    ...mapGetters(["authError"]),
+  },
+  methods: {
+    ...mapActions(["userLogin"]),
+    handleLogin(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      this.userLogin({ email: this.email, password: this.password })
+        .then(() => {
+          if (localStorage.getItem("jwt") != null) {
+            this.$emit("loggedIn");
+            this.$router.push({ name: "user-home" });
+            this.$store.commit("isLoading", false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
 
@@ -139,7 +134,7 @@ $padding: 15px;
   width: 200px;
   font-size: 15px;
   border-radius: $radius;
-   margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 .buttons {
   text-align: center;
