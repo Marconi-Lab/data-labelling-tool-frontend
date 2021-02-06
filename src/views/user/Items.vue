@@ -27,7 +27,7 @@
           </b-icon>
           <router-link
             class="text-info"
-            :to="`/user/datasets/${items[1].text}/${props.row._id}`"
+            :to="`/user/datasets/${items[1].text}/${props.row.id}`"
             >{{ props.row.name }}</router-link
           >
         </span>
@@ -55,6 +55,9 @@
 <script>
 import datasets from "@/services/datasets";
 import { VueGoodTable } from "vue-good-table";
+// import { mapGetters } from "vuex";
+import axios from "../../store/axios_setup";
+
 export default {
   name: "user-data-items",
   components: {
@@ -68,6 +71,11 @@ export default {
           href: "/user/datasets",
           active: false,
         },
+        {
+          text: "",
+          href: "",
+          active: true,
+        },
       ],
       fields: [
         { field: "name", label: "Name" },
@@ -79,25 +87,33 @@ export default {
     };
   },
   computed: {
+    // ...mapGetters(["assignedDataset"]),
     rows() {
       return this.data.length;
     },
   },
   methods: {
-    getCurrent() {
-      var set = datasets.filter((x) => x._id == this.$route.params.id)[0];
-      return {
-        text: set.name,
-        active: true,
-        href: `/user/datasets/${set._id}`,
-      };
-    },
+    // getCurrent(name, id) {
+    //   return {
+    //     text: name,
+    //     active: true,
+    //     href: `/user/datasets/${id}`,
+    //   };
+    // },
   },
   created() {
-    this.data = datasets.filter((x) => x._id == this.$route.params.id)[0].items;
-    this.items[1] = this.getCurrent();
-    console.log(this.items[1]);
+    axios.get(`/user/datasets/${this.$route.params.id}/`).then((res) => {
+      console.log("Response here", res);
+      this.data = res.data.items;
+      this.items[1].text = res.data.name;
+      this.items[1].href = `/user/datasets/${this.res.data.id}`;
+    });
   },
+  // this.$store.dispatch("getUserDataset", this.$route.params.id);
+  // this.data = this.assignedDataset.items;
+  // console.log("Dataset", this.assignedDataset);
+  // console.log(this.items[1]);
+  // },
 };
 </script>
 
