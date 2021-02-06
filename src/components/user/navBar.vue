@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand>Username</b-navbar-brand>
+      <b-navbar-brand>{{ username }}</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -48,7 +48,9 @@
 export default {
   name: "navbar",
   data() {
-    return {};
+    return {
+      username: "",
+    };
   },
   computed: {
     currentRoute() {
@@ -56,7 +58,7 @@ export default {
     },
   },
   created() {
-    console.log(this.$route.path);
+    this.username = JSON.parse(localStorage.getItem("user")).username;
   },
 };
 </script>
