@@ -10,13 +10,14 @@ import api from "./store/axios_setup";
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("jwt");
-    // const is_admin = localStorage.getItem("user");
-    // console.log("is admin", is_admin);
+    const userID = JSON.parse(localStorage.getItem("user")).id;
+    const is_admin = JSON.parse(localStorage.getItem("user")).is_admin
+      ? "admin"
+      : "";
     if (token) {
       config.headers.Authorization = "Bearer " + token;
-      config.headers.is_admin = JSON.parse(
-        localStorage.getItem("user")
-      ).is_admin;
+      config.headers.is_admin = is_admin;
+      config.headers.user_id = userID;
     }
     return config;
   },
