@@ -3,8 +3,9 @@
     <b-breadcrumb :items="items"></b-breadcrumb>
 
     <vue-good-table
+      v-if="assignedDatasets && assignedDatasets.length"
       :columns="fields"
-      :rows="datasets"
+      :rows="assignedDatasets"
       :pagination-options="{
         enabled: true,
         perPage: 5,
@@ -29,7 +30,7 @@
           </b-icon>
           <router-link
             class="text-info"
-            :to="`/user/datasets/${props.row._id}`"
+            :to="`/user/datasets/${props.row.id}`"
             >{{ props.row.name }}</router-link
           >
         </span>
@@ -39,8 +40,8 @@
 </template>
 
 <script>
-import datasets from "@/services/datasets.js";
 import { VueGoodTable } from "vue-good-table";
+import { mapGetters } from "vuex";
 
 export default {
   name: "user-datasets",
@@ -57,8 +58,13 @@ export default {
         },
       ],
       fields: [{ field: "name", label: "dataset" }],
-      datasets,
     };
+  },
+  computed: {
+    ...mapGetters(["assignedDatasets"]),
+  },
+  created() {
+    this.$store.dispatch("getUserDatasets");
   },
 };
 </script>
