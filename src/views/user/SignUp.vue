@@ -9,7 +9,7 @@
               @submit.prevent="validate().then(handleRegister)"
             >
               <div class="text-center">
-                <h3 class="text-info p-0">Signup</h3>
+                <h3 class="text-info p-0 mt-3 mb-1">Signup</h3>
               </div>
               <ValidationProvider rules="required" name="username">
                 <div
@@ -118,6 +118,10 @@
             </form>
           </ValidationObserver>
         </div>
+        <p v-if="registrationResponse">{{ registrationResponse }}</p>
+        <p v-if="registrationError" class="text-danger">
+          Login failed: {{ registrationError }}
+        </p>
         <p>
           Already have an account?
           <router-link to="/login" class="text-info">Login</router-link>
@@ -128,6 +132,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "login",
   components: {},
@@ -141,10 +146,20 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["registrationError", "registrationResponse"]),
+  },
   methods: {
-    handleRegister() {
-      // e.preventDefault();
+    ...mapActions(["registerUser"]),
+    handleRegister(e) {
+      e.preventDefault();
+      const data = this.form;
+      this.$store.commit("registrationError", "");
+      this.$store.commit("registrationResponse", "");
+      this.$store.commit("isLoading", true);
+      this.registerUser(data).then(() => {
+        this.$store.commit("isLoading", false);
+      });
     },
   },
 };
