@@ -11,7 +11,7 @@
         >
           <div class="data">
             <div style="background-color: #17a2b8">
-              <div v-if="true">
+              <div v-if="image.id == imageUpdating">
                 <b-icon
                   icon="three-dots"
                   animation="cylon"
@@ -46,9 +46,11 @@
                   class="mb-3 ml-2"
                   type="submit"
                   variant="warning"
-                  @click="handleImageUpdate"
+                  @click="handleImageUpdate($event, image.id)"
                 >
-                  <p v-if="true" class="m-0">updating ...</p>
+                  <p v-if="image.id == imageUpdating" class="m-0">
+                    updating ...
+                  </p>
                   <p v-else class="m-0">update</p>
                 </b-button>
               </b-nav-form>
@@ -69,7 +71,7 @@
             label-for="input-sm"
           >
             <b-form-select
-              v-model="selected"
+              v-model="selected2"
               :options="options2"
               class="mb-3"
               value-field="item"
@@ -78,7 +80,7 @@
             ></b-form-select>
           </b-form-group>
           <b-form-group
-            v-if="selected == 'C'"
+            v-if="selected2 == 'C'"
             label-cols="4"
             label-cols-lg="2"
             label-size="md"
@@ -128,6 +130,7 @@ export default {
         },
       ],
       selected: "A",
+      selected2: "A",
       text: "",
       data: {},
       options: [],
@@ -135,12 +138,28 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["currentItem"]),
+    ...mapGetters(["currentItem", "imageUpdating"]),
+    currentImage: (id) => id,
   },
   methods: {
-    ...mapActions(["getUserItem"]),
-    handleImageUpdate(e) {
+    ...mapActions(["getUserItem", "labelImage"]),
+    handleImageUpdate(e, id) {
       e.preventDefault();
+      this.$store.commit("imageUpdating", id);
+
+      const label = this.options.filter((x) => x.item == this.selected)[0]
+        .name[0];
+      const labeller = JSON.parse(localStorage.getItem("user")).id;
+      console.log("Labeller", labeller);
+      const imageID = id;
+      console.log("ImageID ", imageID);
+
+      this.labelImage({ label, labeller, imageID }).then(() => {
+        this.getUserItem(this.$route.params.id).then(async () => {
+          await this.$router.go(0);
+          this.$store.commit("imageUpdating", null);
+        });
+      });
     },
   },
   created() {
