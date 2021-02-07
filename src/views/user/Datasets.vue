@@ -3,9 +3,9 @@
     <b-breadcrumb :items="items"></b-breadcrumb>
 
     <vue-good-table
-      v-if="assignedDatasets && assignedDatasets.length"
+      v-if="datasets && datasets.length"
       :columns="fields"
-      :rows="assignedDatasets"
+      :rows="datasets"
       :pagination-options="{
         enabled: true,
         perPage: 5,
@@ -36,6 +36,9 @@
         </span>
       </template>
     </vue-good-table>
+    <h4 v-else class="mt-5 text-danger">
+      You are currently not assigned any datasets, check again later!
+    </h4>
   </div>
 </template>
 
@@ -58,13 +61,16 @@ export default {
         },
       ],
       fields: [{ field: "name", label: "dataset" }],
+      datasets: {},
     };
   },
   computed: {
     ...mapGetters(["assignedDatasets"]),
   },
   created() {
-    this.$store.dispatch("getUserDatasets");
+    this.$store
+      .dispatch("getUserDatasets")
+      .then(() => (this.datasets = this.assignedDatasets));
   },
 };
 </script>
