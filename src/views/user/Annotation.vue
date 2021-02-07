@@ -61,11 +61,14 @@
       </b-col>
 
       <b-col md="5" class="forsec">
-        <h3>Label Folder {{ data.name }}</h3>
+        <h4 v-if="data.labelled" class="text-info">
+          {{ data.name }} is labelled {{ data.label }}
+        </h4>
+        <h4 v-else class="text-danger">{{ data.name }} is not labelled</h4>
         <div class="container">
           <b-form-group
             label-cols="4"
-            label-cols-lg="2"
+            label-cols-lg="3"
             label-size="md"
             label="Label"
             label-for="input-sm"
@@ -82,7 +85,7 @@
           <b-form-group
             v-if="selected2 == 'C'"
             label-cols="4"
-            label-cols-lg="2"
+            label-cols-lg="3"
             label-size="md"
             label="Comment"
             label-for="input-lg"
@@ -165,21 +168,34 @@ export default {
   created() {
     this.getUserItem(this.$route.params.id).then(() => {
       console.log("data", this.currentItem);
+      //populating breadcrumb items
       this.items[1].href = `/user/datasets/${this.currentItem.dataset_id}`;
       this.items[2].text = this.currentItem.name;
       this.data = this.currentItem;
+
       var str = "ABCD";
+      //Populating images label options array
       for (var i in this.currentItem.image_classes) {
         this.options.push({
           item: str[i],
           name: [this.currentItem.image_classes[i]],
         });
       }
+      //Populating folder label options array
       for (var j in this.currentItem.dataset_classes) {
         this.options2.push({
           item: str[j],
           name: [this.currentItem.dataset_classes[j]],
         });
+      }
+      // populating selector with existing label
+      if (this.data.labelled) {
+        this.selected2 = this.options2.filter(
+          (x) => x.name[0].toLowerCase() == this.data.label.toLowerCase()
+        )[0].item;
+
+        // populating comment
+        this.text = this.data.comment;
       }
     });
   },
