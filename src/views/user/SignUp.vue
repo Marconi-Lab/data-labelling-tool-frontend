@@ -3,91 +3,124 @@
     <main>
       <section class="main-body">
         <div class="form-card">
-          <form>
-            <div class="text-center">
-              <p class="text-info">Sign Up</p>
-            </div>
-            <div class="form-group">
-              <input
-                placeholder="Username"
-                class="form-control item field"
-                name="username"
-                type="name"
-                id="name"
-              />
-            </div>
-            <div class="form-group">
-              <input
-                placeholder="Email"
-                name="email"
-                class="form-control item field"
-                type="email"
-                id="email"
-              />
-              <!-- <input
-                placeholder="Email"
-                v-validate="'required|email'"
-                v-model="email"
-                :class="{ input: true, 'is-danger': errors.has('email') }"
-                name="email"
-                class="form-control item field"
-                type="email"
-                id="email"
-              />
-              <span v-show="errors.has('email')" class="help is-danger" id="msg"
-                ><small>{{ errors.first("email") }}</small></span
-              > -->
-            </div>
-            <div class="form-group">
-              <input
-                placeholder="password"
-                class="form-control item field"
-                name="password"
-                type="password"
-                id="password"
-              />
-              <!-- <input
-                placeholder="password"
-                class="form-control item field"
-                v-model="password"
-                v-validate="'required|max:20|min:7'"
-                name="password"
-                :class="{ 'is-danger': errors.has('password') }"
-                type="password"
-                ref="password"
-                id="password"
-              /> -->
-              <!-- <span
-                v-show="errors.has('password')"
-                class="help is-danger"
-                id="msg"
-                ><small style="color: red">{{
-                  errors.first("password")
-                }}</small></span
-              > -->
-            </div>
-            <div class="form-group">
-              <input
-                placeholder="confirm password"
-                class="form-control item field"
-                name="password"
-                type="password"
-                id="password"
-              />
-            </div>
-
-            <div class="buttons">
-              <div class="login">
-                <button class="btn btn-primary login" type="submit">
-                  Create Account
-                </button>
+          <ValidationObserver ref="observer">
+            <form
+              slot-scope="{ validate }"
+              @submit.prevent="validate().then(handleRegister)"
+            >
+              <div class="text-center">
+                <h3 class="text-info p-0">Signup</h3>
               </div>
-            </div>
-          </form>
+              <ValidationProvider rules="required" name="username">
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                >
+                  <input
+                    placeholder="Username"
+                    v-model="form.username"
+                    :state="errors[0] ? false : valid ? true : null"
+                    class="form-control item field"
+                    name="username"
+                    type="name"
+                    id="name"
+                  />
+                  <small
+                    style="position: absolute; padding-left:10px;"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider rules="required|email" name="Email">
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                >
+                  <input
+                    placeholder="Email"
+                    v-model="form.email"
+                    :state="errors[0] ? false : valid ? true : null"
+                    name="email"
+                    class="form-control item field"
+                    type="email"
+                    id="email"
+                  />
+                  <small
+                    style="position: absolute; padding-left:10px;"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                rules="required"
+                name="Password"
+                vid="password"
+              >
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                  label="Password"
+                >
+                  <input
+                    placeholder="password"
+                    v-model="form.password"
+                    :state="errors[0] ? false : valid ? true : null"
+                    class="form-control item field"
+                    name="password"
+                    type="password"
+                    id="password"
+                  />
+                  <small
+                    style="position: absolute; padding-left: 10px;"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                rules="required|confirmed:password"
+                name="Confirm Password"
+              >
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                  label="Confirm Password"
+                >
+                  <input
+                    placeholder="password"
+                    v-model="form.passwordConfirm"
+                    :state="errors[0] ? false : valid ? true : null"
+                    class="form-control item field"
+                    name="password"
+                    type="password"
+                    id="password"
+                  />
+                  <small
+                    style="position: absolute; padding-left:10px;"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <div class="buttons">
+                <div class="login">
+                  <button
+                    class="btn btn-info login"
+                    type="submit"
+                    @click="handleRegister"
+                  >
+                    Create Account
+                  </button>
+                </div>
+              </div>
+            </form>
+          </ValidationObserver>
         </div>
         <p>
           Already have an account?
-          <router-link to="/login">Login</router-link>
+          <router-link to="/login" class="text-info">Login</router-link>
         </p>
       </section>
     </main>
@@ -100,13 +133,20 @@ export default {
   components: {},
   data() {
     return {
-      email: "",
-      password: "",
-      store_auth: false,
+      form: {
+        username: "",
+        email: "",
+        password: "",
+        passwordConfirm: "",
+      },
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    handleRegister() {
+      // e.preventDefault();
+    },
+  },
 };
 </script>
 
@@ -124,9 +164,7 @@ $padding: 15px;
 .text-info {
   padding-top: 10px;
   padding-bottom: $padding;
-  font-size: 20px;
   color: color(primary);
-  font-weight: bold;
 }
 .main-body {
   padding-top: 10vh;
@@ -138,6 +176,7 @@ $padding: 15px;
 }
 .field {
   border-radius: 15px;
+  margin-top: 20px;
 }
 .form-card {
   max-width: 300px;

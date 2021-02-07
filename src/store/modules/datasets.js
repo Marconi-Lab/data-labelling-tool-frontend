@@ -1,5 +1,8 @@
 import axios from "../axios_setup";
-const userID = JSON.parse(localStorage.getItem("user")).id;
+let userID;
+if (JSON.parse(localStorage.getItem("user"))) {
+  userID = JSON.parse(localStorage.getItem("user")).id;
+}
 
 const state = {
   assignedDatasets: {},

@@ -5,7 +5,7 @@
         <div class="form-card">
           <form>
             <div class="text-center">
-              <p class="text-info">LOGIN</p>
+              <h3 class="text-info">Login</h3>
             </div>
             <div class="form-group">
               <input
@@ -103,9 +103,6 @@ $padding: 15px;
 .text-info {
   padding-top: 10px;
   padding-bottom: $padding;
-  font-size: 20px;
-  color: color(primary);
-  font-weight: bold;
 }
 .main-body {
   padding-top: 20vh;
