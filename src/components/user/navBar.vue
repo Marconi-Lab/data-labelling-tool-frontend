@@ -67,6 +67,7 @@ export default {
         .post(`/auth/logout/`)
         .then((res) => {
           localStorage.clear();
+          localStorage.setItem("user", JSON.stringify({}));
           sessionStorage.clear();
           this.$router.push("/");
           this.$store.commit("isLoading", false);
