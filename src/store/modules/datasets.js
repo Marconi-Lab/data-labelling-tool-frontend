@@ -4,6 +4,7 @@ const userID = JSON.parse(localStorage.getItem("user")).id;
 const state = {
   assignedDatasets: {},
   assignedDataset: {},
+  currentItem: {},
 };
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
   },
   assignedDataset: (state, payload) => {
     state.assignedDataset = payload;
+  },
+  currentItem: (state, payload) => {
+    state.currentItem = payload;
   },
 };
 
@@ -34,11 +38,21 @@ const actions = {
       console.log(err);
     }
   },
+  getUserItem: async function({ commit }, itemID) {
+    try {
+      const res = await axios.get(`/user/item/${itemID}/`);
+      console.log("Response", res);
+      commit("currentItem", res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };
 
 const getters = {
   assignedDatasets: (state) => state.assignedDatasets,
   assignedDataset: (state) => state.assignedDataset,
+  currentItem: (state) => state.currentItem,
 };
 
 export default { state, mutations, actions, getters };
