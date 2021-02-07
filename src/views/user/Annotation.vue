@@ -99,7 +99,12 @@
             ></b-form-textarea>
           </b-form-group>
         </div>
-        <b-button variant="outline-info" class="update-button">Update</b-button>
+        <b-button
+          variant="outline-info"
+          class="update-button"
+          @click="handleFolderLabel"
+          >Update</b-button
+        >
       </b-col>
     </b-row>
   </div>
@@ -145,7 +150,8 @@ export default {
     currentImage: (id) => id,
   },
   methods: {
-    ...mapActions(["getUserItem", "labelImage"]),
+    ...mapActions(["getUserItem", "labelImage", "labelFolder"]),
+
     handleImageUpdate(e, id) {
       e.preventDefault();
       this.$store.commit("imageUpdating", id);
@@ -153,15 +159,35 @@ export default {
       const label = this.options.filter((x) => x.item == this.selected)[0]
         .name[0];
       const labeller = JSON.parse(localStorage.getItem("user")).id;
-      console.log("Labeller", labeller);
+      // console.log("Labeller", labeller);
       const imageID = id;
-      console.log("ImageID ", imageID);
+      // console.log("ImageID ", imageID);
 
       this.labelImage({ label, labeller, imageID }).then(() => {
         this.getUserItem(this.$route.params.id).then(async () => {
           await this.$router.go(0);
           this.$store.commit("imageUpdating", null);
         });
+      });
+    },
+
+    handleFolderLabel(e) {
+      e.preventDefault();
+      const label = this.options2.filter((x) => x.item == this.selected2)[0]
+        .name[0];
+      console.log(label);
+      var comment;
+      if (!(label.toLowerCase() == "not sure")) {
+        comment = "";
+      } else {
+        comment = this.text;
+      }
+      const labeller = JSON.parse(localStorage.getItem("user")).id;
+      const itemID = this.data.id;
+
+      this.$store.commit("isLoading", true);
+      this.labelFolder({ comment, label, labeller, itemID }).then(() => {
+        this.$store.commit("isLoading", false);
       });
     },
   },

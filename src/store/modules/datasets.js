@@ -21,6 +21,11 @@ const mutations = {
   imageUpdating: (state, payload) => {
     state.imageUpdating = payload;
   },
+  editCurrentItem: (state, payload) => {
+    state.currentItem.comment = payload.comment;
+    state.currentItem.label = payload.label;
+    state.currentItem.labeller = payload.labeller;
+  },
 };
 
 const actions = {
@@ -45,7 +50,7 @@ const actions = {
   getUserItem: async function({ commit }, itemID) {
     try {
       const res = await axios.get(`/user/item/${itemID}/`);
-      console.log("Response", res);
+      // console.log("Response", res);
       commit("currentItem", res.data);
     } catch (err) {
       console.log(err);
@@ -53,13 +58,30 @@ const actions = {
   },
   labelImage: async function({ commit }, data) {
     try {
-      console.log("Data", data);
+      // console.log("Data", data);
       const res = await axios.put(`/user/images/${data.imageID}/`, {
         labeller: data.labeller,
         label: data.label,
       });
       console.log(res);
       commit("imageUpdating", data.imageID);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  labelFolder: async function({ commit }, data) {
+    try {
+      const res = await axios.put(`/user/item/${data.itemID}/`, {
+        label: data.label,
+        comment: data.comment,
+        labeller: data.labeller,
+      });
+      console.log(res);
+      commit("editCurrentItem", {
+        labeller: data.labeller,
+        comment: res.data.comment,
+        label: res.data.label,
+      });
     } catch (err) {
       console.log(err);
     }
