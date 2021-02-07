@@ -36,7 +36,7 @@
               class="link-normal"
               aria-hidden="true"
             ></b-icon>
-            <a class="link-normal">Logout</a></b-nav-item
+            <a class="link-normal" @click="handleLogout">Logout</a></b-nav-item
           >
         </b-navbar-nav>
       </b-collapse>
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import axios from "../../store/axios_setup";
+
 export default {
   name: "navbar",
   data() {
@@ -55,6 +57,24 @@ export default {
   computed: {
     currentRoute() {
       return this.$route.path;
+    },
+  },
+  methods: {
+    handleLogout(e) {
+      this.$store.commit("isLoading", true);
+      e.preventDefault();
+      axios
+        .post(`/auth/logout/`)
+        .then((res) => {
+          localStorage.clear();
+          sessionStorage.clear();
+          this.$router.push("/");
+          this.$store.commit("isLoading", false);
+          console.log(res.data.message);
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+        });
     },
   },
   created() {
