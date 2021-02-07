@@ -1,8 +1,4 @@
 import axios from "../axios_setup";
-let userID;
-if (JSON.parse(localStorage.getItem("user"))) {
-  userID = JSON.parse(localStorage.getItem("user")).id;
-}
 
 const state = {
   assignedDatasets: {},
@@ -34,6 +30,7 @@ const mutations = {
 const actions = {
   getUserDatasets: async function({ commit }) {
     try {
+      const userID = JSON.parse(localStorage.getItem("user")).id;
       const res = await axios.get(`/user/${userID}/datasets/`);
       console.log(res);
       commit("assignedDatasets", res.data.datasets);
