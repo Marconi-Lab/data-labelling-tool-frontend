@@ -14,20 +14,8 @@
                 class="form-control item field"
                 type="email"
                 id="email"
+                v-type="email"
               />
-              <!-- <input
-                placeholder="Email"
-                v-validate="'required|email'"
-                v-model="email"
-                :class="{ input: true, 'is-danger': errors.has('email') }"
-                name="email"
-                class="form-control item field"
-                type="email"
-                id="email"
-              />
-              <span v-show="errors.has('email')" class="help is-danger" id="msg"
-                ><small>{{ errors.first("email") }}</small></span
-              > -->
             </div>
             <div class="form-group">
               <input
@@ -36,33 +24,19 @@
                 name="password"
                 type="password"
                 id="password"
+                v-type="email"
               />
-              <!-- <input
-                placeholder="password"
-                class="form-control item field"
-                v-model="password"
-                v-validate="'required|max:20|min:7'"
-                name="password"
-                :class="{ 'is-danger': errors.has('password') }"
-                type="password"
-                ref="password"
-                id="password"
-              /> -->
-              <!-- <span
-                v-show="errors.has('password')"
-                class="help is-danger"
-                id="msg"
-                ><small style="color: red">{{
-                  errors.first("password")
-                }}</small></span
-              > -->
             </div>
             <small class="text-danger" v-if="store_auth" id="msg"
               >Wrong password or email</small
             >
             <div class="buttons">
               <div class="login">
-                <button class="btn btn-primary login" type="submit">
+                <button
+                  class="btn btn-info login"
+                  type="submit"
+                  @click="handleLogin"
+                >
                   Login
                 </button>
               </div>
@@ -82,7 +56,6 @@ export default {
     return {
       email: "",
       password: "",
-      store_auth: false,
     };
   },
   computed: {},
@@ -102,11 +75,8 @@ $colors: (
 $radius: 20px;
 $padding: 15px;
 .text-info {
-  padding-top: 10px;
   padding-bottom: $padding;
   font-size: 20px;
-  color: color(primary);
-  font-weight: bold;
 }
 .main-body {
   padding-top: 20vh;
@@ -135,7 +105,7 @@ $padding: 15px;
   width: 200px;
   font-size: 15px;
   border-radius: $radius;
-   margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 .buttons {
   text-align: center;
