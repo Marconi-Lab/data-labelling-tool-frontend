@@ -41,7 +41,7 @@
             height="0.5em"
           ></b-progress>
         </span>
-        <span v-if="props.column.label == 'download'">
+        <span v-if="props.column.label == 'Download'">
           <!-- <span>{{ props.row.download }}</span
           > -->
           <b-icon
@@ -51,7 +51,7 @@
             style="float: left; font-weight: bold; font-size: 1.3rem;"
           ></b-icon>
         </span>
-        <span v-if="props.column.label == 'delete'">
+        <span v-if="props.column.label == 'Delete'">
           <!-- <span>{{ props.row.download }}</span
           > -->
           <b-icon
@@ -65,6 +65,7 @@
         </span>
       </template>
     </vue-good-table>
+
     <b-modal
       id="modal-center"
       centered
@@ -86,7 +87,7 @@
         <b-button size="sm" variant="outline-info" @click="cancel()"
           >cancel</b-button
         >
-        <b-button size="sm" variant="outline-info" @click="handleDatasetUpdate"
+        <b-button size="sm" variant="outline-info" @click="handleDatasetCreate"
           >Submit</b-button
         >
       </template>
@@ -120,7 +121,7 @@
 <script>
 // import datasets from "@/services/datasets.js";
 import { VueGoodTable } from "vue-good-table";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "user-datasets",
@@ -141,10 +142,10 @@ export default {
       columns: [
         { field: "name", label: "Dataset" },
         { field: "progress", label: "Progress" },
-        { field: "id", label: "download" },
-        { field: "id", label: "delete" },
+        { field: "id", label: "Download" },
+        { field: "id", label: "Delete" },
       ],
-      rows: {},
+      rows: [],
       selectedDataset: null,
     };
   },
@@ -152,6 +153,8 @@ export default {
     ...mapGetters(["allDatasets"]),
   },
   methods: {
+    ...mapActions(["createDataset"]),
+
     handleDatasetDelete(e) {
       e.preventDefault();
       this.$store.commit("isLoading", true);
@@ -163,6 +166,20 @@ export default {
           this.$bvModal.hide("modal-delete");
           this.$store.commit("isLoading", false);
         });
+    },
+    handleDatasetCreate(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      const name = this.title;
+      let arr = [];
+      for (var i of this.classes) {
+        arr.push(i.trim());
+      }
+      this.createDataset({ name: name, classes: arr }).then(async () => {
+        await this.$router.go(0);
+        this.$bvModal.hide("modal-center");
+        this.$store.commit("isLoading", false);
+      });
     },
   },
   created() {

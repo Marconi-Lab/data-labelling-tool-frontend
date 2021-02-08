@@ -5,7 +5,7 @@ const state = {
   assignedDataset: {},
   currentItem: {},
   imageUpdating: null,
-  allDatasets: {},
+  allDatasets: [],
 };
 
 const mutations = {
@@ -25,6 +25,10 @@ const mutations = {
     state.currentItem.comment = payload.comment;
     state.currentItem.label = payload.label;
     state.currentItem.labeller = payload.labeller;
+  },
+  updateDatasets: (state, payload) => {
+    // console.log(state, payload);
+    state.allDatasets = payload;
   },
   allDatasets: (state, payload) => {
     state.allDatasets = payload;
@@ -67,6 +71,15 @@ const actions = {
       const res = await axios.delete(`/admin/datasets/${datasetID}/`);
       console.log(res);
       commit("modifyDatasets", datasetID);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  createDataset: async function({ commit }, data) {
+    try {
+      await axios.post(`/admin/datasets/`, data);
+      const res = await axios.get(`/admin/datasets/`);
+      commit("updateDatasets", res.data);
     } catch (err) {
       console.log(err);
     }
