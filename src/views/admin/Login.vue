@@ -14,7 +14,7 @@
                 class="form-control item field"
                 type="email"
                 id="email"
-                v-type="email"
+                v-model="email"
               />
             </div>
             <div class="form-group">
@@ -24,10 +24,10 @@
                 name="password"
                 type="password"
                 id="password"
-                v-type="email"
+                v-model="password"
               />
             </div>
-            <small class="text-danger" v-if="store_auth" id="msg"
+            <small class="text-danger" v-if="authError" id="msg"
               >Wrong password or email</small
             >
             <div class="buttons">
@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "login",
   components: {},
@@ -58,8 +60,27 @@ export default {
       password: "",
     };
   },
-  computed: {},
-  methods: {},
+  computed: {
+    ...mapGetters(["authError"]),
+  },
+  methods: {
+    ...mapActions(["adminLogin"]),
+    handleLogin(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      this.adminLogin({ email: this.email, password: this.password })
+        .then(() => {
+          if (localStorage.getItem("jwt") != null) {
+            this.$emit("loggedIn");
+            this.$router.push({ name: "admin-home" });
+            this.$store.commit("isLoading", false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
 

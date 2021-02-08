@@ -45,6 +45,23 @@ const actions = {
       commit("isLoading", false);
     }
   },
+  adminLogin: async function({ commit }, data) {
+    try {
+      let res = await axios.post("/auth/login/", data);
+      const admin = res.data;
+      if (admin.is_admin) {
+        localStorage.setItem("jwt", admin.access_token);
+        localStorage.setItem("user", JSON.stringify(admin));
+      } else {
+        commit("authError", true);
+        commit("isLoading", false);
+      }
+    } catch (err) {
+      console.log("err", err);
+      commit("authError", true);
+      commit("isLoading", false);
+    }
+  },
   getuserHome: async function({ commit }) {
     try {
       const userID = JSON.parse(localStorage.getItem("user")).id;
