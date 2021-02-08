@@ -12,7 +12,7 @@
               style="height: 50vh"
             >
               <b-row align-v="center" style="height: 100%">
-                <h1 style="margin: auto">Datasets {{ datasets }}</h1>
+                <h1 style="margin: auto">Datasets {{ adminHome.datasets }}</h1>
               </b-row>
             </b-card>
           </router-link>
@@ -27,7 +27,7 @@
               style="height: 50vh"
             >
               <b-row align-v="center" style="height: 100%">
-                <h1 style="margin: auto">Users {{ users }}</h1>
+                <h1 style="margin: auto">Users {{ adminHome.users }}</h1>
               </b-row>
             </b-card>
           </router-link>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "home-view",
   components: {},
@@ -46,6 +47,16 @@ export default {
       users: 0,
       datasets: 0,
     };
+  },
+  computed: {
+    ...mapGetters(["adminHome"]),
+  },
+  methods: {
+    ...mapActions(["getAdminHome"]),
+  },
+  created() {
+    this.getAdminHome();
+    console.log("Stats", this.adminHome);
   },
 };
 </script>

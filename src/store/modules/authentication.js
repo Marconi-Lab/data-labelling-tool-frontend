@@ -6,6 +6,7 @@ const state = {
   userHome: {},
   registrationResponse: "",
   registrationError: "",
+  adminHome: {},
 };
 
 const mutations = {
@@ -23,6 +24,9 @@ const mutations = {
   },
   registrationError(state, payload) {
     state.registrationError = payload;
+  },
+  adminHome(state, payload) {
+    state.adminHome = payload;
   },
 };
 
@@ -73,6 +77,15 @@ const actions = {
       console.log(err);
     }
   },
+  getAdminHome: async function({ commit }) {
+    try {
+      const id = JSON.parse(localStorage.getItem("user")).id;
+      let res = await axios.get(`/admin/${id}/home/`);
+      commit("adminHome", res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  },
   registerUser: async function({ commit }, data) {
     try {
       // console.log("Register data", data);
@@ -100,6 +113,7 @@ const getters = {
   userHome: (state) => state.userHome,
   registrationResponse: (state) => state.registrationResponse,
   registrationError: (state) => state.registrationError,
+  adminHome: (state) => state.adminHome,
 };
 
 export default { state, mutations, actions, getters };
