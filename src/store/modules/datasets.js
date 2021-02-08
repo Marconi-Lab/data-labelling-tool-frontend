@@ -5,6 +5,7 @@ const state = {
   assignedDataset: {},
   currentItem: {},
   imageUpdating: null,
+  allDatasets: {},
 };
 
 const mutations = {
@@ -25,6 +26,9 @@ const mutations = {
     state.currentItem.label = payload.label;
     state.currentItem.labeller = payload.labeller;
   },
+  allDatasets: (state, payload) => {
+    state.allDatasets = payload;
+  },
 };
 
 const actions = {
@@ -43,6 +47,14 @@ const actions = {
       const res = await axios.get(`/user/datasets/${datasetID}/`);
       // console.log("Response here", res);
       commit("assignedDataset", res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  getAllDatasets: async function({ commit }) {
+    try {
+      const res = await axios.get(`/admin/datasets/`);
+      commit("allDatasets", res.data);
     } catch (err) {
       console.log(err);
     }
@@ -93,6 +105,7 @@ const getters = {
   assignedDataset: (state) => state.assignedDataset,
   currentItem: (state) => state.currentItem,
   imageUpdating: (state) => state.imageUpdating,
+  allDatasets: (state) => state.allDatasets,
 };
 
 export default { state, mutations, actions, getters };
