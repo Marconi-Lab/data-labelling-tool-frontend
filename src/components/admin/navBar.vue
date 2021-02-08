@@ -30,12 +30,10 @@
               >Datasets</router-link
             ></b-nav-item
           >
-           <b-nav-item
+          <b-nav-item
             ><router-link
               :class="[
-                currentRoute.includes('users')
-                  ? 'link-active'
-                  : 'link-normal',
+                currentRoute.includes('users') ? 'link-active' : 'link-normal',
               ]"
               to="/admin/users"
               >Users</router-link
@@ -47,7 +45,7 @@
               class="link-normal"
               aria-hidden="true"
             ></b-icon>
-            <a class="link-normal">Logout</a></b-nav-item
+            <a class="link-normal" @click="handleLogout">Logout</a></b-nav-item
           >
         </b-navbar-nav>
       </b-collapse>
@@ -56,6 +54,8 @@
 </template>
 
 <script>
+import axios from "../../store/axios_setup";
+
 export default {
   name: "admin-navbar",
   data() {
@@ -68,6 +68,25 @@ export default {
   },
   created() {
     console.log(this.$route.path);
+  },
+  methods: {
+    handleLogout(e) {
+      this.$store.commit("isLoading", true);
+      e.preventDefault();
+      axios
+        .post(`/auth/logout/`)
+        .then((res) => {
+          localStorage.clear();
+          localStorage.setItem("user", JSON.stringify({}));
+          sessionStorage.clear();
+          this.$router.push("/");
+          this.$store.commit("isLoading", false);
+          console.log(res.data.message);
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+        });
+    },
   },
 };
 </script>
