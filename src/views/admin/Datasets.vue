@@ -10,6 +10,7 @@
       ></b-nav-item>
     </b-nav>
     <vue-good-table
+      v-if="rows && rows.length"
       :columns="columns"
       :rows="rows"
       :pagination-options="{
@@ -58,6 +59,8 @@
             variant="danger"
             class="delete-icon"
             style="float: left; font-weight: bold; font-size: 1.3rem;"
+            v-b-modal.modal-delete
+            @click="selectedDataset = props.row.id"
           ></b-icon>
         </span>
       </template>
@@ -85,6 +88,29 @@
         >
         <b-button size="sm" variant="outline-info" @click="handleDatasetUpdate"
           >Submit</b-button
+        >
+      </template>
+    </b-modal>
+    <b-modal
+      id="modal-delete"
+      centered
+      title="Delete Dataset"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <h4 class="text-danger">
+        You are deleting a dataset <b-icon icon="exclamation-circle"></b-icon>
+      </h4>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button
+          size="sm"
+          variant="outline-danger"
+          @click="handleDatasetDelete"
+          >Delete</b-button
         >
       </template>
     </b-modal>
@@ -119,10 +145,25 @@ export default {
         { field: "id", label: "delete" },
       ],
       rows: {},
+      selectedDataset: null,
     };
   },
   computed: {
     ...mapGetters(["allDatasets"]),
+  },
+  methods: {
+    handleDatasetDelete(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      console.log("Delete ID", this.selectedDataset);
+      this.$store
+        .dispatch("deleteDataset", this.selectedDataset)
+        .then(async () => {
+          await this.$router.go(0);
+          this.$bvModal.hide("modal-delete");
+          this.$store.commit("isLoading", false);
+        });
+    },
   },
   created() {
     this.$store.dispatch("getAllDatasets").then(() => {

@@ -29,6 +29,9 @@ const mutations = {
   allDatasets: (state, payload) => {
     state.allDatasets = payload;
   },
+  modifyDatasets: (state, payload) => {
+    state.allDatasets = state.allDatasets.filter((x) => x.id != payload);
+  },
 };
 
 const actions = {
@@ -55,6 +58,15 @@ const actions = {
     try {
       const res = await axios.get(`/admin/datasets/`);
       commit("allDatasets", res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  deleteDataset: async function({ commit }, datasetID) {
+    try {
+      const res = await axios.delete(`/admin/datasets/${datasetID}/`);
+      console.log(res);
+      commit("modifyDatasets", datasetID);
     } catch (err) {
       console.log(err);
     }
