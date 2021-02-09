@@ -1,7 +1,20 @@
 <template>
   <div>
     <b-breadcrumb class="m-0" :items="items"></b-breadcrumb>
-    <b-row class="justify-content-center">
+    <b-nav>
+      <b-nav-item
+        active
+        style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
+        ><b-btn variant="info" v-b-modal.modal-images>
+          upload images
+          <b-icon icon="plus" style="float: right"></b-icon></b-btn
+      ></b-nav-item>
+    </b-nav>
+    <h4 v-if="!currentItem.images.length" class="text-danger pt-5">
+      This folder is empty, upload images.
+    </h4>
+
+    <b-row class="justify-content-center" v-else>
       <b-col
         class="image-area mx-1"
         md="5"
@@ -39,17 +52,49 @@
         </div>
       </b-col>
     </b-row>
+
+    <!-- modal -->
+    <b-modal
+      id="modal-images"
+      centered
+      title="Upload Images"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <b-form-file
+        v-model="files"
+        ref="files"
+        id="files"
+        :state="Boolean(images)"
+        placeholder="Choose a file or drop it here..."
+        multiple
+        accept="image/jpeg, image/png"
+        :file-name-formatter="formatNames"
+        v-on:change="handleFileChange()"
+      ></b-form-file>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-info" @click="handleImagesUpload"
+          >Submit</b-button
+        >
+      </template>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import datasets from "@/services/datasets";
 import { mapActions, mapGetters } from "vuex";
+import axios from "../../store/axios_setup";
 export default {
   name: "annotations",
   data() {
     return {
       datasets,
+      files: [],
       items: [
         {
           text: "datasets",
@@ -70,20 +115,8 @@ export default {
       selected: "A",
       text: "",
       data: {},
-      options: [
-        { item: "A", name: "Has Ascetic Acid" },
-        { item: "B", name: "No Ascetic Acid" },
-        { item: "C", name: "Not Sure" },
-      ],
-      item: {
-        labelled: true,
-        username: "wycliff",
-        label: "infection",
-        comment: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Laborum, perferendis? Facilis aperiam debitis ab placeat
-                  perferendis, sint distinctio tenetur quis aspernatur vitae
-                  nihil sequi vero doloremque impedit sit repudiandae autem.`,
-      },
+      options: [],
+      images: [],
     };
   },
   computed: {
@@ -91,6 +124,36 @@ export default {
   },
   methods: {
     ...mapActions(["getUserItem"]),
+    handleFileChange() {
+      // this.files = this.$refs.files.files;
+    },
+    formatNames(files) {
+      return files.length === 1
+        ? files[0].name
+        : `${files.length} files selected`;
+    },
+    handleImagesUpload(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      console.log("Files", this.files);
+      var formData = new FormData();
+      for (var i = 0; i < this.files.length; i++) {
+        let image = this.files[i];
+        formData.append("images", image);
+      }
+
+      axios
+        .post(`/admin/item/${this.$route.params.id}/`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(async (res) => {
+          console.log("Upload response ", res.data);
+          await this.$router.go(0);
+          this.$store.commit("isLoading", false);
+        });
+    },
   },
   created() {
     this.getUserItem(this.$route.params.id).then(() => {
@@ -108,13 +171,7 @@ export default {
           name: [this.currentItem.image_classes[i]],
         });
       }
-      //Populating folder label options array
-      for (var j in this.currentItem.dataset_classes) {
-        this.options2.push({
-          item: str[j],
-          name: [this.currentItem.dataset_classes[j]],
-        });
-      }
+
       // populating selector with existing label
       if (this.data.labelled) {
         this.selected2 = this.options2.filter(

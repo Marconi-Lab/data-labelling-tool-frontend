@@ -1,6 +1,7 @@
 <template>
   <div>
     <b-breadcrumb class="mb-0" :items="items"></b-breadcrumb>
+
     <b-nav style="">
       <b-nav-item
         active
@@ -33,7 +34,11 @@
       :rows="data"
       :pagination-options="{
         enabled: true,
-        perPage: 8,
+        perPage: 7,
+      }"
+      :search-options="{
+        enabled: true,
+        placeholder: 'Search this table',
       }"
       :sort-options="{
         enabled: false,
