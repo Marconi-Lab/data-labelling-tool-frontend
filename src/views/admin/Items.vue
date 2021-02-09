@@ -70,6 +70,7 @@
             class="delete-icon"
             style="float: left; font-weight: bold; font-size: 1.3rem;"
             v-b-modal.modal-delete
+            @click="folderToDelete = props.row.id"
           ></b-icon>
         </span>
       </template>
@@ -177,6 +178,8 @@ export default {
         { field: "id", label: "Delete" },
       ],
       folderName: "",
+      folderToDelete: "",
+      imageClasses: "",
       data: [],
       currentPage: 1,
       datasets,
@@ -215,6 +218,14 @@ export default {
     },
     handleFilesUpload() {
       // console.log(this.images);
+    },
+    handleFolderDelete(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      axios.delete(`/admin/item/${this.folderToDelete}/`).then(async () => {
+        await this.$router.go(0);
+        this.$store.commit("isLoading", false);
+      });
     },
   },
   created() {
