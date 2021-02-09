@@ -1,10 +1,34 @@
 <template>
   <div>
     <b-breadcrumb class="mb-0" :items="items"></b-breadcrumb>
-    <b-nav style="position: absolute; z-index: 2222; right:0; top: 3.8em;">
-      <b-form-file v-model="images" placeholder="Add Files" multiple class="text-info" :onchange="handleFilesUpload()"> here </b-form-file>
+    <b-nav style="">
+      <b-nav-item
+        active
+        style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
+        ><b-btn variant="info" v-b-modal.modal-folder>
+          Add folder
+          <b-icon icon="plus" style="float: right"></b-icon></b-btn
+      ></b-nav-item>
     </b-nav>
+
+    <b-nav class="mb-3">
+      <p v-if="classes2.length" class="mt-2 text-info ml-2">
+        Image classes: {{ classes2.join(", ") }}
+      </p>
+      <p v-else class="mt-2 text-danger ml-2">
+        Image classes: No image classes added yet
+      </p>
+      <b-icon
+        v-if="!classes2.length"
+        icon="pen"
+        scale="1"
+        class="mt-2 text-info ml-2"
+        v-b-modal.modal-imgclass
+      ></b-icon>
+    </b-nav>
+    <hr style="width: 100vw;" />
     <vue-good-table
+      v-if="data && data.length"
       :columns="fields"
       :rows="data"
       :pagination-options="{
@@ -39,22 +63,95 @@
             font-scale="0.5em"
           ></b-icon>
         </span>
-        <span v-if="props.column.field == '_id'">
+        <span v-if="props.column.field == 'id'">
           <b-icon
             icon="trash"
             variant="danger"
             class="delete-icon"
             style="float: left; font-weight: bold; font-size: 1.3rem;"
+            v-b-modal.modal-delete
           ></b-icon>
         </span>
       </template>
     </vue-good-table>
+    <h3 v-else class="text-danger pt-5">
+      This dataset is currently empty, add folders.
+    </h3>
+
+    <!-- modals -->
+
+    <b-modal
+      id="modal-delete"
+      centered
+      title="Delete Dataset"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <h4 class="text-danger">
+        You are deleting a folder <b-icon icon="exclamation-circle"></b-icon>
+      </h4>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-danger" @click="handleFolderDelete"
+          >Delete</b-button
+        >
+      </template>
+    </b-modal>
+
+    <b-modal
+      id="modal-folder"
+      centered
+      title="Create Folder"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <b-form-input
+        v-model="folderName"
+        placeholder="Enter folder name"
+      ></b-form-input>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-info" @click="handleFolderCreate"
+          >Submit</b-button
+        >
+      </template>
+    </b-modal>
+
+    <b-modal
+      id="modal-imgclass"
+      centered
+      title="Update Image Classes"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <b-form-input
+        v-model="imageClasses"
+        placeholder="Enter classes e.g (Ascetic Acid, No Ascetic Acid)"
+      ></b-form-input>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-info" @click="handleClassesUpdate"
+          >Submit</b-button
+        >
+      </template>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import datasets from "@/services/datasets";
 import { VueGoodTable } from "vue-good-table";
+import axios from "../../store/axios_setup";
+// import { mapGetters } from "vuex";
 export default {
   name: "user-data-items",
   components: {
@@ -68,40 +165,91 @@ export default {
           href: "/admin/datasets",
           active: false,
         },
+        {
+          text: "",
+          href: "",
+          active: true,
+        },
       ],
       fields: [
-        { field: "name", label: "Name" },
+        { field: "name", label: "Folder" },
         { field: "labelled", label: "Labelled" },
-        { field: "_id", label: "Delete" },
+        { field: "id", label: "Delete" },
       ],
+      folderName: "",
       data: [],
       currentPage: 1,
       datasets,
-      images: []
+      images: [],
+      dataset: {},
+      classes2: [],
+      // thisDataset: {},
     };
   },
   computed: {
     rows() {
       return this.data.length;
     },
+    // ...mapGetters(["dataset"]),
   },
   methods: {
-    getCurrent() {
-      var set = datasets.filter((x) => x._id == this.$route.params.id)[0];
-      return {
-        text: set.name,
-        active: true,
-        href: `/user/datasets/${set._id}`,
-      };
+    // getCurrent() {
+    //   // var set = datasets.filter((x) => x._id == this.$route.params.id)[0];
+    //   return {
+    //     text: this.dataset.name,
+    //     active: true,
+    //     href: `/user/datasets/${this.dataset.id}`,
+    //   };
+    // },
+    handleFolderCreate(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      axios
+        .post(`/admin/${this.$route.params.id}/item/`, {
+          name: this.folderName,
+        })
+        .then(async () => {
+          await this.$router.go(0);
+          this.$store.commit("isLoading", false);
+        });
     },
-    handleFilesUpload(){
-      console.log(this.images)
-    }
+    handleFilesUpload() {
+      // console.log(this.images);
+    },
   },
   created() {
-    this.data = datasets.filter((x) => x._id == this.$route.params.id)[0].items;
-    this.items[1] = this.getCurrent();
-    console.log(this.items[1]);
+    const dataset_id = this.$route.params.id;
+    console.log("dataset_id", dataset_id);
+    // this.$store.dispatch("getDatasetItems", dataset_id);
+    axios.get(`/admin/${dataset_id}/item/`).then((res) => {
+      console.log(res.data);
+      this.data = res.data;
+    });
+
+    axios.get(`/admin/datasets/${this.$route.params.id}/`).then((res) => {
+      // console.log(res.data);
+      // console.log(this.dataset);
+      this.items[1].text = res.data.name;
+      this.items[1].href = `/admin/datasets/${res.data.id}`;
+      if (res.data.classes2) {
+        this.classes2 = res.data.classes2;
+      }
+    });
+    // console.log("Items", this.items);
+
+    // this.dataset = this.$store.getters["dataset"];
+    // console.log("THIS DATASET< ", this.dataset);
+    // this.items[1] = {
+    //   text: this.dataset.name,
+    //   active: true,
+    //   href: `/admin/datasets/${this.dataset.id}`,
+    // };
+    // console.log(this.items);
+
+    // this.data = datasets.filter((x) => x._id == this.$route.params.id)[0].items;
+    // this.$router.dispatch("getUserDataset");
+    // this.items[1] = this.getCurrent();
+    // console.log(this.items[1]);
   },
 };
 </script>
