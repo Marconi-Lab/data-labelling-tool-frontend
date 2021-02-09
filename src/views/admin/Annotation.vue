@@ -91,29 +91,12 @@ export default {
   },
   methods: {
     ...mapActions(["getUserItem"]),
-    previous() {
-      const dataset = datasets.filter(
-        (x) => x.name == this.$route.params.dataset
-      )[0];
-      return {
-        text: this.$route.params.dataset,
-        href: `/admin/datasets/${dataset._id}`,
-        active: false,
-      };
-    },
-    current() {
-      return {
-        text: "current item",
-        href: `/admin/datasets/${this.$route.params.dataset}/${this.$route.params.id}`,
-        active: true,
-      };
-    },
   },
   created() {
     this.getUserItem(this.$route.params.id).then(() => {
       console.log("data", this.currentItem);
       //populating breadcrumb items
-      this.items[1].href = `/user/datasets/${this.currentItem.dataset_id}`;
+      this.items[1].href = `/admin/datasets/${this.currentItem.dataset_id}`;
       this.items[2].text = this.currentItem.name;
       this.data = this.currentItem;
 
