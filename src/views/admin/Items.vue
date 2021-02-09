@@ -43,7 +43,7 @@
         <span v-if="props.column.field == 'name'">
           <router-link
             class="text-info"
-            :to="`/admin/datasets/${items[1].text}/${props.row._id}`"
+            :to="`/admin/datasets/${items[1].text}/${props.row.id}`"
             >{{ props.row.name }}</router-link
           >
         </span>

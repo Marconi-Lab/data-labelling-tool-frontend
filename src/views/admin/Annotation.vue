@@ -1,61 +1,41 @@
 <template>
   <div>
     <b-breadcrumb class="m-0" :items="items"></b-breadcrumb>
-    <b-row style="margin: 0px; min-height: 75vh;">
-      <b-col md="7">
-        <b-row class="mx-auto">
-          <div
-            class="col-md-6 px-0"
-            v-for="image in data.images"
-            :key="data.images.indexOf(image)"
-          >
-            <!-- <b-col md="5"> -->
-            <img class="mx-auto" :src="image" alt="data image" />
-            <!-- </b-col> -->
+    <b-row class="justify-content-center">
+      <b-col
+        class="image-area mx-1"
+        md="5"
+        v-for="image in data.images"
+        :key="image.id"
+      >
+        <div
+          class="mt-3"
+          style="border-bottom: solid 1px gray; border-left: solid 1px gray; border-right: solid 1px gray"
+        >
+          <div class="data">
+            <div style="background-color: #17a2b8">
+              <div v-if="image.id == imageUpdating">
+                <b-icon
+                  icon="three-dots"
+                  animation="cylon"
+                  font-scale="4"
+                  variant="warning"
+                ></b-icon>
+              </div>
+              <div v-else>
+                <p
+                  v-if="image.labelled"
+                  class="text-white text-center  pt-3 pb-3 mb-0"
+                >
+                  Labelled: {{ image.label }}
+                </p>
+                <p v-else class="text-warning text-center  pt-3 pb-3 mb-0">
+                  This image is not labelled
+                </p>
+              </div>
+            </div>
+            <img :src="image.image" alt="data image" class="data-image" />
           </div>
-        </b-row>
-      </b-col>
-
-      <b-col md="5" class="forsec">
-        <h3 class="text-left">Item information</h3>
-        <div v-if="item.labelled">
-          <table class="table text-left mt-3">
-            <thead>
-              <tr>
-                <th>Attribute</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  Label
-                </td>
-                <td>{{ item.label }}</td>
-              </tr>
-              <tr>
-                <td>Labeller</td>
-                <td>{{ item.username }}</td>
-              </tr>
-              <tr v-if="item.label.toLowerCase().includes('not sure')">
-                <td>Comment</td>
-                <td>{{ item.comment }}</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div v-else>
-          <b-icon
-            icon="exclamation-circle"
-            font-scale="10em"
-            class="mt-5"
-            variant="danger"
-          ></b-icon>
-          <p class="mt-5 text-danger">No annotation information yet</p>
         </div>
       </b-col>
     </b-row>
@@ -64,6 +44,7 @@
 
 <script>
 import datasets from "@/services/datasets";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "annotations",
   data() {
@@ -74,6 +55,16 @@ export default {
           text: "datasets",
           href: "/admin/datasets",
           active: false,
+        },
+        {
+          text: this.$route.params.dataset,
+          href: "",
+          active: false,
+        },
+        {
+          text: "",
+          href: "",
+          active: true,
         },
       ],
       selected: "A",
@@ -95,7 +86,11 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters(["currentItem"]),
+  },
   methods: {
+    ...mapActions(["getUserItem"]),
     previous() {
       const dataset = datasets.filter(
         (x) => x.name == this.$route.params.dataset
@@ -115,19 +110,49 @@ export default {
     },
   },
   created() {
-    console.log(datasets.filter((x) => x.name == this.$route.params.dataset));
-    this.items.push(this.previous());
-    this.items.push(this.current());
-    this.data = datasets
-      .filter((x) => x.name == this.$route.params.dataset)[0]
-      .items.filter((x) => x._id == parseInt(this.$route.params.id))[0];
-    console.log(this.data);
+    this.getUserItem(this.$route.params.id).then(() => {
+      console.log("data", this.currentItem);
+      //populating breadcrumb items
+      this.items[1].href = `/user/datasets/${this.currentItem.dataset_id}`;
+      this.items[2].text = this.currentItem.name;
+      this.data = this.currentItem;
+
+      var str = "ABCD";
+      //Populating images label options array
+      for (var i in this.currentItem.image_classes) {
+        this.options.push({
+          item: str[i],
+          name: [this.currentItem.image_classes[i]],
+        });
+      }
+      //Populating folder label options array
+      for (var j in this.currentItem.dataset_classes) {
+        this.options2.push({
+          item: str[j],
+          name: [this.currentItem.dataset_classes[j]],
+        });
+      }
+      // populating selector with existing label
+      if (this.data.labelled) {
+        this.selected2 = this.options2.filter(
+          (x) => x.name[0].toLowerCase() == this.data.label.toLowerCase()
+        )[0].item;
+
+        // populating comment
+        this.text = this.data.comment;
+      }
+    });
   },
 };
 </script>
 
 <style>
 .col-6 {
+  padding: 0px;
+}
+.data-image {
+  width: 100%;
+  height: auto;
   padding: 0px;
 }
 @media (min-width: 768px) {
