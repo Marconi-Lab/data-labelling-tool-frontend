@@ -36,7 +36,7 @@
         </span>
         <span v-if="props.column.field == 'progress'">
           <b-progress
-            :value="props.row.progress * 100"
+            :value="props.row.progress"
             variant="info"
             height="0.5em"
           ></b-progress>
@@ -185,6 +185,7 @@ export default {
   created() {
     this.$store.dispatch("getAllDatasets").then(() => {
       this.rows = this.allDatasets;
+      console.log(this.allDatasets);
     });
   },
 };
