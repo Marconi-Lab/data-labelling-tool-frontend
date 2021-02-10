@@ -10,6 +10,13 @@
           <b-icon icon="plus" style="float: right"></b-icon></b-btn
       ></b-nav-item>
     </b-nav>
+    <div>
+      <h5 v-if="data.labelled" class="text-info">
+        This folder is labelled {{ data.label }}.
+      </h5>
+      <h5 v-else class="text-danger">This folder is not labelled!</h5>
+      <hr style="width: 100vw" />
+    </div>
     <h4 v-if="!currentItem.images.length" class="text-danger pt-5">
       This folder is empty, upload images.
     </h4>
@@ -27,15 +34,7 @@
         >
           <div class="data">
             <div style="background-color: #17a2b8">
-              <div v-if="image.id == imageUpdating">
-                <b-icon
-                  icon="three-dots"
-                  animation="cylon"
-                  font-scale="4"
-                  variant="warning"
-                ></b-icon>
-              </div>
-              <div v-else>
+              <div>
                 <p
                   v-if="image.labelled"
                   class="text-white text-center  pt-3 pb-3 mb-0"
