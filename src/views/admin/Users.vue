@@ -13,14 +13,18 @@
       }"
     >
       <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'datasets'">
-          <span>{{ props.row.datasets }}</span
+        <span v-if="props.column.field == 'dataset_count'">
+          <span>{{ props.row.dataset_count }}</span
           ><b-icon
             icon="plus"
             variant="success"
             class="dataset-icon"
             style="float: right; font-weight: bold; font-size: 1.3rem;"
             v-b-modal.modal-center
+            @click="
+              (currentDatasets = props.row.datasets),
+                (currentUser = props.row.id)
+            "
           ></b-icon>
         </span>
       </template>
@@ -38,14 +42,14 @@
         <b-nav-item><b-icon icon="trash"></b-icon></b-nav-item>
       </b-nav>
       <b-list-group>
-        <b-list-group-item v-for="dataset in currentDatasets" :key="dataset._id"
+        <b-list-group-item v-for="dataset in currentDatasets" :key="dataset.id"
           >{{ dataset.name
           }}<b-icon
             class="delete-dataset"
             variant="danger"
             icon="trash"
             style="float: right"
-            @click="handleDeleteFromList"
+            @click="handleDeleteFromList($emit, dataset.id)"
           ></b-icon>
         </b-list-group-item>
         <p class="text-info mt-2 mb-0">Select dataset to add</p>
@@ -53,7 +57,7 @@
           v-model="selected"
           :options="options"
           class="mb-3"
-          value-field="item"
+          value-field="id"
           text-field="name"
           disabled-field="notEnabled"
           aria-placeholder="Select dataset to add"
@@ -74,7 +78,8 @@
 <script>
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
-import rows from "@/services/users";
+import axios from "../../store/axios_setup";
+// import rows from "@/services/users";
 
 export default {
   name: "users-table",
@@ -86,38 +91,66 @@ export default {
       columns: [
         {
           label: "Name",
-          field: "name",
+          field: "username",
         },
         {
           label: "Email",
           field: "email",
         },
         {
-          label: "Contact",
-          field: "contact",
-        },
-        {
           label: "Datasets",
-          field: "datasets",
+          field: "dataset_count",
         },
         {
           label: "Record",
-          field: "record",
+          field: "record_count",
         },
       ],
-      rows,
+      rows: [],
       options: ["dataset1", "dataset2"],
       deletingSelected: false,
       selected: "",
-      currentDatasets: [
-        { _id: "1", name: "dataset1" },
-        { _id: "2", name: "dataset2" },
-      ],
+      currentDatasets: [],
+      currentUser: "",
     };
   },
   methods: {
-      handleDeleteFromList(){},
-      handleDatasetUpdate(){}
+    handleDeleteFromList(e, selected) {
+      e.preventDefault;
+      this.$store.commit("isLoading", true);
+      console.log(selected);
+      console.log("CUrrent user", this.currentUser);
+      axios
+        .delete(`/admin/users/${this.currentUser}/assignments/${selected}/`)
+        .then(async () => {
+          await this.$router.go(0);
+          this.$store.commit("isLoading", false);
+        });
+    },
+    handleDatasetUpdate(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      // console.log(this.selected);
+      // console.log("CUrrent user", this.currentUser);
+      axios
+        .post(`/admin/users/${this.currentUser}/assignments/`, {
+          dataset_id: this.selected,
+        })
+        .then(async () => {
+          await this.$router.go(0);
+          this.$store.commit("isLoading", false);
+        });
+    },
+  },
+  created() {
+    axios.get(`/admin/users/`).then((res) => {
+      console.log(res);
+      this.rows = res.data;
+    });
+    axios.get(`/admin/datasets/`).then((res) => {
+      console.log(res);
+      this.options = res.data;
+    });
   },
 };
 </script>
