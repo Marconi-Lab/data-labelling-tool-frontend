@@ -221,8 +221,21 @@ export default {
           this.$store.commit("isLoading", false);
         });
     },
-    handleFilesUpload() {
-      // console.log(this.images);
+    handleClassesUpdate(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      let classes2 = [];
+      for (var i of this.imageClasses.split(",")) {
+        classes2.push(i.trim());
+      }
+      axios
+        .put(`/admin/datasets/${this.$route.params.id}/classes2/`, {
+          classes2: classes2,
+        })
+        .then(async () => {
+          await this.$router.go(0);
+          this.$store.commit("isLoading", false);
+        });
     },
     handleFolderDelete(e) {
       e.preventDefault();
