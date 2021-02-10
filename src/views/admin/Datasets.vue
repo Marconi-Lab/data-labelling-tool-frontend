@@ -172,7 +172,7 @@ export default {
       this.$store.commit("isLoading", true);
       const name = this.title;
       let arr = [];
-      for (var i of this.classes) {
+      for (var i of this.classes.split(",")) {
         arr.push(i.trim());
       }
       this.createDataset({ name: name, classes: arr }).then(async () => {
