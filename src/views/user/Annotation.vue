@@ -186,7 +186,8 @@ export default {
       const itemID = this.data.id;
 
       this.$store.commit("isLoading", true);
-      this.labelFolder({ comment, label, labeller, itemID }).then(() => {
+      this.labelFolder({ comment, label, labeller, itemID }).then(async () => {
+        await this.$router.go(0);
         this.$store.commit("isLoading", false);
       });
     },

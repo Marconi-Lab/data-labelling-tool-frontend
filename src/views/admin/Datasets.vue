@@ -44,12 +44,14 @@
         <span v-if="props.column.label == 'Download'">
           <!-- <span>{{ props.row.download }}</span
           > -->
-          <b-icon
-            icon="download"
-            variant="info"
-            class="download-icon"
-            style="float: left; font-weight: bold; font-size: 1.3rem;"
-          ></b-icon>
+          <a :href="`http://localhost:5000/download/${props.row.id}/`">
+            <b-icon
+              icon="download"
+              variant="info"
+              class="download-icon"
+              style="float: left; font-weight: bold; font-size: 1.3rem;"
+            ></b-icon
+          ></a>
         </span>
         <span v-if="props.column.label == 'Delete'">
           <!-- <span>{{ props.row.download }}</span
