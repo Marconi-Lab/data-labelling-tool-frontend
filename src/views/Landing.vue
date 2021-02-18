@@ -1,7 +1,7 @@
 <template>
   <div id="landing-page">
     <b-navbar type="dark" variant="info">
-      <b-navbar-brand>Data Collection Tool</b-navbar-brand>
+      <b-navbar-brand>Data Labelling Tool</b-navbar-brand>
 
       <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
 
