@@ -11,78 +11,86 @@
           <b-icon icon="plus" style="float: right"></b-icon></b-btn
       ></b-nav-item>
     </b-nav>
-
-    <b-nav class="mb-3">
-      <p v-if="classes2.length" class="mt-2 text-info ml-2">
-        Image classes: {{ classes2.join(", ") }}
-      </p>
-      <p v-else class="mt-2 text-danger ml-2">
-        Image classes: No image classes added yet
-      </p>
-      <b-icon
-        v-if="!classes2.length"
-        icon="pen"
-        scale="1"
-        class="mt-2 text-info ml-2"
-        v-b-modal.modal-imgclass
-      ></b-icon>
-    </b-nav>
-    <hr style="width: 100vw;" />
-    <vue-good-table
-      v-if="data && data.length"
-      :columns="fields"
-      :rows="data"
-      :pagination-options="{
-        enabled: true,
-        perPage: 7,
-      }"
-      :search-options="{
-        enabled: true,
-        placeholder: 'Search this table',
-      }"
-      :sort-options="{
-        enabled: false,
-      }"
+    <div
+      v-if="processing"
+      class="d-flex align-items-center justify-content-center"
+      style="height: 65vh"
     >
-      <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'name'">
-          <router-link
-            class="text-info"
-            :to="`/admin/datasets/${items[1].text}/${props.row.id}`"
-            >{{ props.row.name }}</router-link
-          >
-        </span>
-        <span v-if="props.column.field == 'labelled'">
-          <b-icon
-            v-if="props.row.labelled"
-            icon="check-circle-fill"
-            scale="2"
-            variant="info"
-            font-scale="0.5em"
-          ></b-icon>
-          <b-icon
-            v-else
-            icon="info-circle-fill"
-            scale="2"
-            variant="danger"
-            font-scale="0.5em"
-          ></b-icon>
-        </span>
-        <span v-if="props.column.field == 'id'">
-          <b-icon
-            icon="trash"
-            variant="danger"
-            class="delete-icon"
-            style="float: left; font-weight: bold; font-size: 1.3rem;"
-            v-b-modal.modal-delete
-            @click="folderToDelete = props.row.id"
-          ></b-icon>
-        </span>
-      </template>
-    </vue-good-table>
-    <h3 v-else class="text-danger pt-5">
-      This dataset is currently empty, add folders.
-    </h3>
+      <Spinner />
+    </div>
+    <div v-else>
+      <b-nav class="mb-3">
+        <p v-if="classes2.length" class="mt-2 text-info ml-2">
+          Image classes: {{ classes2.join(", ") }}
+        </p>
+        <p v-else class="mt-2 text-danger ml-2">
+          Image classes: No image classes added yet
+        </p>
+        <b-icon
+          v-if="!classes2.length"
+          icon="pen"
+          scale="1"
+          class="mt-2 text-info ml-2"
+          v-b-modal.modal-imgclass
+        ></b-icon>
+      </b-nav>
+      <hr style="width: 100vw;" />
+      <vue-good-table
+        v-if="data && data.length"
+        :columns="fields"
+        :rows="data"
+        :pagination-options="{
+          enabled: true,
+          perPage: 7,
+        }"
+        :search-options="{
+          enabled: true,
+          placeholder: 'Search this table',
+        }"
+        :sort-options="{
+          enabled: false,
+        }"
+      >
+        <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'name'">
+            <router-link
+              class="text-info"
+              :to="`/admin/datasets/${items[1].text}/${props.row.id}`"
+              >{{ props.row.name }}</router-link
+            >
+          </span>
+          <span v-if="props.column.field == 'labelled'">
+            <b-icon
+              v-if="props.row.labelled"
+              icon="check-circle-fill"
+              scale="2"
+              variant="info"
+              font-scale="0.5em"
+            ></b-icon>
+            <b-icon
+              v-else
+              icon="info-circle-fill"
+              scale="2"
+              variant="danger"
+              font-scale="0.5em"
+            ></b-icon>
+          </span>
+          <span v-if="props.column.field == 'id'">
+            <b-icon
+              icon="trash"
+              variant="danger"
+              class="delete-icon"
+              style="float: left; font-weight: bold; font-size: 1.3rem;"
+              v-b-modal.modal-delete
+              @click="folderToDelete = props.row.id"
+            ></b-icon>
+          </span>
+        </template>
+      </vue-good-table>
+      <h3 v-else class="text-danger pt-5">
+        This dataset is currently empty, add folders.
+      </h3>
+    </div>
 
     <!-- modals -->
 
@@ -191,6 +199,7 @@ export default {
       images: [],
       dataset: {},
       classes2: [],
+      processing: true,
       // thisDataset: {},
     };
   },
@@ -262,23 +271,9 @@ export default {
       this.items[1].href = `/admin/datasets/${res.data.id}`;
       if (res.data.classes2) {
         this.classes2 = res.data.classes2;
+        this.processing = false;
       }
     });
-    // console.log("Items", this.items);
-
-    // this.dataset = this.$store.getters["dataset"];
-    // console.log("THIS DATASET< ", this.dataset);
-    // this.items[1] = {
-    //   text: this.dataset.name,
-    //   active: true,
-    //   href: `/admin/datasets/${this.dataset.id}`,
-    // };
-    // console.log(this.items);
-
-    // this.data = datasets.filter((x) => x._id == this.$route.params.id)[0].items;
-    // this.$router.dispatch("getUserDataset");
-    // this.items[1] = this.getCurrent();
-    // console.log(this.items[1]);
   },
 };
 </script>

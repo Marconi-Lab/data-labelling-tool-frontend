@@ -1,34 +1,43 @@
 <template>
   <div class="mx-3 mt-2">
-    <vue-good-table
-      :columns="columns"
-      :rows="rows"
-      :pagination-options="{
-        enabled: true,
-        perPage: 8,
-      }"
-      :search-options="{
-        enabled: true,
-        placeholder: 'Search this table',
-      }"
+    <div
+      v-if="processing"
+      class="d-flex align-items-center justify-content-center"
+      style="height: 65vh"
     >
-      <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'dataset_count'">
-          <span>{{ props.row.dataset_count }}</span
-          ><b-icon
-            icon="plus"
-            variant="success"
-            class="dataset-icon"
-            style="float: right; font-weight: bold; font-size: 1.3rem;"
-            v-b-modal.modal-center
-            @click="
-              (currentDatasets = props.row.datasets),
-                (currentUser = props.row.id)
-            "
-          ></b-icon>
-        </span>
-      </template>
-    </vue-good-table>
+      <Spinner />
+    </div>
+    <div v-else>
+      <vue-good-table
+        :columns="columns"
+        :rows="rows"
+        :pagination-options="{
+          enabled: true,
+          perPage: 8,
+        }"
+        :search-options="{
+          enabled: true,
+          placeholder: 'Search this table',
+        }"
+      >
+        <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'dataset_count'">
+            <span>{{ props.row.dataset_count }}</span
+            ><b-icon
+              icon="plus"
+              variant="success"
+              class="dataset-icon"
+              style="float: right; font-weight: bold; font-size: 1.3rem;"
+              v-b-modal.modal-center
+              @click="
+                (currentDatasets = props.row.datasets),
+                  (currentUser = props.row.id)
+              "
+            ></b-icon>
+          </span>
+        </template>
+      </vue-good-table>
+    </div>
 
     <b-modal
       id="modal-center"
@@ -112,6 +121,7 @@ export default {
       selected: "",
       currentDatasets: [],
       currentUser: "",
+      processing: true,
     };
   },
   methods: {
@@ -146,6 +156,7 @@ export default {
     axios.get(`/admin/users/`).then((res) => {
       console.log(res);
       this.rows = res.data;
+      this.processing = false;
     });
     axios.get(`/admin/datasets/`).then((res) => {
       console.log(res);

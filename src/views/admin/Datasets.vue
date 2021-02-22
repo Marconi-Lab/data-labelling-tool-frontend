@@ -9,64 +9,73 @@
           Add <b-icon icon="plus" style="float: right"></b-icon></b-btn
       ></b-nav-item>
     </b-nav>
-    <vue-good-table
-      v-if="rows && rows.length"
-      :columns="columns"
-      :rows="rows"
-      :pagination-options="{
-        enabled: true,
-        perPage: 7,
-      }"
-      :search-options="{
-        enabled: true,
-        placeholder: 'Search this table',
-      }"
-      :sort-options="{
-        enabled: false,
-      }"
+    <div
+      v-if="processing"
+      class="d-flex align-items-center justify-content-center"
+      style="height: 65vh"
     >
-      <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'name'">
-          <router-link
-            class="mb-0 dataset text-info"
-            style=""
-            :to="`/admin/datasets/${props.row.id}`"
-            >{{ props.row.name }}</router-link
-          >
-        </span>
-        <span v-if="props.column.field == 'progress'">
-          <b-progress
-            :value="props.row.progress"
-            variant="info"
-            height="0.5em"
-          ></b-progress>
-        </span>
-        <span v-if="props.column.label == 'Download'">
-          <!-- <span>{{ props.row.download }}</span
-          > -->
-          <a :href="`http://localhost:5000/download/${props.row.id}/`">
-            <b-icon
-              icon="download"
+      <Spinner />
+    </div>
+    <div v-else>
+      <vue-good-table
+        v-if="rows && rows.length"
+        :columns="columns"
+        :rows="rows"
+        :pagination-options="{
+          enabled: true,
+          perPage: 7,
+        }"
+        :search-options="{
+          enabled: true,
+          placeholder: 'Search this table',
+        }"
+        :sort-options="{
+          enabled: false,
+        }"
+      >
+        <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'name'">
+            <router-link
+              class="mb-0 dataset text-info"
+              style=""
+              :to="`/admin/datasets/${props.row.id}`"
+              >{{ props.row.name }}</router-link
+            >
+          </span>
+          <span v-if="props.column.field == 'progress'">
+            <b-progress
+              :value="props.row.progress"
               variant="info"
-              class="download-icon"
-              style="float: left; font-weight: bold; font-size: 1.3rem;"
-            ></b-icon
-          ></a>
-        </span>
-        <span v-if="props.column.label == 'Delete'">
-          <!-- <span>{{ props.row.download }}</span
+              height="0.5em"
+            ></b-progress>
+          </span>
+          <span v-if="props.column.label == 'Download'">
+            <!-- <span>{{ props.row.download }}</span
           > -->
-          <b-icon
-            icon="trash"
-            variant="danger"
-            class="delete-icon"
-            style="float: left; font-weight: bold; font-size: 1.3rem;"
-            v-b-modal.modal-delete
-            @click="selectedDataset = props.row.id"
-          ></b-icon>
-        </span>
-      </template>
-    </vue-good-table>
+            <a :href="`http://20.73.19.71:5000/download/${props.row.id}/`">
+              <b-icon
+                icon="download"
+                variant="info"
+                class="download-icon"
+                style="float: left; font-weight: bold; font-size: 1.3rem;"
+              ></b-icon
+            ></a>
+          </span>
+          <span v-if="props.column.label == 'Delete'">
+            <!-- <span>{{ props.row.download }}</span
+          > -->
+            <b-icon
+              icon="trash"
+              variant="danger"
+              class="delete-icon"
+              style="float: left; font-weight: bold; font-size: 1.3rem;"
+              v-b-modal.modal-delete
+              @click="selectedDataset = props.row.id"
+            ></b-icon>
+          </span>
+        </template>
+      </vue-good-table>
+    </div>
 
     <b-modal
       id="modal-center"
@@ -149,6 +158,7 @@ export default {
       ],
       rows: [],
       selectedDataset: null,
+      processing: true,
     };
   },
   computed: {
@@ -187,6 +197,7 @@ export default {
   created() {
     this.$store.dispatch("getAllDatasets").then(() => {
       this.rows = this.allDatasets;
+      this.processing = false;
       console.log(this.allDatasets);
     });
   },

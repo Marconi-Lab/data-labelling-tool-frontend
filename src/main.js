@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+import Spinner from "vue-simple-spinner";
 import * as rules from "vee-validate/dist/rules";
 import router from "./router";
 import store from "./store/store";
@@ -68,6 +69,7 @@ Object.keys(rules).forEach((rule) => {
 // install components globally
 Vue.component("ValidationObserver", ValidationObserver);
 Vue.component("ValidationProvider", ValidationProvider);
+Vue.component("Spinner", Spinner);
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);

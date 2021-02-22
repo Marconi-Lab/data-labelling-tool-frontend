@@ -1,54 +1,62 @@
 <template>
   <div>
     <b-breadcrumb class="mb-0" :items="items"></b-breadcrumb>
-
-    <vue-good-table
-      :columns="fields"
-      :rows="data"
-      :pagination-options="{
-        enabled: true,
-        perPage: 7,
-      }"
-      :search-options="{
-        enabled: true,
-        placeholder: 'Search this table',
-      }"
-      :sort-options="{
-        enabled: false,
-      }"
+    <div
+      v-if="processing"
+      class="d-flex align-items-center justify-content-center"
+      style="height: 65vh"
     >
-      <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'name'">
-          <b-icon
-            icon="folder"
-            variant="info"
-            style="float: left; font-weight: bold; font-size: 1.3rem; margin-right: 20px; margin-top: 4px;"
-          >
-          </b-icon>
-          <router-link
-            class="text-info"
-            :to="`/user/datasets/${items[1].text}/${props.row.id}`"
-            >{{ props.row.name }}</router-link
-          >
-        </span>
-        <span v-if="props.column.field == 'labelled'">
-          <b-icon
-            v-if="props.row.labelled"
-            icon="check-circle-fill"
-            scale="2"
-            variant="info"
-            font-scale="0.5em"
-          ></b-icon>
-          <b-icon
-            v-else
-            icon="info-circle-fill"
-            scale="2"
-            variant="danger"
-            font-scale="0.5em"
-          ></b-icon>
-        </span>
-      </template>
-    </vue-good-table>
+      <Spinner />
+    </div>
+    <div v-else>
+      <vue-good-table
+        :columns="fields"
+        :rows="data"
+        :pagination-options="{
+          enabled: true,
+          perPage: 7,
+        }"
+        :search-options="{
+          enabled: true,
+          placeholder: 'Search this table',
+        }"
+        :sort-options="{
+          enabled: false,
+        }"
+      >
+        <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'name'">
+            <b-icon
+              icon="folder"
+              variant="info"
+              style="float: left; font-weight: bold; font-size: 1.3rem; margin-right: 20px; margin-top: 4px;"
+            >
+            </b-icon>
+            <router-link
+              class="text-info"
+              :to="`/user/datasets/${items[1].text}/${props.row.id}`"
+              >{{ props.row.name }}</router-link
+            >
+          </span>
+          <span v-if="props.column.field == 'labelled'">
+            <b-icon
+              v-if="props.row.labelled"
+              icon="check-circle-fill"
+              scale="2"
+              variant="info"
+              font-scale="0.5em"
+            ></b-icon>
+            <b-icon
+              v-else
+              icon="info-circle-fill"
+              scale="2"
+              variant="danger"
+              font-scale="0.5em"
+            ></b-icon>
+          </span>
+        </template>
+      </vue-good-table>
+    </div>
   </div>
 </template>
 
@@ -84,6 +92,7 @@ export default {
       data: [],
       currentPage: 1,
       datasets,
+      processing: true,
     };
   },
   computed: {
@@ -105,6 +114,7 @@ export default {
     axios.get(`/user/datasets/${this.$route.params.id}/`).then((res) => {
       console.log("Response here", res);
       this.data = res.data.items;
+      this.processing = false;
       this.items[1].text = res.data.name;
       this.items[1].href = `/user/datasets/${this.res.data.id}`;
     });
