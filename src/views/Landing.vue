@@ -7,10 +7,16 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <router-link class="router-link nav-link" to="/login">
+        <router-link
+          class="router-link nav-link text-white"
+          to="/administrator"
+        >
+          admin</router-link
+        >
+        <router-link class="router-link nav-link text-white" to="/login">
           signin</router-link
         >
-        <router-link class="router-link nav-link" to="/signup">
+        <router-link class="router-link nav-link text-white" to="/signup">
           signup</router-link
         >
       </b-navbar-nav>
