@@ -4,58 +4,70 @@
     <b-row style="margin: 0px; min-height: 75vh;">
       <b-col class="image-area" md="7">
         <div
-          class="mt-3"
-          v-for="image in data.images"
-          :key="image.id"
-          style="border-bottom: solid 1px gray; border-left: solid 1px gray; border-right: solid 1px gray"
+          v-if="processing"
+          class="d-flex align-items-center justify-content-center"
+          style="height: 65vh"
         >
-          <div class="data">
-            <div style="background-color: #17a2b8">
-              <div v-if="image.id == imageUpdating">
-                <b-icon
-                  icon="three-dots"
-                  animation="cylon"
-                  font-scale="4"
-                  variant="warning"
-                ></b-icon>
-              </div>
-              <div v-else>
-                <p v-if="image.labelled" class="text-white text-left ml-5 pt-3">
-                  Labelled: {{ image.label }}
-                </p>
-                <p v-else class="text-warning text-left ml-5 pt-3">
-                  This image is not labelled
-                </p>
-              </div>
-
-              <b-nav-form
-                label-size="md"
-                label-for="input-sm"
-                class="mb-0 ml-5 mr-4 justify-content-left"
-                style="max-width: 500px;"
-              >
-                <b-form-select
-                  v-model="selected"
-                  :options="options"
-                  class="mb-3"
-                  value-field="item"
-                  text-field="name"
-                  disabled-field="notEnabled"
-                ></b-form-select>
-                <b-button
-                  class="mb-3 ml-2"
-                  type="submit"
-                  variant="warning"
-                  @click="handleImageUpdate($event, image.id)"
-                >
-                  <p v-if="image.id == imageUpdating" class="m-0">
-                    updating ...
+          <Spinner />
+        </div>
+        <div v-else>
+          <div
+            class="mt-3"
+            v-for="image in data.images"
+            :key="image.id"
+            style="border-bottom: solid 1px gray; border-left: solid 1px gray; border-right: solid 1px gray"
+          >
+            <div class="data">
+              <div style="background-color: #17a2b8">
+                <div v-if="image.id == imageUpdating">
+                  <b-icon
+                    icon="three-dots"
+                    animation="cylon"
+                    font-scale="4"
+                    variant="warning"
+                  ></b-icon>
+                </div>
+                <div v-else>
+                  <p
+                    v-if="image.labelled"
+                    class="text-white text-left ml-5 pt-3"
+                  >
+                    Labelled: {{ image.label }}
                   </p>
-                  <p v-else class="m-0">update</p>
-                </b-button>
-              </b-nav-form>
+                  <p v-else class="text-warning text-left ml-5 pt-3">
+                    This image is not labelled
+                  </p>
+                </div>
+
+                <b-nav-form
+                  label-size="md"
+                  label-for="input-sm"
+                  class="mb-0 ml-5 mr-4 justify-content-left"
+                  style="max-width: 500px;"
+                >
+                  <b-form-select
+                    v-model="selected"
+                    :options="options"
+                    class="mb-3"
+                    value-field="item"
+                    text-field="name"
+                    disabled-field="notEnabled"
+                  ></b-form-select>
+                  <b-button
+                    class="mb-3 ml-2"
+                    type="submit"
+                    variant="warning"
+                    @click="handleImageUpdate($event, image.id)"
+                  >
+                    <p v-if="image.id == imageUpdating" class="m-0">
+                      updating ...
+                    </p>
+                    <p v-else class="m-0">update</p>
+                  </b-button>
+                </b-nav-form>
+              </div>
+              <img :src="image.image" alt="data image" class="data-image" />
             </div>
-            <img :src="image.image" alt="data image" class="data-image" />
           </div>
         </div>
       </b-col>
@@ -143,6 +155,7 @@ export default {
       data: {},
       options: [],
       options2: [],
+      processing: true,
     };
   },
   computed: {
@@ -224,6 +237,7 @@ export default {
         // populating comment
         this.text = this.data.comment;
       }
+      this.processing = false;
     });
   },
 };
