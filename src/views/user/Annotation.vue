@@ -1,124 +1,123 @@
 <template>
   <div>
     <b-breadcrumb class="m-0" :items="items"></b-breadcrumb>
-    <b-row style="margin: 0px; min-height: 75vh;">
-      <b-col class="image-area" md="7">
-        <div
-          v-if="processing"
-          class="d-flex align-items-center justify-content-center"
-          style="height: 65vh"
+    <div
+      v-if="processing"
+      class="d-flex align-items-center justify-content-center"
+      style="height: 80vh; position: absolute; width: 100vw; z-index: 1111"
+    >
+      <Spinner />
+    </div>
+    <div v-else>
+      <b-row style="margin: 0px" class="mt-2">
+        <b-col class="text-center">
+          <h4 v-if="data.labelled" class="text-info">
+            {{ data.name }} is labelled {{ data.label }}
+          </h4>
+          <h4 v-else class="text-danger">{{ data.name }} is not labelled</h4>
+        </b-col>
+      </b-row>
+      <b-row class="px-3 m-0 mt-3">
+        <b-col
+          v-for="image in data.images"
+          :key="image.id"
+          sm="6"
+          md="3"
+          class="p-1"
         >
-          <Spinner />
-        </div>
-        <div v-else>
-          <div
-            class="mt-3"
-            v-for="image in data.images"
-            :key="image.id"
-            style="border-bottom: solid 1px gray; border-left: solid 1px gray; border-right: solid 1px gray"
-          >
-            <div class="data">
-              <div style="background-color: #17a2b8">
-                <div v-if="image.id == imageUpdating">
-                  <b-icon
-                    icon="three-dots"
-                    animation="cylon"
-                    font-scale="4"
-                    variant="warning"
-                  ></b-icon>
-                </div>
-                <div v-else>
-                  <p
-                    v-if="image.labelled"
-                    class="text-white text-left ml-5 pt-3"
-                  >
-                    Labelled: {{ image.label }}
-                  </p>
-                  <p v-else class="text-warning text-left ml-5 pt-3">
-                    This image is not labelled
-                  </p>
-                </div>
-
-                <b-nav-form
-                  label-size="md"
-                  label-for="input-sm"
-                  class="mb-0 ml-5 mr-4 justify-content-left"
-                  style="max-width: 500px;"
-                >
-                  <b-form-select
-                    v-model="selected"
-                    :options="options"
-                    class="mb-3"
-                    value-field="item"
-                    text-field="name"
-                    disabled-field="notEnabled"
-                  ></b-form-select>
-                  <b-button
-                    class="mb-3 ml-2"
-                    type="submit"
-                    variant="warning"
-                    @click="handleImageUpdate($event, image.id)"
-                  >
-                    <p v-if="image.id == imageUpdating" class="m-0">
-                      updating ...
-                    </p>
-                    <p v-else class="m-0">update</p>
-                  </b-button>
-                </b-nav-form>
+          <div class="data">
+            <div style="background-color: #17a2b8; font-size: 0.8rem">
+              <div v-if="image.id == imageUpdating">
+                <b-icon
+                  icon="three-dots"
+                  animation="cylon"
+                  font-scale="3"
+                  variant="warning"
+                ></b-icon>
               </div>
-              <img :src="image.image" alt="data image" class="data-image" />
+              <div v-else>
+                <p
+                  v-if="image.labelled"
+                  class="text-white text-center ml-2 py-2"
+                >
+                  Labelled: {{ image.label }}
+                </p>
+                <p v-else class="text-warning text-center ml-2 py-2">
+                  This image is not labelled
+                </p>
+              </div>
+            </div>
+            <img :src="image.image" alt="data image" class="data-image" />
+            <div style="background-color: #17a2b8">
+              <b-nav-form
+                label-size="md"
+                label-for="input-sm"
+                class="mb-0 ml-5 mr-4 justify-content-left"
+                style="max-width: 500px"
+              >
+                <b-form-select
+                  v-model="selected"
+                  :options="options"
+                  class="my-2"
+                  value-field="item"
+                  text-field="name"
+                  disabled-field="notEnabled"
+                  style="font-size: 0.8rem"
+                ></b-form-select>
+                <b-button
+                  class="my-2 ml-2"
+                  type="submit"
+                  style="font-size: 0.8rem"
+                  variant="warning"
+                  @click="handleImageUpdate($event, image.id)"
+                >
+                  <p v-if="image.id == imageUpdating" class="m-0">
+                    ...
+                  </p>
+                  <p v-else class="m-0">update</p>
+                </b-button>
+              </b-nav-form>
             </div>
           </div>
-        </div>
-      </b-col>
-
-      <b-col md="5" class="forsec">
-        <h4 v-if="data.labelled" class="text-info">
-          {{ data.name }} is labelled {{ data.label }}
-        </h4>
-        <h4 v-else class="text-danger">{{ data.name }} is not labelled</h4>
-        <div class="container">
-          <b-form-group
-            label-cols="4"
-            label-cols-lg="3"
-            label-size="md"
-            label="Label"
-            label-for="input-sm"
-          >
+        </b-col>
+        <hr style="border-top: solid 0.1rem #17a2b8; width: 100vw" />
+        <div class="mb-5" style="font-size: 0.8rem">
+          <b-form inline>
+            <label for="form-label" class="mr-sm-2">Label</label>
             <b-form-select
+              id="form-label"
               v-model="selected2"
               :options="options2"
-              class="mb-3"
+              class="mb-3 mr-2 mt-3"
+              style="font-size: 0.8rem; width: 200px"
               value-field="item"
               text-field="name"
               disabled-field="notEnabled"
             ></b-form-select>
-          </b-form-group>
-          <b-form-group
-            v-if="selected2 == 'C'"
-            label-cols="4"
-            label-cols-lg="3"
-            label-size="md"
-            label="Comment"
-            label-for="input-lg"
-          >
+            <label v-if="selected2 == 'C'" for="textarea" class="mr-sm-2"
+              >Comment</label
+            >
             <b-form-textarea
               id="textarea"
+              v-if="selected2 == 'C'"
               v-model="text"
+              class="mr-2 mt-3"
               placeholder="Enter comments..."
+              style="font-size: 0.8rem; width: 250px; height: 3rem;"
               rows="3"
               max-rows="6"
             ></b-form-textarea>
-          </b-form-group>
+            <b-button
+              variant="outline-info"
+              class="update-button"
+              style="font-size: 0.8rem; top: 0px;"
+              @click="handleFolderLabel"
+              >Update</b-button
+            >
+          </b-form>
         </div>
-        <b-button
-          variant="outline-info"
-          class="update-button"
-          @click="handleFolderLabel"
-          >Update</b-button
-        >
-      </b-col>
-    </b-row>
+      </b-row>
+    </div>
   </div>
 </template>
 
@@ -177,10 +176,11 @@ export default {
       // console.log("ImageID ", imageID);
 
       this.labelImage({ label, labeller, imageID }).then(() => {
-        this.getUserItem(this.$route.params.id).then(async () => {
-          await this.$router.go(0);
-          this.$store.commit("imageUpdating", null);
-        });
+        this.getUserItem(this.$route.params.id)
+          .then(async () => {
+            await this.$router.go(0);
+          })
+          .then(() => this.$store.commit("imageUpdating", null));
       });
     },
 
@@ -244,6 +244,9 @@ export default {
 </script>
 
 <style scoped>
+p {
+  margin-bottom: 0px;
+}
 .col-6 {
   padding: 0px;
 }
@@ -255,13 +258,13 @@ export default {
 @media (min-width: 768px) {
   .forsec {
     border-left: 1px solid rgb(191, 191, 191);
-    height: 84vh;
+    /* height: 84vh; */
     overflow-y: scroll;
     padding: 20px;
   }
   .image-area {
-    height: 83vh;
-    overflow: scroll;
+    /* height: 83vh; */
+    /* overflow: scroll; */
   }
   .forsec .container {
     padding: 20px;
@@ -270,7 +273,7 @@ export default {
 @media (max-width: 768px) {
   .forsec {
     border-top: 1px solid rgb(191, 191, 191);
-    height: 78vh;
+    /* height: 78vh; */
   }
   .forsec {
     padding-top: 10px;
