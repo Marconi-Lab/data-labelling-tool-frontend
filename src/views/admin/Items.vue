@@ -123,10 +123,17 @@
       header-text-variant="white"
       footer-border-variant="info"
     >
-      <b-form-input
-        v-model="folderName"
-        placeholder="Enter folder name"
-      ></b-form-input>
+      <b-form-group label="Folder:" label-cols-sm="2" label-size="sm">
+        <b-form-file
+          id="file-small"
+          v-model="folder"
+          size="sm"
+          directory
+          multiple
+          accept="image/jpeg, image/png"
+          :file-name-formatter="formatNames"
+        ></b-form-file>
+      </b-form-group>
       <template #modal-footer="{cancel} " class="mx-auto">
         <b-button size="sm" variant="outline-info" @click="cancel()"
           >cancel</b-button
@@ -191,6 +198,7 @@ export default {
         { field: "id", label: "Delete" },
       ],
       folderName: "",
+      folder: null,
       folderToDelete: "",
       imageClasses: "",
       data: [],
@@ -218,16 +226,46 @@ export default {
     //     href: `/user/datasets/${this.dataset.id}`,
     //   };
     // },
+    formatNames(files) {
+      return files.length === 1
+        ? files[0].name
+        : `${files.length} files selected`;
+    },
     handleFolderCreate(e) {
       e.preventDefault();
       this.$store.commit("isLoading", true);
+      console.log("folder", this.folder);
+      this.folderName = this.folder[0].$path.split("/")[0];
+      console.log("folder name", this.folderName);
       axios
         .post(`/admin/${this.$route.params.id}/item/`, {
           name: this.folderName,
         })
-        .then(async () => {
-          await this.$router.go(0);
-          this.$store.commit("isLoading", false);
+        .then((res) => {
+          console.log("response 1", res);
+          var formData = new FormData();
+          for (var i = 0; i < this.folder.length; i++) {
+            if (this.folder[i].type != "text/xml") {
+              let image = this.folder[i];
+              formData.append("images", image);
+            }
+          }
+          axios
+            .post(`/admin/item/${res.data.id}/`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            })
+            .then(async (rs) => {
+              console.log("response 2", rs);
+              console.log("Upload response ", rs.data);
+              await this.$router.go(0);
+              this.$store.commit("isLoading", false);
+            })
+            .catch(async () => {
+              await this.$router.go(0);
+              this.$store.commit("isLoading", false);
+            });
         });
     },
     handleClassesUpdate(e) {
@@ -264,16 +302,22 @@ export default {
       this.data = res.data;
     });
 
-    axios.get(`/admin/datasets/${this.$route.params.id}/`).then((res) => {
-      // console.log(res.data);
-      // console.log(this.dataset);
-      this.items[1].text = res.data.name;
-      this.items[1].href = `/admin/datasets/${res.data.id}`;
-      if (res.data.classes2) {
-        this.classes2 = res.data.classes2;
+    axios
+      .get(`/admin/datasets/${this.$route.params.id}/`)
+      .then((res) => {
+        // console.log(res.data);
+        // console.log(this.dataset);
+        this.items[1].text = res.data.name;
+        this.items[1].href = `/admin/datasets/${res.data.id}`;
+        if (res.data.classes2) {
+          this.classes2 = res.data.classes2;
+        }
         this.processing = false;
-      }
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.processing = false;
+      });
   },
 };
 </script>
