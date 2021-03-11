@@ -33,7 +33,9 @@
       <b-row class="justify-content-center" v-else>
         <b-col
           class="image-area mx-1"
-          md="5"
+          md="4"
+          sm="6"
+          style="max-width: 300px"
           v-for="image in data.images"
           :key="image.id"
         >
@@ -46,11 +48,11 @@
                 <div>
                   <p
                     v-if="image.labelled"
-                    class="text-white text-center  pt-3 pb-3 mb-0"
+                    class="text-white text-center  py-1 mb-0"
                   >
                     Labelled: {{ image.label }}
                   </p>
-                  <p v-else class="text-warning text-center  pt-3 pb-3 mb-0">
+                  <p v-else class="text-warning text-center  py-1 mb-0">
                     This image is not labelled
                   </p>
                 </div>
@@ -206,6 +208,9 @@ export default {
   width: 100%;
   height: auto;
   padding: 0px;
+}
+.image-area {
+  max-width: 200px;
 }
 @media (min-width: 768px) {
   .forsec {
