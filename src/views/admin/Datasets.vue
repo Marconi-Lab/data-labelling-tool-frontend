@@ -48,7 +48,7 @@
             style="min-width: 200px;"
           >
             <p class="col-3 pb-0 m-0 text-info">
-              {{ props.row.progress + "%" }}
+              {{ Math.round(props.row.progress) + "%" }}
             </p>
             <div class="col-8 p-1 pt-2">
               <b-progress
