@@ -5,7 +5,8 @@
       <b-nav-item
         active
         style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
-        ><b-btn variant="info" v-b-modal.modal-images>
+        class="img-upload"
+        ><b-btn class="custom-button" variant="info" v-b-modal.modal-images>
           upload images
           <b-icon icon="plus" style="float: right"></b-icon></b-btn
       ></b-nav-item>
@@ -17,7 +18,7 @@
     >
       <Spinner />
     </div>
-    <div v-else>
+    <div class="main-content" v-else>
       <div>
         <h5 v-if="data.labelled" class="text-info">
           This folder is labelled {{ data.label }}.
@@ -32,7 +33,9 @@
       <b-row class="justify-content-center" v-else>
         <b-col
           class="image-area mx-1"
-          md="5"
+          md="4"
+          sm="6"
+          style="max-width: 300px"
           v-for="image in data.images"
           :key="image.id"
         >
@@ -45,11 +48,11 @@
                 <div>
                   <p
                     v-if="image.labelled"
-                    class="text-white text-center  pt-3 pb-3 mb-0"
+                    class="text-white text-center  py-1 mb-0"
                   >
                     Labelled: {{ image.label }}
                   </p>
-                  <p v-else class="text-warning text-center  pt-3 pb-3 mb-0">
+                  <p v-else class="text-warning text-center  py-1 mb-0">
                     This image is not labelled
                   </p>
                 </div>
@@ -144,6 +147,7 @@ export default {
     handleImagesUpload(e) {
       e.preventDefault();
       this.$store.commit("isLoading", true);
+      console.log(this.files);
       console.log("Files", this.files);
       var formData = new FormData();
       for (var i = 0; i < this.files.length; i++) {
@@ -196,7 +200,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .col-6 {
   padding: 0px;
 }
@@ -204,6 +208,9 @@ export default {
   width: 100%;
   height: auto;
   padding: 0px;
+}
+.image-area {
+  max-width: 200px;
 }
 @media (min-width: 768px) {
   .forsec {
@@ -222,6 +229,36 @@ export default {
   }
 }
 @media (max-width: 768px) {
+  .forsec {
+    border-top: 1px solid rgb(191, 191, 191);
+    height: 78vh;
+  }
+  .forsec {
+    padding-top: 10px;
+  }
+  .forsec .container {
+    padding: 10px;
+  }
+  img {
+    width: 20rem;
+    height: 20rem;
+    object-fit: cover;
+    padding: 1em;
+  }
+}
+@media (max-width: 460px) {
+  .main-content {
+    margin-top: 3rem;
+  }
+  .img-upload {
+    top: 10em;
+    left: 0px;
+  }
+  .custom-button {
+    position: absolute;
+    top: 3.7em;
+    left: 1rem;
+  }
   .forsec {
     border-top: 1px solid rgb(191, 191, 191);
     height: 78vh;
