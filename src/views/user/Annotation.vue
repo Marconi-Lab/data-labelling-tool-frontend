@@ -17,7 +17,7 @@
           <h4 v-else class="text-danger">{{ data.name }} is not labelled</h4>
         </b-col>
       </b-row>
-      <b-row class="px-3 m-0 mt-3">
+      <b-row class="px-4 m-0">
         <b-col
           v-for="image in data.images"
           :key="image.id"
@@ -26,7 +26,7 @@
           class="p-1"
         >
           <div class="data">
-            <div style="background-color: #17a2b8; font-size: 0.8rem">
+            <div style="background-color: #17a2b8; font-size: 0.9rem">
               <div v-if="image.id == imageUpdating">
                 <b-icon
                   icon="three-dots"
@@ -62,12 +62,12 @@
                   value-field="item"
                   text-field="name"
                   disabled-field="notEnabled"
-                  style="font-size: 0.8rem"
+                  style="font-size: 0.9rem"
                 ></b-form-select>
                 <b-button
                   class="my-2 ml-2"
                   type="submit"
-                  style="font-size: 0.8rem"
+                  style="font-size: 0.9rem"
                   variant="warning"
                   @click="handleImageUpdate($event, image.id)"
                 >
@@ -81,7 +81,7 @@
           </div>
         </b-col>
         <hr style="border-top: solid 0.1rem #17a2b8; width: 100vw" />
-        <div class="mb-5" style="font-size: 0.8rem">
+        <div class="mb-5" style="font-size: 0.9rem">
           <b-form inline>
             <label for="form-label" class="mr-sm-2">Label</label>
             <b-form-select
@@ -89,7 +89,7 @@
               v-model="selected2"
               :options="options2"
               class="mb-3 mr-2 mt-3"
-              style="font-size: 0.8rem; width: 200px"
+              style="font-size: 0.9rem; width: 200px"
               value-field="item"
               text-field="name"
               disabled-field="notEnabled"
@@ -103,14 +103,14 @@
               v-model="text"
               class="mr-2 mt-3"
               placeholder="Enter comments..."
-              style="font-size: 0.8rem; width: 250px; height: 3rem;"
+              style="font-size: 0.9rem; width: 250px; height: 3rem;"
               rows="3"
               max-rows="6"
             ></b-form-textarea>
             <b-button
               variant="outline-info"
               class="update-button"
-              style="font-size: 0.8rem; top: 0px;"
+              style="font-size: 0.9rem; top: 0px;"
               @click="handleFolderLabel"
               >Update</b-button
             >
