@@ -1,6 +1,16 @@
 <template>
   <div>
     <b-breadcrumb class="m-0" :items="items"></b-breadcrumb>
+    <b-nav>
+      <b-nav-item
+        active
+        style="position: absolute; z-index: 2; right:0; top: 2.3em;"
+        class="img-upload"
+        ><b-btn class="custom-button" variant="info" v-b-modal.modal-images>
+          label folder
+          <b-icon icon="pen" scale="0.7" style="float: right"></b-icon></b-btn
+      ></b-nav-item>
+    </b-nav>
     <div
       v-if="processing"
       class="d-flex align-items-center justify-content-center"
@@ -8,7 +18,7 @@
     >
       <Spinner />
     </div>
-    <div v-else>
+    <div class="main-body" v-else>
       <b-row style="margin: 0px" class="mt-2">
         <b-col class="text-center">
           <h4 v-if="data.labelled" class="text-info">
@@ -81,43 +91,53 @@
           </div>
         </b-col>
         <hr style="border-top: solid 0.1rem #17a2b8; width: 100vw" />
-        <div class="mb-5" style="font-size: 0.9rem">
-          <b-form inline>
-            <label for="form-label" class="mr-sm-2">Label</label>
-            <b-form-select
-              id="form-label"
-              v-model="selected2"
-              :options="options2"
-              class="mb-3 mr-2 mt-3"
-              style="font-size: 0.9rem; width: 200px"
-              value-field="item"
-              text-field="name"
-              disabled-field="notEnabled"
-            ></b-form-select>
-            <label v-if="selected2 == 'C'" for="textarea" class="mr-sm-2"
-              >Comment</label
-            >
-            <b-form-textarea
-              id="textarea"
-              v-if="selected2 == 'C'"
-              v-model="text"
-              class="mr-2 mt-3"
-              placeholder="Enter comments..."
-              style="font-size: 0.9rem; width: 250px; height: 3rem;"
-              rows="3"
-              max-rows="6"
-            ></b-form-textarea>
-            <b-button
-              variant="outline-info"
-              class="update-button"
-              style="font-size: 0.9rem; top: 0px;"
-              @click="handleFolderLabel"
-              >Update</b-button
-            >
-          </b-form>
-        </div>
       </b-row>
     </div>
+    <b-modal
+      id="modal-images"
+      centered
+      title="Upload Images"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <div class="mb-5" style="font-size: 0.9rem">
+        <b-form>
+          <label for="form-label" class="mr-sm-2">Label</label>
+          <b-form-select
+            id="form-label"
+            v-model="selected2"
+            :options="options2"
+            class="mb-3 mr-2 mt-3"
+            style="font-size: 0.9rem"
+            value-field="item"
+            text-field="name"
+            disabled-field="notEnabled"
+          ></b-form-select>
+          <label v-if="selected2 == 'C'" for="textarea" class="mr-sm-2"
+            >Comment</label
+          >
+          <b-form-textarea
+            id="textarea"
+            v-if="selected2 == 'C'"
+            v-model="text"
+            class="mr-2 mt-3"
+            placeholder="Enter comments..."
+            style="font-size: 0.9rem;"
+            rows="3"
+            max-rows="6"
+          ></b-form-textarea>
+        </b-form>
+      </div>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-info" @click="handleFolderLabel"
+          >Submit</b-button
+        >
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -280,6 +300,19 @@ p {
   }
   .forsec .container {
     padding: 10px;
+  }
+}
+@media (max-width: 460px) {
+  .img-upload {
+    left: 0px;
+  }
+  .custom-button {
+    position: absolute;
+    left: 1.8rem;
+    top: 3.6rem;
+  }
+  .main-body {
+    margin-top: 3rem;
   }
 }
 </style>

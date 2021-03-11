@@ -200,7 +200,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .col-6 {
   padding: 0px;
 }
