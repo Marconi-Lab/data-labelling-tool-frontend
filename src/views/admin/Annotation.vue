@@ -5,7 +5,8 @@
       <b-nav-item
         active
         style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
-        ><b-btn variant="info" v-b-modal.modal-images>
+        class="img-upload"
+        ><b-btn class="custom-button" variant="info" v-b-modal.modal-images>
           upload images
           <b-icon icon="plus" style="float: right"></b-icon></b-btn
       ></b-nav-item>
@@ -17,7 +18,7 @@
     >
       <Spinner />
     </div>
-    <div v-else>
+    <div class="main-content" v-else>
       <div>
         <h5 v-if="data.labelled" class="text-info">
           This folder is labelled {{ data.label }}.
@@ -144,6 +145,7 @@ export default {
     handleImagesUpload(e) {
       e.preventDefault();
       this.$store.commit("isLoading", true);
+      console.log(this.files);
       console.log("Files", this.files);
       var formData = new FormData();
       for (var i = 0; i < this.files.length; i++) {
@@ -222,6 +224,36 @@ export default {
   }
 }
 @media (max-width: 768px) {
+  .forsec {
+    border-top: 1px solid rgb(191, 191, 191);
+    height: 78vh;
+  }
+  .forsec {
+    padding-top: 10px;
+  }
+  .forsec .container {
+    padding: 10px;
+  }
+  img {
+    width: 20rem;
+    height: 20rem;
+    object-fit: cover;
+    padding: 1em;
+  }
+}
+@media (max-width: 460px) {
+  .main-content {
+    margin-top: 3rem;
+  }
+  .img-upload {
+    top: 10em;
+    left: 0px;
+  }
+  .custom-button {
+    position: absolute;
+    top: 3.7em;
+    left: 1rem;
+  }
   .forsec {
     border-top: 1px solid rgb(191, 191, 191);
     height: 78vh;
