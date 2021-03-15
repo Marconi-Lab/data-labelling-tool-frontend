@@ -62,7 +62,7 @@
           <span v-if="props.column.label == 'Download'">
             <!-- <span>{{ props.row.download }}</span
           > -->
-            <a :href="`http://20.73.19.71:5000/download/${props.row.id}/`">
+            <a :href="`http://20.73.19.71:5000/download/csv/${props.row.id}/`">
               <b-icon
                 icon="download"
                 variant="info"
