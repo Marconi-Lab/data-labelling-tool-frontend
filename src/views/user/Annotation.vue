@@ -114,12 +114,23 @@
             text-field="name"
             disabled-field="notEnabled"
           ></b-form-select>
-          <label v-if="selected2 == 'C'" for="textarea" class="mr-sm-2"
+          <label
+            v-if="
+              options2
+                .filter((x) => x.item == selected2)[0]
+                .name[0].toLowerCase() == 'not sure'
+            "
+            for="textarea"
+            class="mr-sm-2"
             >Comment</label
           >
           <b-form-textarea
             id="textarea"
-            v-if="selected2 == 'C'"
+            v-if="
+              options2
+                .filter((x) => x.item == selected2)[0]
+                .name[0].toLowerCase() == 'not sure'
+            "
             v-model="text"
             class="mr-2 mt-3"
             placeholder="Enter comments..."
