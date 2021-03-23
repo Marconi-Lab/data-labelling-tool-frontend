@@ -6,9 +6,13 @@ const state = {
   currentItem: {},
   imageUpdating: null,
   allDatasets: [],
+  annotating: false,
 };
 
 const mutations = {
+  annotating: (state, payload) => {
+    state.annotating = payload;
+  },
   assignedDatasets: (state, payload) => {
     state.assignedDatasets = payload;
   },
@@ -131,6 +135,7 @@ const getters = {
   currentItem: (state) => state.currentItem,
   imageUpdating: (state) => state.imageUpdating,
   allDatasets: (state) => state.allDatasets,
+  annotating: (state) => state.annotating,
 };
 
 export default { state, mutations, actions, getters };
