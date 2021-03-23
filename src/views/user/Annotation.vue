@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-if="annotating" class="m-0 p-0"><Annotator /></div>
     <b-breadcrumb class="m-0" :items="items"></b-breadcrumb>
     <b-nav>
       <b-nav-item
@@ -57,7 +58,12 @@
                 </p>
               </div>
             </div>
-            <img :src="image.image" alt="data image" class="data-image" />
+            <img
+              @click="handleImageClick"
+              :src="image.image"
+              alt="data image"
+              class="data-image"
+            />
             <div style="background-color: #17a2b8">
               <b-nav-form
                 label-size="md"
@@ -155,10 +161,14 @@
 <script>
 import datasets from "@/services/datasets";
 import { mapActions, mapGetters } from "vuex";
+import Annotator from "@/components/user/annotator.vue";
 // import axios from "../../store/axios_setup";
 
 export default {
   name: "annotations",
+  components: {
+    Annotator,
+  },
   data() {
     return {
       datasets,
@@ -189,11 +199,15 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["currentItem", "imageUpdating"]),
+    ...mapGetters(["currentItem", "imageUpdating", "annotating"]),
     currentImage: (id) => id,
   },
   methods: {
     ...mapActions(["getUserItem", "labelImage", "labelFolder"]),
+
+    handleImageClick() {
+      this.$store.commit("annotating", true);
+    },
 
     handleImageUpdate(e, id) {
       e.preventDefault();
