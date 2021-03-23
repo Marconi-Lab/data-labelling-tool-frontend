@@ -11,8 +11,7 @@
         side nav goes here
       </div>
       <div class="col-10">
-        image goes here
-        <img src="" alt="" />
+        <img :src="imageURL" alt="Cervix image" class="m-0 p-0" />
       </div>
     </div>
   </div>
@@ -37,6 +36,9 @@ export default {
       this.$store.commit("annotating", false);
     },
   },
+  props: {
+    imageURL: String,
+  },
 };
 </script>
 
@@ -60,6 +62,9 @@ export default {
   cursor: pointer;
 }
 .row {
+  padding-top: 2rem;
   z-index: 30;
+  height: 100vh;
+  overflow: hidden scroll;
 }
 </style>

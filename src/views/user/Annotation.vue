@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div v-if="annotating" class="m-0 p-0"><Annotator /></div>
+    <div v-if="annotating" class="m-0 p-0">
+      <Annotator :imageURL="selectedImage" />
+    </div>
     <b-breadcrumb class="m-0" :items="items"></b-breadcrumb>
     <b-nav>
       <b-nav-item
@@ -59,7 +61,7 @@
               </div>
             </div>
             <img
-              @click="handleImageClick"
+              @click="handleImageClick(image.image)"
               :src="image.image"
               alt="data image"
               class="data-image"
@@ -196,6 +198,7 @@ export default {
       options: [],
       options2: [],
       processing: true,
+      selectedImage: "",
     };
   },
   computed: {
@@ -205,8 +208,9 @@ export default {
   methods: {
     ...mapActions(["getUserItem", "labelImage", "labelFolder"]),
 
-    handleImageClick() {
+    handleImageClick(image) {
       this.$store.commit("annotating", true);
+      this.selectedImage = image;
     },
 
     handleImageUpdate(e, id) {
