@@ -30,29 +30,92 @@
         </b-nav>
       </div>
       <div class="col-lg-10 image-column pl-2">
-        <img :src="imageURL" alt="Cervix image" class="m-0 p-0" />
+        <Box
+          v-if="drawingBox.active"
+          :b-width="drawingBox.width"
+          :b-height="drawingBox.height"
+          :b-top="drawingBox.top"
+          :b-left="drawingBox.left"
+        />
+        <img
+          :src="imageURL"
+          alt="Cervix image"
+          class="m-0 p-0"
+          @mousemove="changeBox"
+          @mouseup="stopDrawingBox"
+          @mousedown="startDrawingBox"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Box from "@/components/user/boundingBox.vue";
+
+import { pick } from "lodash";
+
+const getCoursorLeft = (e) => {
+  return e.pageX - 10;
+};
+
+const getCoursorTop = (e) => {
+  return e.pageY - 10;
+};
 export default {
   name: "annotator",
-  data() {
-    return {};
+  components: {
+    Box,
   },
-};
-</script>
-
-<script scoped>
-export default {
   data() {
-    return {};
+    return {
+      drawingBox: {
+        active: false,
+        top: 0,
+        left: 0,
+        height: 0,
+        width: 0,
+      },
+      boxes: [],
+    };
   },
   methods: {
     handleIconClick() {
       this.$store.commit("annotating", false);
+    },
+    startDrawingBox(e) {
+      this.drawingBox = {
+        width: 0,
+        height: 0,
+        top: getCoursorTop(e),
+        left: getCoursorLeft(e),
+        active: true,
+      };
+    },
+    changeBox(e) {
+      if (this.drawingBox.active) {
+        this.drawingBox = {
+          ...this.drawingBox,
+          width: getCoursorLeft(e) - this.drawingBox.left,
+          height: getCoursorTop(e) - this.drawingBox.top,
+        };
+      }
+    },
+    stopDrawingBox() {
+      if (this.drawingBox.active) {
+        if (this.drawingBox.width > 5) {
+          this.boxes.push({
+            ...pick(this.drawingBox, ["width", "height", "top", "left"]),
+          });
+        }
+        this.drawingBox = {
+          active: false,
+          top: 0,
+          left: 0,
+          height: 0,
+          width: 0,
+        };
+      }
     },
   },
   props: {
@@ -101,5 +164,8 @@ export default {
 }
 .annotation-icon:hover {
   cursor: pointer;
+}
+img:hover {
+  cursor: grab;
 }
 </style>
