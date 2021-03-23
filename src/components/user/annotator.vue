@@ -6,6 +6,15 @@
       scale="1.5"
       class="annotator-button"
     ></b-icon>
+    <div class="row">
+      <div class="col-2">
+        side nav goes here
+      </div>
+      <div class="col-10">
+        image goes here
+        <img src="" alt="" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -47,7 +56,10 @@ export default {
   top: 1.5rem;
   right: 1.5rem;
 }
-.annotator:hover {
+.annotator-button:hover {
   cursor: pointer;
+}
+.row {
+  z-index: 30;
 }
 </style>
