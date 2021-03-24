@@ -41,6 +41,7 @@
           :src="imageURL"
           alt="Cervix image"
           class="m-0 p-0"
+          @click="handleImageClick"
           @mousemove="changeBox"
           @mouseup="stopDrawingBox"
           @mousedown="startDrawingBox"
@@ -56,11 +57,13 @@ import Box from "@/components/user/boundingBox.vue";
 import { pick } from "lodash";
 
 const getCoursorLeft = (e) => {
-  return e.pageX - 10;
+  // return e.pageX - 10;
+  return e.layerX;
 };
 
 const getCoursorTop = (e) => {
-  return e.pageY - 10;
+  // return e.pageY - 10;
+  return e.layerY;
 };
 export default {
   name: "annotator",
@@ -76,14 +79,23 @@ export default {
         height: 0,
         width: 0,
       },
+      initialX: 0,
+      initialY: 0,
       boxes: [],
+      captureToggle: false,
     };
   },
   methods: {
     handleIconClick() {
       this.$store.commit("annotating", false);
     },
+    handleImageClick(e) {
+      console.log(e);
+      this.initialX = e.layerX;
+      this.initialY = e.layerY;
+    },
     startDrawingBox(e) {
+      this.captureToggle = true;
       this.drawingBox = {
         width: 0,
         height: 0,
@@ -93,7 +105,7 @@ export default {
       };
     },
     changeBox(e) {
-      if (this.drawingBox.active) {
+      if (this.drawingBox.active && this.captureToggle) {
         this.drawingBox = {
           ...this.drawingBox,
           width: getCoursorLeft(e) - this.drawingBox.left,
@@ -102,22 +114,17 @@ export default {
       }
     },
     stopDrawingBox() {
+      this.captureToggle = false;
       if (this.drawingBox.active) {
         if (this.drawingBox.width > 5) {
           this.boxes.push({
             ...pick(this.drawingBox, ["width", "height", "top", "left"]),
           });
         }
-        this.drawingBox = {
-          active: false,
-          top: 0,
-          left: 0,
-          height: 0,
-          width: 0,
-        };
       }
     },
   },
+
   props: {
     imageURL: String,
   },
@@ -166,6 +173,6 @@ export default {
   cursor: pointer;
 }
 img:hover {
-  cursor: grab;
+  cursor: crosshair;
 }
 </style>
