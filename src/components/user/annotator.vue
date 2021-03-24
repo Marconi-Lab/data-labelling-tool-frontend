@@ -11,9 +11,9 @@
         <b-nav
           vertical
           class="text-left ml-2"
-          style="position: fixed; width: 14rem; background:#2f2f2f; height: 93vh; "
+          style="position: fixed; width: 14rem; background: #3f3f3f; height: 93vh;"
         >
-          <p class="my-nav-item1 text-white p-2 m-0">Select Shape</p>
+          <p class="my-nav-item1 text-white p-2 m-0">Draw Bounding Box</p>
           <div class="ml-2 mt-1">
             <b-icon
               icon="square"
@@ -22,6 +22,12 @@
             ></b-icon>
           </div>
           <hr class="m-0" style="border-top: 0.1em solid white; width: 100%" />
+          <b-button
+            variant="info"
+            style="border-radius: 0px; width: 100%;"
+            @click="clearBoxes"
+            >Clear</b-button
+          >
           <b-button
             variant="info"
             style="position: absolute; bottom: 0.5rem; border-radius: 0px; width: 100%;"
@@ -86,6 +92,15 @@ export default {
     };
   },
   methods: {
+    clearBoxes() {
+      this.drawingBox = {
+        active: false,
+        top: 0,
+        left: 0,
+        height: 0,
+        width: 0,
+      };
+    },
     handleIconClick() {
       this.$store.commit("annotating", false);
     },
@@ -163,7 +178,7 @@ export default {
   overflow-y: scroll;
 }
 .my-nav-item1 {
-  background: #17a2b8;
+  background: #2f2f2f;
   width: 100%;
 }
 .annotation-icon {
