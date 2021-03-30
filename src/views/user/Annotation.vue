@@ -61,7 +61,7 @@
               </div>
             </div>
             <img
-              @click="handleImageClick(image.image)"
+              @click="handleImageClick(image)"
               :src="image.image"
               alt="data image"
               class="data-image"

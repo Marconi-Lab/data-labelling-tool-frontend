@@ -31,6 +31,7 @@
           <b-button
             variant="info"
             style="position: absolute; bottom: 0.5rem; border-radius: 0px; width: 100%;"
+            @click="handleSaveBox"
             >save</b-button
           >
         </b-nav>
@@ -59,6 +60,7 @@
 
 <script>
 import Box from "@/components/user/boundingBox.vue";
+import axios from "@/store/axios_setup.js";
 
 import { pick } from "lodash";
 
@@ -89,6 +91,8 @@ export default {
       initialY: 0,
       boxes: [],
       captureToggle: false,
+      imageURL: "",
+      imageID: "",
     };
   },
   methods: {
@@ -138,10 +142,29 @@ export default {
         }
       }
     },
+    handleSaveBox() {
+      console.log(this.drawingBox);
+      axios
+        .put(
+          `/user/images/boundingbox/${this.imageID}/`,
+          JSON.stringify({
+            left: this.drawingBox.left,
+            top: this.drawingBox.top,
+            width: this.drawingBox.width,
+            height: this.drawingBox.height,
+          })
+        )
+        .then((res) => {
+          console.log(res);
+        });
+    },
   },
-
+  created() {
+    this.imageURL = this.image.image;
+    this.imageID = this.image.id;
+  },
   props: {
-    imageURL: String,
+    image: Object,
   },
 };
 </script>
