@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="annotating" class="m-0 p-0">
-      <Annotator :imageURL="selectedImage" />
+      <Annotator :image="selectedImage" />
     </div>
     <b-breadcrumb class="m-0" :items="items"></b-breadcrumb>
     <b-nav>

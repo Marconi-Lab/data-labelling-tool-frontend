@@ -97,13 +97,19 @@ export default {
   },
   methods: {
     clearBoxes() {
-      this.drawingBox = {
-        active: false,
-        top: 0,
-        left: 0,
-        height: 0,
-        width: 0,
-      };
+      axios
+        .put(`/user/images/boundingbox/${this.imageID}/`, { bounding_box: "" })
+        .then(async (res) => {
+          await this.$store.commit("isLoading", false);
+          console.log(res.data);
+          this.drawingBox = {
+            active: false,
+            top: 0,
+            left: 0,
+            height: 0,
+            width: 0,
+          };
+        });
     },
     handleIconClick() {
       this.$store.commit("annotating", false);
@@ -144,24 +150,39 @@ export default {
     },
     handleSaveBox() {
       console.log(this.drawingBox);
+      this.$store.commit("isLoading", true);
+      const box = JSON.stringify({
+        left: this.drawingBox.left,
+        top: this.drawingBox.top,
+        width: this.drawingBox.width,
+        height: this.drawingBox.height,
+      });
+      console.log("Box", box);
       axios
-        .put(
-          `/user/images/boundingbox/${this.imageID}/`,
-          JSON.stringify({
-            left: this.drawingBox.left,
-            top: this.drawingBox.top,
-            width: this.drawingBox.width,
-            height: this.drawingBox.height,
-          })
-        )
-        .then((res) => {
-          console.log(res);
+        .put(`/user/images/boundingbox/${this.imageID}/`, { bounding_box: box })
+        .then(async (res) => {
+          await this.$store.commit("isLoading", false);
+          console.log(res.data);
         });
     },
   },
   created() {
+    console.log(this.image);
     this.imageURL = this.image.image;
     this.imageID = this.image.id;
+
+    axios.get(`/user/images/${this.imageID}/`).then((res) => {
+      console.log("response", res.data);
+
+      if (res.data.bounding_box) {
+        const box = JSON.parse(res.data.bounding_box);
+        this.drawingBox.active = true;
+        this.drawingBox.left = box.left;
+        this.drawingBox.top = box.top;
+        this.drawingBox.width = box.width;
+        this.drawingBox.height = box.height;
+      }
+    });
   },
   props: {
     image: Object,
