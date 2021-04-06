@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div v-if="annotating" class="m-0 p-0">
+      <Annotator :image="selectedImage" />
+    </div>
     <b-breadcrumb class="m-0" :items="items"></b-breadcrumb>
     <b-nav>
       <b-nav-item
@@ -46,18 +49,36 @@
                 ></b-icon>
               </div>
               <div v-else>
-                <p
-                  v-if="image.labelled"
-                  class="text-white text-center ml-2 py-2"
-                >
+                <p v-if="image.labelled" class="text-white text-left ml-2 py-2">
                   Labelled: {{ image.label }}
                 </p>
-                <p v-else class="text-warning text-center ml-2 py-2">
+
+                <p v-else class="text-warning text-left ml-2 py-2">
                   This image is not labelled
+                </p>
+                <p
+                  v-if="image.bounding_box"
+                  class="text-white"
+                  style="position: absolute; right: 1rem; top: 0.8rem"
+                >
+                  box <b-icon scale="1" icon="check"></b-icon>
+                </p>
+                <p
+                  v-else
+                  class="text-danger"
+                  style="position: absolute; right: 1rem; top: 0.8rem"
+                >
+                  box
+                  <b-icon icon="x-circle" scale="1" variant="danger"></b-icon>
                 </p>
               </div>
             </div>
-            <img :src="image.image" alt="data image" class="data-image" />
+            <img
+              @click="handleImageClick(image)"
+              :src="image.image"
+              alt="data image"
+              class="data-image"
+            />
             <div style="background-color: #17a2b8">
               <b-nav-form
                 label-size="md"
@@ -155,10 +176,14 @@
 <script>
 import datasets from "@/services/datasets";
 import { mapActions, mapGetters } from "vuex";
+import Annotator from "@/components/user/annotator.vue";
 // import axios from "../../store/axios_setup";
 
 export default {
   name: "annotations",
+  components: {
+    Annotator,
+  },
   data() {
     return {
       datasets,
@@ -186,14 +211,20 @@ export default {
       options: [],
       options2: [],
       processing: true,
+      selectedImage: "",
     };
   },
   computed: {
-    ...mapGetters(["currentItem", "imageUpdating"]),
+    ...mapGetters(["currentItem", "imageUpdating", "annotating"]),
     currentImage: (id) => id,
   },
   methods: {
     ...mapActions(["getUserItem", "labelImage", "labelFolder"]),
+
+    handleImageClick(image) {
+      this.$store.commit("annotating", true);
+      this.selectedImage = image;
+    },
 
     handleImageUpdate(e, id) {
       e.preventDefault();

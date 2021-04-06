@@ -6,9 +6,14 @@ const state = {
   currentItem: {},
   imageUpdating: null,
   allDatasets: [],
+  annotating: false,
+  boundingBox: { active: false, top: 0, left: 0, height: 0, width: 0 },
 };
 
 const mutations = {
+  annotating: (state, payload) => {
+    state.annotating = payload;
+  },
   assignedDatasets: (state, payload) => {
     state.assignedDatasets = payload;
   },
@@ -36,6 +41,13 @@ const mutations = {
   modifyDatasets: (state, payload) => {
     state.allDatasets = state.allDatasets.filter((x) => x.id != payload);
   },
+  boundingBox: (state, payload, flag) => {
+    state.boundingBox.active = flag;
+    state.boundingBox.left = payload.left;
+    state.boundingBox.top = payload.top;
+    state.boundingBox.width = payload.width;
+    state.boundingBox.height = payload.height;
+  },
 };
 
 const actions = {
@@ -61,7 +73,7 @@ const actions = {
   getAllDatasets: async function({ commit }) {
     try {
       const res = await axios.get(`/admin/datasets/`);
-      commit("allDatasets", res.data);
+      commit("allDatasets", res.data, true);
     } catch (err) {
       console.log(err);
     }
@@ -93,6 +105,17 @@ const actions = {
       console.log(err);
     }
   },
+  getBoundingBox: async function({ commit }, imageID) {
+    try {
+      const res = await axios.get(`/user/images/${imageID}/`);
+      if (res.boundingBox) {
+        commit("boundingBox", JSON.parse(res.bounding_box));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   labelImage: async function({ commit }, data) {
     try {
       // console.log("Data", data);
@@ -131,6 +154,8 @@ const getters = {
   currentItem: (state) => state.currentItem,
   imageUpdating: (state) => state.imageUpdating,
   allDatasets: (state) => state.allDatasets,
+  annotating: (state) => state.annotating,
+  boundingBox: (state) => state.boundingBox,
 };
 
 export default { state, mutations, actions, getters };

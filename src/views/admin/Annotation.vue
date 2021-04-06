@@ -127,6 +127,7 @@ export default {
       text: "",
       data: {},
       options: [],
+      options2: [],
       images: [],
       processing: true,
     };
@@ -184,7 +185,13 @@ export default {
           name: [this.currentItem.image_classes[i]],
         });
       }
-
+      //Populating folder label options array
+      for (var j in this.currentItem.dataset_classes) {
+        this.options2.push({
+          item: str[j],
+          name: [this.currentItem.dataset_classes[j]],
+        });
+      }
       // populating selector with existing label
       if (this.data.labelled) {
         this.selected2 = this.options2.filter(
