@@ -36,7 +36,8 @@
           >
         </b-nav>
       </div>
-      <div class="col-lg-10 image-column pl-2">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-9 image-column">
         <Box
           v-if="drawingBox.active"
           :b-width="drawingBox.width"
@@ -48,6 +49,7 @@
           :src="imageURL"
           alt="Cervix image"
           class="m-0 p-0"
+          style="float: left;"
           @click="handleImageClick"
           @mousemove="changeBox"
           @mouseup="stopDrawingBox"
@@ -220,6 +222,7 @@ export default {
 .image-column {
   overflow-x: scroll;
   overflow-y: scroll;
+  padding: 0px;
 }
 .my-nav-item1 {
   background: #2f2f2f;
