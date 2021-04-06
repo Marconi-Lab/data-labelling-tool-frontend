@@ -49,14 +49,27 @@
                 ></b-icon>
               </div>
               <div v-else>
-                <p
-                  v-if="image.labelled"
-                  class="text-white text-center ml-2 py-2"
-                >
+                <p v-if="image.labelled" class="text-white text-left ml-2 py-2">
                   Labelled: {{ image.label }}
                 </p>
-                <p v-else class="text-warning text-center ml-2 py-2">
+
+                <p v-else class="text-warning text-left ml-2 py-2">
                   This image is not labelled
+                </p>
+                <p
+                  v-if="image.bounding_box"
+                  class="text-white"
+                  style="position: absolute; right: 1rem; top: 0.8rem"
+                >
+                  box <b-icon scale="1" icon="check"></b-icon>
+                </p>
+                <p
+                  v-else
+                  class="text-danger"
+                  style="position: absolute; right: 1rem; top: 0.8rem"
+                >
+                  box
+                  <b-icon icon="x-circle" scale="1" variant="danger"></b-icon>
                 </p>
               </div>
             </div>
