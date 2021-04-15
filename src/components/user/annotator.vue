@@ -6,7 +6,7 @@
       scale="1.5"
       class="annotator-button"
     ></b-icon>
-    <div class="row">
+    <div class="row p-0 mt-4">
       <div class="col-lg-2">
         <b-nav
           vertical
@@ -36,8 +36,8 @@
           >
         </b-nav>
       </div>
-      <div class="col-lg-1"></div>
-      <div class="col-lg-9 image-column">
+      <!-- <div class="col-lg-1 p-0"></div> -->
+      <div class="col-lg-10 image-column">
         <Box
           v-if="drawingBox.active"
           :b-width="drawingBox.width"
@@ -68,12 +68,12 @@ import { pick } from "lodash";
 
 const getCoursorLeft = (e) => {
   // return e.pageX - 10;
-  return e.layerX;
+  return e.offsetX;
 };
 
 const getCoursorTop = (e) => {
   // return e.pageY - 10;
-  return e.layerY;
+  return e.offsetY;
 };
 export default {
   name: "annotator",
@@ -113,13 +113,14 @@ export default {
           };
         });
     },
-    handleIconClick() {
+    async handleIconClick() {
+      // await this.$router.go(0);
       this.$store.commit("annotating", false);
     },
     handleImageClick(e) {
       console.log(e);
-      this.initialX = e.layerX;
-      this.initialY = e.layerY;
+      this.initialX = e.offsetX;
+      this.initialY = e.offsetY;
     },
     startDrawingBox(e) {
       this.captureToggle = true;
@@ -169,7 +170,7 @@ export default {
     },
   },
   created() {
-    console.log(this.image);
+    console.log("Image ", this.image);
     this.imageURL = this.image.image;
     this.imageID = this.image.id;
 

@@ -135,7 +135,17 @@
             text-field="name"
             disabled-field="notEnabled"
           ></b-form-select>
-          <label
+          <label for="textarea" class="mr-sm-2">Comment</label>
+          <b-form-textarea
+            id="textarea"
+            v-model="text"
+            class="mr-2 mt-3"
+            placeholder="(Optional) Enter comments..."
+            style="font-size: 0.9rem;"
+            rows="3"
+            max-rows="6"
+          ></b-form-textarea>
+          <!-- <label
             v-if="
               options2
                 .filter((x) => x.item == selected2)[0]
@@ -158,7 +168,7 @@
             style="font-size: 0.9rem;"
             rows="3"
             max-rows="6"
-          ></b-form-textarea>
+          ></b-form-textarea> -->
         </b-form>
       </div>
       <template #modal-footer="{cancel} " class="mx-auto">
