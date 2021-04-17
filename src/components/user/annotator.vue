@@ -99,18 +99,18 @@ export default {
   },
   methods: {
     clearBoxes() {
+      this.drawingBox = {
+        active: false,
+        top: 0,
+        left: 0,
+        height: 0,
+        width: 0,
+      };
       axios
         .put(`/user/images/boundingbox/${this.imageID}/`, { bounding_box: "" })
         .then(async (res) => {
           await this.$store.commit("isLoading", false);
           console.log(res.data);
-          this.drawingBox = {
-            active: false,
-            top: 0,
-            left: 0,
-            height: 0,
-            width: 0,
-          };
         });
     },
     async handleIconClick() {
