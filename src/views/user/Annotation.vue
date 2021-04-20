@@ -87,8 +87,8 @@
                 style="max-width: 500px"
               >
                 <b-form-select
-                  v-model="selectedImageClass"
                   @click="imageObject = image"
+                  v-model="selectedImageClass"
                   :options="options"
                   class="my-2"
                   value-field="item"
@@ -101,7 +101,9 @@
                   type="submit"
                   style="font-size: 0.9rem"
                   variant="warning"
-                  @click="handleImageUpdate($event, image.id)"
+                  @click="
+                    handleImageUpdate($event, image.id, selectedImageClass)
+                  "
                 >
                   <p v-if="image.id == imageUpdating" class="m-0">
                     ...
@@ -215,7 +217,7 @@ export default {
           active: true,
         },
       ],
-      selected: "A",
+      selected: "",
       selected2: "A",
       text: "",
       data: {},
@@ -229,12 +231,20 @@ export default {
   computed: {
     ...mapGetters(["currentItem", "imageUpdating", "annotating"]),
     currentImage: (id) => id,
-    selectedImageClass: function() {
-      return this.imageObject
-        ? this.options.filter(
-            (x) => x.name[0].toLowerCase() == this.imageObject.toLowerCase()
-          )[0].item
-        : "A";
+    selectedImageClass: {
+      get() {
+        let value = this.imageObject
+          ? this.options.filter(
+              (x) => x.name[0].toLowerCase() == this.imageObject.toLowerCase()
+            )[0].item
+          : "A";
+        console.log(value);
+        return value;
+      },
+      set(selectedValue) {
+        this.selected = selectedValue;
+        return selectedValue;
+      },
     },
   },
   methods: {
@@ -247,10 +257,13 @@ export default {
 
     handleImageUpdate(e, id) {
       e.preventDefault();
+      let selected = this.selected ? this.selected : this.selectedImageClass;
+      console.log("Selected", this.selectedImageClass);
       this.$store.commit("imageUpdating", id);
+      console.log("Selected", selected);
+      const label = this.options.filter((x) => x.item == selected)[0].name[0];
 
-      const label = this.options.filter((x) => x.item == this.selected)[0]
-        .name[0];
+      // console.log("label", labels);
       const labeller = JSON.parse(localStorage.getItem("user")).id;
       // console.log("Labeller", labeller);
       const imageID = id;
