@@ -7,7 +7,7 @@
       class="annotator-button"
     ></b-icon>
     <div class="row p-0 mt-4">
-      <div class="col-lg-2">
+      <div class="col-lg-3 p-0">
         <b-nav
           vertical
           class="text-left ml-2"
@@ -37,7 +37,7 @@
         </b-nav>
       </div>
       <!-- <div class="col-lg-1 p-0"></div> -->
-      <div class="col-lg-10 image-column">
+      <div class="col-lg-9 image-column">
         <Box
           v-if="drawingBox.active"
           :b-width="drawingBox.width"
