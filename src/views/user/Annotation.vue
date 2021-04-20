@@ -87,7 +87,8 @@
                 style="max-width: 500px"
               >
                 <b-form-select
-                  v-model="selected"
+                  v-model="selectedImageClass"
+                  @click="imageObject = image"
                   :options="options"
                   class="my-2"
                   value-field="item"
@@ -222,11 +223,19 @@ export default {
       options2: [],
       processing: true,
       selectedImage: "",
+      imageObject: null,
     };
   },
   computed: {
     ...mapGetters(["currentItem", "imageUpdating", "annotating"]),
     currentImage: (id) => id,
+    selectedImageClass: function() {
+      return this.imageObject
+        ? this.options.filter(
+            (x) => x.name[0].toLowerCase() == this.imageObject.toLowerCase()
+          )[0].item
+        : "A";
+    },
   },
   methods: {
     ...mapActions(["getUserItem", "labelImage", "labelFolder"]),
