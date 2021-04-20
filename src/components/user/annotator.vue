@@ -7,10 +7,10 @@
       class="annotator-button"
     ></b-icon>
     <div class="row p-0 mt-4">
-      <div class="col-lg-3 p-0">
+      <div class="col-lg-3 p-0 ">
         <b-nav
           vertical
-          class="text-left ml-2"
+          class="text-left ml-5"
           style="position: fixed; width: 14rem; background: #3f3f3f; height: 93vh;"
         >
           <p class="my-nav-item1 text-white p-2 m-0">Draw Bounding Box</p>
@@ -37,7 +37,7 @@
         </b-nav>
       </div>
       <!-- <div class="col-lg-1 p-0"></div> -->
-      <div class="col-lg-9 image-column">
+      <div class="col-lg-8 image-column">
         <Box
           v-if="drawingBox.active"
           :b-width="drawingBox.width"
@@ -95,6 +95,7 @@ export default {
       captureToggle: false,
       imageURL: "",
       imageID: "",
+      imageIndex: 0,
     };
   },
   methods: {
@@ -189,6 +190,7 @@ export default {
   },
   props: {
     image: Object,
+    images: Array,
   },
 };
 </script>
