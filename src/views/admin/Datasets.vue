@@ -5,6 +5,9 @@
       <b-nav-item
         active
         style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
+        ><b-btn variant="info" class="mr-2" v-b-modal.modal-folder>
+          Add folder
+          <b-icon icon="plus" style="float: right"></b-icon></b-btn
         ><b-btn variant="info" v-b-modal.modal-center>
           Add <b-icon icon="plus" style="float: right"></b-icon></b-btn
       ></b-nav-item>
@@ -109,6 +112,42 @@
           >cancel</b-button
         >
         <b-button size="sm" variant="outline-info" @click="handleDatasetCreate"
+          >Submit</b-button
+        >
+      </template>
+    </b-modal>
+    <b-modal
+      id="modal-folder"
+      centered
+      title="Create Folder"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <b-form-group>
+        <b-form-input
+          v-model="title"
+          placeholder="Enter Dataset title"
+        ></b-form-input>
+        <b-form-input
+          v-model="classes"
+          placeholder="Enter classes, e.g (Positive, negative, not sure)"
+          class="mt-3"
+        ></b-form-input>
+        <b-form-file
+          id="file-small"
+          v-model="folder"
+          directory
+          multiple
+          :file-name-formatter="formatNames"
+          class="mt-3"
+        ></b-form-file>
+      </b-form-group>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-info" @click="handleFolderCreate"
           >Submit</b-button
         >
       </template>
