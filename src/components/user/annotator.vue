@@ -165,7 +165,8 @@ export default {
       axios
         .put(`/user/images/boundingbox/${this.imageID}/`, { bounding_box: box })
         .then(async (res) => {
-          await this.$store.commit("isLoading", false);
+          await this.$router.go(0);
+          this.$store.commit("isLoading", false);
           console.log(res.data);
         });
     },
