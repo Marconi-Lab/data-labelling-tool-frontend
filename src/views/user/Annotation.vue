@@ -83,7 +83,7 @@
               <b-nav-form
                 label-size="md"
                 label-for="input-sm"
-                class="mb-0 ml-5 mr-4 justify-content-left"
+                class="mb-0 m-1 justify-content-left"
                 style="max-width: 500px"
               >
                 <b-form-select
