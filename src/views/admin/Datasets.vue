@@ -5,6 +5,9 @@
       <b-nav-item
         active
         style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
+        ><b-btn variant="info" class="mr-2" v-b-modal.modal-folder>
+          Add folder
+          <b-icon icon="plus" style="float: right"></b-icon></b-btn
         ><b-btn variant="info" v-b-modal.modal-center>
           Add <b-icon icon="plus" style="float: right"></b-icon></b-btn
       ></b-nav-item>
@@ -114,6 +117,41 @@
       </template>
     </b-modal>
     <b-modal
+      id="modal-folder"
+      centered
+      title="Create Folder"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <b-form-group>
+        <b-form-input
+          v-model="title"
+          placeholder="Enter Dataset title"
+        ></b-form-input>
+        <b-form-input
+          v-model="classes"
+          placeholder="Enter classes, e.g (Positive, negative, not sure)"
+          class="mt-3"
+        ></b-form-input>
+        <b-form-file
+          id="file-small"
+          v-model="folder"
+          directory
+          multiple
+          class="mt-3"
+        ></b-form-file>
+      </b-form-group>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-info" @click="handleFolderCreate"
+          >Submit</b-button
+        >
+      </template>
+    </b-modal>
+    <b-modal
       id="modal-delete"
       centered
       title="Delete Dataset"
@@ -143,6 +181,7 @@
 // import datasets from "@/services/datasets.js";
 import { VueGoodTable } from "vue-good-table";
 import { mapActions, mapGetters } from "vuex";
+import axios from "../../store/axios_setup";
 
 export default {
   name: "user-datasets",
@@ -160,6 +199,7 @@ export default {
       ],
       title: "",
       classes: "",
+      folder: null,
       columns: [
         { field: "name", label: "Dataset" },
         { field: "progress", label: "Progress" },
@@ -202,6 +242,43 @@ export default {
         this.$bvModal.hide("modal-center");
         this.$store.commit("isLoading", false);
       });
+    },
+    handleFolderCreate(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      console.log("folder", this.folder);
+      axios
+        .post(`/admin/datasets/`, {
+          name: this.title,
+          classes: this.classes,
+        })
+        .then(async (res) => {
+          var id = await res.data.id;
+          console.log("Response ", res);
+          var formData = new FormData();
+          for (var i = 0; i < this.folder.length; i++) {
+            let image = this.folder[i];
+            console.log(this.folder[i].$path);
+            formData.append("images", image);
+            formData.append("details", this.folder[i].$path);
+          }
+          console.log(formData);
+          axios
+            .post(`/admin/${id}/bulk_upload/`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            })
+            .then(async (res) => {
+              console.log("Response 2", res);
+              await this.$router.go(0);
+              this.$store.commit("isLoading", false);
+            })
+            .catch(async () => {
+              await this.$router.go(0);
+              this.$store.commit("isLoading", false);
+            });
+        });
     },
   },
   created() {
