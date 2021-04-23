@@ -139,7 +139,6 @@
           v-model="folder"
           directory
           multiple
-          :file-name-formatter="formatNames"
           class="mt-3"
         ></b-form-file>
       </b-form-group>
@@ -182,6 +181,7 @@
 // import datasets from "@/services/datasets.js";
 import { VueGoodTable } from "vue-good-table";
 import { mapActions, mapGetters } from "vuex";
+import axios from "../../store/axios_setup";
 
 export default {
   name: "user-datasets",
@@ -199,6 +199,7 @@ export default {
       ],
       title: "",
       classes: "",
+      folder: null,
       columns: [
         { field: "name", label: "Dataset" },
         { field: "progress", label: "Progress" },
@@ -241,6 +242,43 @@ export default {
         this.$bvModal.hide("modal-center");
         this.$store.commit("isLoading", false);
       });
+    },
+    handleFolderCreate(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      console.log("folder", this.folder);
+      axios
+        .post(`/admin/datasets/`, {
+          name: this.title,
+          classes: this.classes,
+        })
+        .then(async (res) => {
+          var id = await res.data.id;
+          console.log("Response ", res);
+          var formData = new FormData();
+          for (var i = 0; i < this.folder.length; i++) {
+            let image = this.folder[i];
+            console.log(this.folder[i].$path);
+            formData.append("images", image);
+            formData.append("details", this.folder[i].$path);
+          }
+          console.log(formData);
+          axios
+            .post(`/admin/${id}/bulk_upload/`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            })
+            .then(async (res) => {
+              console.log("Response 2", res);
+              await this.$router.go(0);
+              this.$store.commit("isLoading", false);
+            })
+            .catch(async () => {
+              await this.$router.go(0);
+              this.$store.commit("isLoading", false);
+            });
+        });
     },
   },
   created() {
