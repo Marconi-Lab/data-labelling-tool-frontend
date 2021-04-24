@@ -2,6 +2,9 @@ import axios from "../axios_setup";
 
 const state = {
   assignedDatasets: {},
+  uploadMaxValue: 1,
+  uploadValue: 0,
+  isUploading: false,
   assignedDataset: {},
   currentItem: {},
   imageUpdating: null,
@@ -47,6 +50,15 @@ const mutations = {
     state.boundingBox.top = payload.top;
     state.boundingBox.width = payload.width;
     state.boundingBox.height = payload.height;
+  },
+  uploadMaxValue: (state, payload) => {
+    state.uploadMaxValue = payload;
+  },
+  uploadValue: (state, payload) => {
+    state.uploadValue = payload;
+  },
+  isUploading: (state, payload) => {
+    state.isUploading = payload;
   },
 };
 
@@ -156,6 +168,9 @@ const getters = {
   allDatasets: (state) => state.allDatasets,
   annotating: (state) => state.annotating,
   boundingBox: (state) => state.boundingBox,
+  uploadValue: (state) => state.uploadValue,
+  uploadMaxValue: (state) => state.uploadMaxValue,
+  isUploading: (state) => state.isUploading,
 };
 
 export default { state, mutations, actions, getters };

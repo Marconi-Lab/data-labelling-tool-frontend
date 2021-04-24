@@ -131,7 +131,6 @@
           directory
           multiple
           accept="image/jpeg, image/png"
-          :file-name-formatter="formatNames"
         ></b-form-file>
       </b-form-group>
       <template #modal-footer="{cancel} " class="mx-auto">

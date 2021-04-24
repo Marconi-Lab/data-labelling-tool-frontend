@@ -7,6 +7,27 @@
       background-color="#000"
       :opacity="0.3"
     />
+    <div
+      v-if="isUploading"
+      class=""
+      style="width: 40rem; right: 1rem; bottom: 0.8rem; position: absolute; z-index: 333;"
+    >
+      <b-alert show>
+        <b-icon
+          icon="x-circle"
+          style="float: right; margin-left: 1.2rem; cursor: pointer"
+          @click="stopUpload"
+        ></b-icon>
+
+        <b-progress
+          :value="uploadValue"
+          :max="uploadMaxValue"
+          show-progress
+          animated
+        ></b-progress>
+      </b-alert>
+    </div>
+
     <router-view></router-view>
   </div>
 </template>
@@ -22,7 +43,17 @@ export default {
     Loading,
   },
   computed: {
-    ...mapGetters(["isLoading"]),
+    ...mapGetters([
+      "isLoading",
+      "uploadValue",
+      "uploadMaxValue",
+      "isUploading",
+    ]),
+  },
+  methods: {
+    stopUpload() {
+      this.$store.commit("isUploading", false);
+    },
   },
 };
 </script>
