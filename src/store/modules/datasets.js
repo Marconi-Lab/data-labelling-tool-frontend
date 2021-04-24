@@ -2,8 +2,8 @@ import axios from "../axios_setup";
 
 const state = {
   assignedDatasets: {},
-  uploadMaxValue: 100,
-  uploadValue: 20,
+  uploadMaxValue: 1,
+  uploadValue: 0,
   isUploading: false,
   assignedDataset: {},
   currentItem: {},
@@ -52,13 +52,13 @@ const mutations = {
     state.boundingBox.height = payload.height;
   },
   uploadMaxValue: (state, payload) => {
-    state.uploadValue = payload;
+    state.uploadMaxValue = payload;
   },
   uploadValue: (state, payload) => {
     state.uploadValue = payload;
   },
-  isUpdating: (state, payload) => {
-    state.isUpdating = payload;
+  isUploading: (state, payload) => {
+    state.isUploading = payload;
   },
 };
 
