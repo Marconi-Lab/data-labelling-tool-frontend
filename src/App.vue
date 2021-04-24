@@ -8,6 +8,7 @@
       :opacity="0.3"
     />
     <div
+      v-if="isUploading"
       class=""
       style="width: 40rem; right: 1rem; bottom: 0.8rem; position: absolute; z-index: 333;"
     >
@@ -42,10 +43,17 @@ export default {
     Loading,
   },
   computed: {
-    ...mapGetters(["isLoading", "uploadValue", "uploadMaxValue", "isUpdating"]),
+    ...mapGetters([
+      "isLoading",
+      "uploadValue",
+      "uploadMaxValue",
+      "isUploading",
+    ]),
   },
   methods: {
-    stopUpload() {},
+    stopUpload() {
+      this.$store.commit("isUploading", false);
+    },
   },
 };
 </script>
