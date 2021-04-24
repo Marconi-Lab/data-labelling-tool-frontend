@@ -246,38 +246,49 @@ export default {
     handleFolderCreate(e) {
       e.preventDefault();
       this.$store.commit("isLoading", true);
-      console.log("folder", this.folder);
+      // console.log("folder", this.folder);
+      console.log("FOLDER ", this.folder);
+      this.$store.commit("isUploading", true);
+
       axios
         .post(`/admin/datasets/`, {
           name: this.title,
           classes: this.classes,
         })
         .then(async (res) => {
+          this.$store.commit("isLoading", false);
+
           var id = await res.data.id;
           console.log("Response ", res);
-          var formData = new FormData();
+          // setting upload maximum value
+          await this.$store.commit("uploadMaxValue", this.folder.length);
+
           for (var i = 0; i < this.folder.length; i++) {
+            // create form data
+            await this.$store.commit("uploadValue", i + 1);
+            var formData = new FormData();
             let image = this.folder[i];
-            console.log(this.folder[i].$path);
-            formData.append("images", image);
-            formData.append("details", this.folder[i].$path);
+            console.log(this.folder[i].$path.split("/")[1]);
+            formData.append("image", image);
+            formData.append("dataset_id", id);
+            formData.append("folder", this.folder[i].$path.split("/")[1]);
+            await axios
+              .post(`/admin/datasets/images/`, formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              })
+              .then(async (res) => {
+                await console.log("Response 2", res);
+                // await this.$router.go(0);
+                this.$store.commit("isLoading", false);
+              })
+              .catch(async () => {
+                this.$store.commit("isLoading", false);
+              });
           }
-          console.log(formData);
-          axios
-            .post(`/admin/${id}/bulk_upload/`, formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            })
-            .then(async (res) => {
-              console.log("Response 2", res);
-              await this.$router.go(0);
-              this.$store.commit("isLoading", false);
-            })
-            .catch(async () => {
-              await this.$router.go(0);
-              this.$store.commit("isLoading", false);
-            });
+
+          await this.$router.go(0);
         });
     },
   },
