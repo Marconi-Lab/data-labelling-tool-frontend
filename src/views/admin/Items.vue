@@ -5,6 +5,13 @@
     <b-nav style="">
       <b-nav-item
         active
+        style="position: absolute; z-index: 2222; right: 8rem; top: 3.3em;"
+        ><b-btn variant="info" v-b-modal.modal-folder-classes>
+          folder classes
+          <b-icon icon="plus" style="float: right"></b-icon></b-btn
+      ></b-nav-item>
+      <b-nav-item
+        active
         style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
         ><b-btn variant="info" v-b-modal.modal-folder>
           Add folder
@@ -144,6 +151,33 @@
     </b-modal>
 
     <b-modal
+      id="modal-folder-classes"
+      centered
+      title="Update Folder Classes"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <b-form-group label="Folder:" label-cols-sm="2" label-size="sm">
+        <b-form-input
+          v-model="folderClasses"
+          placeholder="Enter classes e.g (Positive, Negative, not sure)"
+        ></b-form-input>
+      </b-form-group>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button
+          size="sm"
+          variant="outline-info"
+          @click="handleFolderClassUpdate"
+          >Update</b-button
+        >
+      </template>
+    </b-modal>
+
+    <b-modal
       id="modal-imgclass"
       centered
       title="Update Image Classes"
@@ -200,6 +234,7 @@ export default {
       folder: null,
       folderToDelete: "",
       imageClasses: "",
+      folderClasses: "",
       data: [],
       currentPage: 1,
       datasets,
@@ -277,6 +312,22 @@ export default {
       axios
         .put(`/admin/datasets/${this.$route.params.id}/classes2/`, {
           classes2: classes2,
+        })
+        .then(async () => {
+          await this.$router.go(0);
+          this.$store.commit("isLoading", false);
+        });
+    },
+    handleFolderClassUpdate(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      let arr = [];
+      for (var i of this.folderClasses.split(",")) {
+        arr.push(i.trim());
+      }
+      axios
+        .put(`/admin/datasets/${this.$route.params.id}/classes/`, {
+          classes: arr,
         })
         .then(async () => {
           await this.$router.go(0);

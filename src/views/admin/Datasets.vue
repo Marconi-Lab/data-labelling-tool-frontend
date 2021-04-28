@@ -249,11 +249,15 @@ export default {
       // console.log("folder", this.folder);
       console.log("FOLDER ", this.folder);
       this.$store.commit("isUploading", true);
+      let arr = [];
+      for (var i of this.classes.split(",")) {
+        arr.push(i.trim());
+      }
 
       axios
         .post(`/admin/datasets/`, {
           name: this.title,
-          classes: this.classes,
+          classes: arr,
         })
         .then(async (res) => {
           this.$store.commit("isLoading", false);
