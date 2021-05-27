@@ -92,6 +92,11 @@
               @click="folderToDelete = props.row.id"
             ></b-icon>
           </span>
+          <span v-if="props.column.field == 'images_URLs'">
+            <h5 class="text-info">
+              {{ props.row.images_URLs.length }}
+            </h5>
+          </span>
         </template>
       </vue-good-table>
       <h3 v-else class="text-danger pt-5">
@@ -229,6 +234,7 @@ export default {
         { field: "name", label: "Folder" },
         { field: "labelled", label: "Labelled" },
         { field: "id", label: "Delete" },
+        { field: "images_URLs", label: "Folder Count" },
       ],
       folderName: "",
       folder: null,
