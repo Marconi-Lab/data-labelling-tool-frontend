@@ -8,7 +8,7 @@
     >
       <Spinner />
     </div>
-    <div v-else>
+    <div v-else style="over-flow: hidden;">
       <vue-good-table
         v-if="datasets && datasets.length"
         :columns="fields"
@@ -41,6 +41,23 @@
               >{{ props.row.name }}</router-link
             >
           </span>
+          <span
+            v-if="props.column.field == 'progress'"
+            class="row p-0"
+            style="min-width: 200px;"
+          >
+            <p class="col-3 pb-0 m-0 text-info">
+              {{ Math.round(props.row.progress) + "%" }}
+            </p>
+            <div class="col-8 p-1 pt-2">
+              <b-progress
+                :value="props.row.progress"
+                variant="info"
+                height="0.5em"
+              >
+              </b-progress>
+            </div>
+          </span>
         </template>
       </vue-good-table>
       <h4 v-else class="mt-5 text-danger">
@@ -68,7 +85,10 @@ export default {
           active: true,
         },
       ],
-      fields: [{ field: "name", label: "dataset" }],
+      fields: [
+        { field: "name", label: "dataset" },
+        { field: "progress", label: "progress" },
+      ],
       datasets: {},
       processing: true,
     };
