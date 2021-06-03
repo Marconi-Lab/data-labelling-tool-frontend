@@ -1,10 +1,13 @@
 <template>
   <div>
+    <div v-if="annotating" class="m-0 p-0">
+      <Annotator :image="selectedImage" />
+    </div>
     <b-breadcrumb class="m-0" :items="items"></b-breadcrumb>
     <b-nav>
       <b-nav-item
         active
-        style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
+        style="position: absolute; z-index: 2; right:0; top: 3.3em;"
         class="img-upload"
         ><b-btn class="custom-button" variant="info" v-b-modal.modal-images>
           upload images
@@ -57,7 +60,12 @@
                   </p>
                 </div>
               </div>
-              <img :src="image.image" alt="data image" class="data-image" />
+              <img
+                @click="handleImageClick(image)"
+                :src="image.image"
+                alt="data image"
+                class="data-image"
+              />
             </div>
           </div>
         </b-col>
@@ -98,10 +106,15 @@
 
 <script>
 import datasets from "@/services/datasets";
+import Annotator from "@/components/admin/annotator.vue";
+
 import { mapActions, mapGetters } from "vuex";
 import axios from "../../store/axios_setup";
 export default {
   name: "annotations",
+  components: {
+    Annotator,
+  },
   data() {
     return {
       datasets,
@@ -133,12 +146,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["currentItem"]),
+    ...mapGetters(["currentItem", "annotating"]),
   },
   methods: {
     ...mapActions(["getUserItem"]),
     handleFileChange() {
       // this.files = this.$refs.files.files;
+    },
+    handleImageClick(image) {
+      this.$store.commit("annotating", true);
+      this.selectedImage = image;
     },
     formatNames(files) {
       return files.length === 1
