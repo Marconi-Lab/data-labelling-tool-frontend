@@ -175,19 +175,18 @@ export default {
     console.log("Image ", this.image);
     this.imageURL = this.image.image;
     this.imageID = this.image.id;
+    var box = JSON.parse(this.image.bounding_box);
 
-    axios.get(`/user/images/${this.imageID}/`).then((res) => {
-      console.log("response", res.data);
-
-      if (res.data.bounding_box) {
-        const box = JSON.parse(res.data.bounding_box);
-        this.drawingBox.active = true;
-        this.drawingBox.left = box.left;
-        this.drawingBox.top = box.top;
-        this.drawingBox.width = box.width;
-        this.drawingBox.height = box.height;
-      }
-    });
+    if (this.image.bounding_box) {
+      this.drawingBox.active = true;
+      this.drawingBox.left = box.left;
+      this.drawingBox.top = box.top;
+      this.drawingBox.width = box.width;
+      this.drawingBox.height = box.height;
+    } else {
+      this.drawingBox = "";
+    }
+    console.log("Bounding box ", box);
   },
   props: {
     image: Object,

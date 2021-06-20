@@ -14,7 +14,7 @@
         :rows="data"
         :pagination-options="{
           enabled: true,
-          perPage: 7,
+          perPage: 8,
         }"
         :search-options="{
           enabled: true,
