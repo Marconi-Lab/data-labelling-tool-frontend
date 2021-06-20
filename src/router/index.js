@@ -1,21 +1,21 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Landing from "../views/Landing";
-import Login from "../views/user/Login";
-import Home from "../views/user/Home";
-import HomeView from "../views/user/HomeView";
-import Datasets from "../views/user/Datasets";
-import Items from "../views/user/Items";
-import Annotation from "../views/user/Annotation";
-import SignUp from "../views/user/SignUp";
+// import Landing from "../views/Landing";
+// import Login from "../views/user/Login";
+// import Home from "../views/user/Home";
+// import HomeView from "../views/user/HomeView";
+// import Datasets from "../views/user/Datasets";
+// import Items from "../views/user/Items";
+// import Annotation from "../views/user/Annotation";
+// import SignUp from "../views/user/SignUp";
 
-import AdminLogin from "../views/admin/Login";
-import AdminMain from "../views/admin/Main";
-import AdminHome from "../views/admin/Home";
-import Users from "../views/admin/Users";
-import AdminDatasets from "../views/admin/Datasets";
-import AdminItems from "../views/admin/Items";
-import AdminAnnotation from "../views/admin/Annotation";
+// import AdminLogin from "../views/admin/Login";
+// import AdminMain from "../views/admin/Main";
+// import AdminHome from "../views/admin/Home";
+// import Users from "../views/admin/Users";
+// import AdminDatasets from "../views/admin/Datasets";
+// import AdminItems from "../views/admin/Items";
+// import AdminAnnotation from "../views/admin/Annotation";
 
 Vue.use(VueRouter);
 
@@ -23,7 +23,8 @@ const routes = [
   {
     path: "/",
     name: "index",
-    component: Landing,
+    component: () =>
+      import(/* webpackChunkName: "Landing" */ "../views/Landing.vue"),
     meta: {
       guest: true,
       requires_auth: false,
@@ -32,7 +33,8 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: Login,
+    component: () =>
+      import(/* webpackChunkName: "Login" */ "../views/user/Login.vue"),
     meta: {
       guest: true,
       requires_auth: false,
@@ -41,7 +43,8 @@ const routes = [
   {
     path: "/signup",
     name: "signup",
-    component: SignUp,
+    component: () =>
+      import(/* webpackChunkName: "SignUp" */ "../views/user/SignUp"),
     meta: {
       guest: true,
       requires_auth: false,
@@ -50,7 +53,8 @@ const routes = [
   {
     path: "/user",
     name: "user",
-    component: Home,
+    component: () =>
+      import(/* webpackChunkName: "Home" */ "../views/user/Home.vue"),
     meta: {
       requires_auth: true,
       is_user: true,
@@ -59,7 +63,10 @@ const routes = [
       {
         path: "home",
         name: "user-home",
-        component: HomeView,
+        component: () =>
+          import(
+            /* webpackChunkName: "HomeView" */ "../views/user/HomeView.vue"
+          ),
         meta: {
           requires_auth: true,
           is_user: true,
@@ -68,7 +75,10 @@ const routes = [
       {
         path: "datasets",
         name: "user-datasets",
-        component: Datasets,
+        component: () =>
+          import(
+            /* webpackChunkName: "Landing" */ "../views/user/Datasets.vue"
+          ),
         meta: {
           requires_auth: true,
           is_user: true,
@@ -77,7 +87,8 @@ const routes = [
       {
         path: "datasets/:id",
         name: "data-item",
-        component: Items,
+        component: () =>
+          import(/* webpackChunkName: "Landing" */ "../views/user/Items.vue"),
         meta: {
           requires_auth: true,
           is_user: true,
@@ -86,7 +97,10 @@ const routes = [
       {
         path: "datasets/:dataset/:id",
         name: "annotation",
-        component: Annotation,
+        component: () =>
+          import(
+            /* webpackChunkName: "Landing" */ "../views/user/Annotation.vue"
+          ),
         meta: {
           requires_auth: true,
           is_user: true,
@@ -98,7 +112,8 @@ const routes = [
   {
     path: "/administrator",
     name: "admin-login",
-    component: AdminLogin,
+    component: () =>
+      import(/* webpackChunkName: "Login" */ "../views/admin/Login.vue"),
     meta: {
       guest: true,
       requires_auth: false,
@@ -107,7 +122,8 @@ const routes = [
   {
     path: "/admin",
     name: "admin",
-    component: AdminMain,
+    component: () =>
+      import(/* webpackChunkName: "AdminMain" */ "../views/admin/Main.vue"),
     meta: {
       requires_auth: true,
       is_admin: true,
@@ -116,7 +132,8 @@ const routes = [
       {
         path: "home",
         name: "admin-home",
-        component: AdminHome,
+        component: () =>
+          import(/* webpackChunkName: "AdminHome" */ "../views/admin/Home.vue"),
         meta: {
           requires_auth: true,
           is_admin: true,
@@ -125,7 +142,8 @@ const routes = [
       {
         path: "users",
         name: "users",
-        component: Users,
+        component: () =>
+          import(/* webpackChunkName: "Users" */ "../views/admin/Users.vue"),
         meta: {
           requires_auth: true,
           is_admin: true,
@@ -134,7 +152,10 @@ const routes = [
       {
         path: "datasets",
         name: "admin-datasets",
-        component: AdminDatasets,
+        component: () =>
+          import(
+            /* webpackChunkName: "AdminDatasets" */ "../views/admin/Datasets.vue"
+          ),
         meta: {
           requires_auth: true,
           is_admin: true,
@@ -142,8 +163,11 @@ const routes = [
       },
       {
         path: "datasets/:id",
-        name: "admin-particular-dataset",
-        component: AdminItems,
+        name: "admin-dataset-items",
+        component: () =>
+          import(
+            /* webpackChunkName: "AdminItems" */ "../views/admin/Items.vue"
+          ),
         meta: {
           requires_auth: true,
           is_admin: true,
@@ -152,7 +176,10 @@ const routes = [
       {
         path: "datasets/:dataset/:id",
         name: "admin-annotation",
-        component: AdminAnnotation,
+        component: () =>
+          import(
+            /* webpackChunkName: "AdminAnnotation" */ "../views/admin/Annotation.vue"
+          ),
         meta: {
           requires_auth: true,
           is_admin: true,
