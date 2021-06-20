@@ -39,7 +39,7 @@
       <!-- <div class="col-lg-1 p-0"></div> -->
       <div class="col-lg-8 image-column">
         <Box
-          v-if="drawingBox.active"
+          v-if="drawingBox"
           :b-width="drawingBox.width"
           :b-height="drawingBox.height"
           :b-top="drawingBox.top"
@@ -100,13 +100,7 @@ export default {
   },
   methods: {
     clearBoxes() {
-      this.drawingBox = {
-        active: false,
-        top: 0,
-        left: 0,
-        height: 0,
-        width: 0,
-      };
+      this.drawingBox = "";
       axios
         .put(`/user/images/boundingbox/${this.imageID}/`, { bounding_box: "" })
         .then(async (res) => {
@@ -155,12 +149,15 @@ export default {
     handleSaveBox() {
       console.log(this.drawingBox);
       this.$store.commit("isLoading", true);
-      const box = JSON.stringify({
-        left: this.drawingBox.left,
-        top: this.drawingBox.top,
-        width: this.drawingBox.width,
-        height: this.drawingBox.height,
-      });
+      var box = this.drawingBox
+        ? JSON.stringify({
+            left: this.drawingBox.left,
+            top: this.drawingBox.top,
+            width: this.drawingBox.width,
+            height: this.drawingBox.height,
+          })
+        : "";
+
       console.log("Box", box);
       axios
         .put(`/user/images/boundingbox/${this.imageID}/`, { bounding_box: box })
@@ -175,9 +172,9 @@ export default {
     console.log("Image ", this.image);
     this.imageURL = this.image.image;
     this.imageID = this.image.id;
-    var box = JSON.parse(this.image.bounding_box);
 
     if (this.image.bounding_box) {
+      let box = this.image.bounding_box;
       this.drawingBox.active = true;
       this.drawingBox.left = box.left;
       this.drawingBox.top = box.top;
@@ -186,7 +183,7 @@ export default {
     } else {
       this.drawingBox = "";
     }
-    console.log("Bounding box ", box);
+    // console.log("Bounding box ", box);
   },
   props: {
     image: Object,
