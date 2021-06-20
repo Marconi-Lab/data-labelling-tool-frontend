@@ -13,7 +13,10 @@
           class="text-left ml-5"
           style="position: fixed; width: 14rem; background: #3f3f3f; height: 93vh;"
         >
-          <p v-if="image.bounding_box" class="my-nav-item1 text-white p-2 m-0">
+          <p
+            v-if="this.image.bounding_box"
+            class="my-nav-item1 text-white p-2 m-0"
+          >
             Bounding Box
           </p>
           <p v-else class="text-danger my-nav-item1 p-2 m-0">No bounding Box</p>
@@ -42,7 +45,7 @@
       <!-- <div class="col-lg-1 p-0"></div> -->
       <div class="col-lg-8 image-column">
         <Box
-          v-if="drawingBox.active"
+          v-if="drawingBox"
           :b-width="drawingBox.width"
           :b-height="drawingBox.height"
           :b-top="drawingBox.top"
@@ -61,7 +64,7 @@
 
 <script>
 import Box from "@/components/user/boundingBox.vue";
-import axios from "@/store/axios_setup.js";
+// import axios from "@/store/axios_setup.js";
 
 export default {
   name: "annotator",
@@ -92,19 +95,18 @@ export default {
     console.log("Image ", this.image);
     this.imageURL = this.image.image;
     this.imageID = this.image.id;
+    var box = JSON.parse(this.image.bounding_box);
 
-    axios.get(`/user/images/${this.imageID}/`).then((res) => {
-      console.log("response", res.data);
-
-      if (res.data.bounding_box) {
-        const box = JSON.parse(res.data.bounding_box);
-        this.drawingBox.active = true;
-        this.drawingBox.left = box.left;
-        this.drawingBox.top = box.top;
-        this.drawingBox.width = box.width;
-        this.drawingBox.height = box.height;
-      }
-    });
+    if (this.image.bounding_box) {
+      this.drawingBox.active = true;
+      this.drawingBox.left = box.left;
+      this.drawingBox.top = box.top;
+      this.drawingBox.width = box.width;
+      this.drawingBox.height = box.height;
+    } else {
+      this.drawingBox = "";
+    }
+    console.log("Bounding box ", box);
   },
   props: {
     image: Object,
