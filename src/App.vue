@@ -59,6 +59,7 @@ export default {
 </script>
 
 <style>
+@import "~vue-good-table/dist/vue-good-table.css";
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
