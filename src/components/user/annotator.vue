@@ -174,7 +174,7 @@ export default {
     this.imageID = this.image.id;
 
     if (this.image.bounding_box) {
-      let box = this.image.bounding_box;
+      let box = JSON.parse(this.image.bounding_box);
       this.drawingBox.active = true;
       this.drawingBox.left = box.left;
       this.drawingBox.top = box.top;
@@ -183,7 +183,7 @@ export default {
     } else {
       this.drawingBox = "";
     }
-    // console.log("Bounding box ", box);
+    console.log("Bounding box ", this.drawingBox);
   },
   props: {
     image: Object,
