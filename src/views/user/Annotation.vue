@@ -284,11 +284,13 @@ export default {
         .name[0];
       console.log(label);
       var comment;
-      if (!(label.toLowerCase() == "not sure")) {
-        comment = "";
-      } else {
-        comment = this.text;
-      }
+      // if (!(label.toLowerCase() == "not sure")) {
+      //   comment = "";
+      // } else {
+      //   comment = this.text;
+      // }
+      comment = this.text;
+
       const labeller = JSON.parse(localStorage.getItem("user")).id;
       const itemID = this.data.id;
 
