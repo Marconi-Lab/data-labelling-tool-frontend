@@ -58,8 +58,40 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/custom-forms";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/progress";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/input-group";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/modal";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/breadcrumb";
+@import "~bootstrap/scss/modal";
+@import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/close";
+
+@import "~bootstrap/scss/bootstrap";
+
+
 @import "~vue-good-table/dist/vue-good-table.css";
+.modal-backdrop{
+  background-color: rgba(0, 0, 0, 0.419);
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
