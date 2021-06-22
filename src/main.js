@@ -1,6 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
-import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
+// import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
 import Spinner from "vue-simple-spinner";
 import * as rules from "vee-validate/dist/rules";
@@ -9,6 +9,25 @@ import store from "./store/store";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import api from "./store/axios_setup";
+
+import {
+  NavbarPlugin,
+  NavPlugin,
+  LayoutPlugin,
+  ButtonPlugin,
+  CardPlugin,
+  IconsPlugin,
+  BreadcrumbPlugin,
+  ProgressPlugin,
+  FormPlugin,
+  FormSelectPlugin,
+  FormTextareaPlugin,
+  ModalPlugin,
+  FormFilePlugin,
+  FormInputPlugin,
+  FormGroupPlugin,
+  ListGroupPlugin,
+} from "bootstrap-vue"
 
 api.interceptors.request.use(
   (config) => {
@@ -72,8 +91,22 @@ Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("Spinner", Spinner);
 
 Vue.config.productionTip = false;
-Vue.use(BootstrapVue);
-Vue.use(BootstrapVueIcons);
+Vue.use(NavPlugin);
+Vue.use(NavbarPlugin);
+Vue.use(LayoutPlugin);
+Vue.use(ButtonPlugin);
+Vue.use(CardPlugin);
+Vue.use(IconsPlugin);
+Vue.use(BreadcrumbPlugin);
+Vue.use(ProgressPlugin);
+Vue.use(FormPlugin);
+Vue.use(ModalPlugin);
+Vue.use(FormSelectPlugin);
+Vue.use(FormTextareaPlugin);
+Vue.use(FormFilePlugin);
+Vue.use(FormInputPlugin);
+Vue.use(FormGroupPlugin);
+Vue.use(ListGroupPlugin)
 
 new Vue({
   router,
