@@ -42,16 +42,14 @@
             <b-icon
               v-if="props.row.labelled"
               icon="check-circle-fill"
-              scale="2"
               variant="info"
-              font-scale="0.5em"
+              font-scale="1em"
             ></b-icon>
             <b-icon
               v-else
-              icon="info-circle-fill"
-              scale="2"
+              icon="X-circle"
               variant="danger"
-              font-scale="0.5em"
+              font-scale="1em"
             ></b-icon>
           </span>
         </template>
