@@ -24,7 +24,8 @@ import {
   FormInputPlugin,
   FormGroupPlugin,
   ListGroupPlugin,
-} from "bootstrap-vue"
+  AlertPlugin,
+} from "bootstrap-vue";
 
 api.interceptors.request.use(
   (config) => {
@@ -103,7 +104,8 @@ Vue.use(FormTextareaPlugin);
 Vue.use(FormFilePlugin);
 Vue.use(FormInputPlugin);
 Vue.use(FormGroupPlugin);
-Vue.use(ListGroupPlugin)
+Vue.use(ListGroupPlugin);
+Vue.use(AlertPlugin);
 
 new Vue({
   router,

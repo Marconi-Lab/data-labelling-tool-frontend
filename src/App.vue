@@ -84,9 +84,10 @@ export default {
 @import "~bootstrap/scss/modal";
 @import "~bootstrap/scss/tables";
 @import "~bootstrap/scss/close";
+@import "~bootstrap/scss/alert";
 
 @import "~vue-good-table/dist/vue-good-table.css";
-.modal-backdrop{
+.modal-backdrop {
   background-color: rgba(0, 0, 0, 0.419);
 }
 #app {
