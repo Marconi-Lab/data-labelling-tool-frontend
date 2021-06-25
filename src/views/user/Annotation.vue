@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="annotating" class="m-0 p-0">
-      <Annotator :image="selectedImage" />
+      <Annotator :image="imageBeingAnnotated" />
     </div>
     <b-breadcrumb class="m-0" :items="items"></b-breadcrumb>
     <b-nav>
@@ -30,89 +30,15 @@
           <h4 v-else class="text-danger">{{ data.name }} is not labelled</h4>
         </b-col>
       </b-row>
-      <b-row class="px-4 m-0">
+      <b-row class="px-4 m-0 justify-content-center">
         <b-col
-          v-for="image in data.images"
+          v-for="image in imageGroup"
           :key="image.id"
           sm="6"
           md="3"
           class="p-1"
         >
-          <div class="data">
-            <div style="background-color: #17a2b8; font-size: 0.9rem">
-              <div v-if="image.id == imageUpdating">
-                <b-icon
-                  icon="three-dots"
-                  animation="cylon"
-                  font-scale="3"
-                  variant="warning"
-                ></b-icon>
-              </div>
-              <div v-else>
-                <p v-if="image.labelled" class="text-white text-left ml-2 py-2">
-                  Labelled: {{ image.label }}
-                </p>
-
-                <p v-else class="text-warning text-left ml-2 py-2">
-                  This image is not labelled
-                </p>
-                <p
-                  v-if="image.bounding_box"
-                  class="text-white"
-                  style="position: absolute; right: 1rem; top: 0.8rem"
-                >
-                  box <b-icon scale="1" icon="check"></b-icon>
-                </p>
-                <p
-                  v-else
-                  class="text-danger"
-                  style="position: absolute; right: 1rem; top: 0.8rem"
-                >
-                  box
-                  <b-icon icon="x-circle" scale="1" variant="danger"></b-icon>
-                </p>
-              </div>
-            </div>
-            <img
-              @click="handleImageClick(image)"
-              :src="image.image"
-              alt="data image"
-              class="data-image"
-            />
-            <div style="background-color: #17a2b8">
-              <b-nav-form
-                label-size="md"
-                label-for="input-sm"
-                class="mb-0 m-1 justify-content-left"
-                style="max-width: 500px"
-              >
-                <b-form-select
-                  @click="imageObject = image"
-                  v-model="selectedImageClass"
-                  :options="options"
-                  class="my-2"
-                  value-field="item"
-                  text-field="name"
-                  disabled-field="notEnabled"
-                  style="font-size: 0.9rem"
-                ></b-form-select>
-                <b-button
-                  class="my-2 ml-2"
-                  type="submit"
-                  style="font-size: 0.9rem"
-                  variant="warning"
-                  @click="
-                    handleImageUpdate($event, image.id, selectedImageClass)
-                  "
-                >
-                  <p v-if="image.id == imageUpdating" class="m-0">
-                    ...
-                  </p>
-                  <p v-else class="m-0">update</p>
-                </b-button>
-              </b-nav-form>
-            </div>
-          </div>
+          <ImageCard :image="image" :options="options" />
         </b-col>
         <hr style="border-top: solid 0.1rem #17a2b8; width: 100vw" />
       </b-row>
@@ -148,30 +74,6 @@
             rows="3"
             max-rows="6"
           ></b-form-textarea>
-          <!-- <label
-            v-if="
-              options2
-                .filter((x) => x.item == selected2)[0]
-                .name[0].toLowerCase() == 'not sure'
-            "
-            for="textarea"
-            class="mr-sm-2"
-            >Comment</label
-          >
-          <b-form-textarea
-            id="textarea"
-            v-if="
-              options2
-                .filter((x) => x.item == selected2)[0]
-                .name[0].toLowerCase() == 'not sure'
-            "
-            v-model="text"
-            class="mr-2 mt-3"
-            placeholder="Enter comments..."
-            style="font-size: 0.9rem;"
-            rows="3"
-            max-rows="6"
-          ></b-form-textarea> -->
         </b-form>
       </div>
       <template #modal-footer="{cancel} " class="mx-auto">
@@ -190,12 +92,13 @@
 import datasets from "@/services/datasets";
 import { mapActions, mapGetters } from "vuex";
 import Annotator from "@/components/user/annotator.vue";
-// import axios from "../../store/axios_setup";
+import ImageCard from "@/components/user/imageCard.vue";
 
 export default {
   name: "annotations",
   components: {
     Annotator,
+    ImageCard,
   },
   data() {
     return {
@@ -224,59 +127,20 @@ export default {
       options: [],
       options2: [],
       processing: true,
-      selectedImage: "",
       imageObject: null,
     };
   },
   computed: {
-    ...mapGetters(["currentItem", "imageUpdating", "annotating"]),
+    ...mapGetters([
+      "currentItem",
+      "annotating",
+      "imageGroup",
+      "imageBeingAnnotated",
+    ]),
     currentImage: (id) => id,
-    selectedImageClass: {
-      get() {
-        let value = this.imageObject
-          ? this.options.filter(
-              (x) => x.name[0].toLowerCase() == this.imageObject.toLowerCase()
-            )[0].item
-          : "A";
-        console.log(value);
-        return value;
-      },
-      set(selectedValue) {
-        this.selected = selectedValue;
-        return selectedValue;
-      },
-    },
   },
   methods: {
-    ...mapActions(["getUserItem", "labelImage", "labelFolder"]),
-
-    handleImageClick(image) {
-      this.$store.commit("annotating", true);
-      this.selectedImage = image;
-    },
-
-    handleImageUpdate(e, id) {
-      e.preventDefault();
-      let selected = this.selected ? this.selected : this.selectedImageClass;
-      console.log("Selected", this.selectedImageClass);
-      this.$store.commit("imageUpdating", id);
-      console.log("Selected", selected);
-      const label = this.options.filter((x) => x.item == selected)[0].name[0];
-
-      // console.log("label", labels);
-      const labeller = JSON.parse(localStorage.getItem("user")).id;
-      // console.log("Labeller", labeller);
-      const imageID = id;
-      // console.log("ImageID ", imageID);
-
-      this.labelImage({ label, labeller, imageID }).then(() => {
-        this.getUserItem(this.$route.params.id)
-          .then(async () => {
-            await this.$router.go(0);
-          })
-          .then(() => this.$store.commit("imageUpdating", null));
-      });
-    },
+    ...mapActions(["getUserItem", "labelFolder"]),
 
     handleFolderLabel(e) {
       e.preventDefault();
@@ -308,6 +172,7 @@ export default {
       this.items[1].href = `/user/datasets/${this.currentItem.dataset_id}`;
       this.items[2].text = this.currentItem.name;
       this.data = this.currentItem;
+      this.$store.commit("imageGroup", this.data.images);
 
       var str = "ABCD";
       //Populating images label options array
@@ -340,17 +205,6 @@ export default {
 </script>
 
 <style scoped>
-p {
-  margin-bottom: 0px;
-}
-.col-6 {
-  padding: 0px;
-}
-.data-image {
-  width: 100%;
-  height: auto;
-  padding: 0px;
-}
 @media (min-width: 768px) {
   .forsec {
     border-left: 1px solid rgb(191, 191, 191);
