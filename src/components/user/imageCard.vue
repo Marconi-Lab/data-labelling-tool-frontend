@@ -60,7 +60,7 @@
         <b-button
           class="my-2 ml-2"
           type="submit"
-          style="font-size: 0.9rem; background-color: rgb(252, 252, 143); color: black;"
+          style="font-size: 0.9rem; background-color: rgb(252, 252, 143); color: black; border: solid rgb(252, 252, 143) 1px;"
           @click="handleImageUpdate($event, image.id)"
         >
           <p v-if="image.id == imageUpdating" class="m-0">
