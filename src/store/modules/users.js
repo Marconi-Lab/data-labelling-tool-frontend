@@ -1,6 +1,6 @@
 // import axios from "../axios_setup";
 
-const state = { imageGroup: [] };
+const state = { imageGroup: [], imageBeingAnnotated: {} };
 
 const mutations = {
   updateImageLabel: (state, payload) => {
@@ -12,11 +12,14 @@ const mutations = {
     });
   },
   imageGroup: (state, payload) => (state.imageGroup = payload),
+  imageBeingAnnotated: (state, payload) =>
+    (state.imageBeingAnnotated = payload),
 };
 
 const actions = {};
 const getters = {
   imageGroup: (state) => state.imageGroup,
+  imageBeingAnnotated: (state) => state.imageBeingAnnotated,
 };
 
 export default { state, mutations, actions, getters };
