@@ -14,6 +14,13 @@ const mutations = {
   imageGroup: (state, payload) => (state.imageGroup = payload),
   imageBeingAnnotated: (state, payload) =>
     (state.imageBeingAnnotated = payload),
+  imageAnnotated: (state, payload) => {
+    state.imageGroup.map((x) => {
+      if (x.id == payload.id) {
+        x.bounding_box = payload.bounding_box;
+      }
+    });
+  },
 };
 
 const actions = {};

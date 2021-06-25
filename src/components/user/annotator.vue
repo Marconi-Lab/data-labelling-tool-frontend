@@ -162,8 +162,13 @@ export default {
       axios
         .put(`/user/images/boundingbox/${this.imageID}/`, { bounding_box: box })
         .then(async (res) => {
-          await this.$router.go(0);
+          // await this.$router.go(0);
+          await this.$store.commit("imageAnnotated", {
+            id: this.imageID,
+            bounding_box: box,
+          });
           this.$store.commit("isLoading", false);
+          this.$store.commit("annotating", false);
           console.log(res.data);
         });
     },
