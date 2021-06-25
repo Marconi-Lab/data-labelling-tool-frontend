@@ -6,6 +6,16 @@
       scale="1.5"
       class="annotator-button"
     ></b-icon>
+    <div
+      v-if="boxError"
+      style="position: absolute; z-index: 222; width: 100%"
+      class="d-flex justify-content-center"
+    >
+      <b-alert variant="info" show dismissible>
+        Invalid bounding box, please try again!
+      </b-alert>
+    </div>
+
     <div class="row p-0 mt-4">
       <div class="col-lg-3 p-0 ">
         <b-nav
@@ -89,6 +99,7 @@ export default {
         height: 0,
         width: 0,
       },
+      boxError: false,
       initialX: 0,
       initialY: 0,
       boxes: [],
@@ -157,20 +168,32 @@ export default {
             height: this.drawingBox.height,
           })
         : "";
-
-      console.log("Box", box);
-      axios
-        .put(`/user/images/boundingbox/${this.imageID}/`, { bounding_box: box })
-        .then(async (res) => {
-          // await this.$router.go(0);
-          await this.$store.commit("imageAnnotated", {
-            id: this.imageID,
+      let { width, height } = this.drawingBox;
+      console.log(width, outerHeight);
+      if (width < 100 || height < 100) {
+        // this.clearBoxes();
+        this.boxError = true;
+        this.drawingBox = "";
+        console.log("invalid box");
+        this.$store.commit("isLoading", false);
+      } else {
+        this.boxError = false;
+        console.log("Box", box);
+        axios
+          .put(`/user/images/boundingbox/${this.imageID}/`, {
             bounding_box: box,
+          })
+          .then(async (res) => {
+            // await this.$router.go(0);
+            await this.$store.commit("imageAnnotated", {
+              id: this.imageID,
+              bounding_box: box,
+            });
+            this.$store.commit("isLoading", false);
+            this.$store.commit("annotating", false);
+            console.log(res.data);
           });
-          this.$store.commit("isLoading", false);
-          this.$store.commit("annotating", false);
-          console.log(res.data);
-        });
+      }
     },
   },
   created() {
