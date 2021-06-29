@@ -11,7 +11,7 @@
     <div v-else>
       <vue-good-table
         :columns="fields"
-        :rows="data"
+        :rows="currentDataset"
         :pagination-options="{
           enabled: true,
           perPage: 8,
@@ -61,7 +61,7 @@
 <script>
 import datasets from "@/services/datasets";
 import { VueGoodTable } from "vue-good-table";
-// import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import axios from "../../store/axios_setup";
 
 export default {
@@ -87,41 +87,29 @@ export default {
         { field: "name", label: "Name" },
         { field: "labelled", label: "Labelled" },
       ],
-      data: [],
+      // data: [],
       currentPage: 1,
       datasets,
       processing: true,
     };
   },
   computed: {
-    // ...mapGetters(["assignedDataset"]),
+    ...mapGetters(["currentDataset"]),
     rows() {
       return this.data.length;
     },
   },
-  methods: {
-    // getCurrent(name, id) {
-    //   return {
-    //     text: name,
-    //     active: true,
-    //     href: `/user/datasets/${id}`,
-    //   };
-    // },
-  },
+  methods: {},
   created() {
     axios.get(`/user/datasets/${this.$route.params.id}/`).then((res) => {
       console.log("Response here", res);
-      this.data = res.data.items;
+      // this.data = res.data.items;
+      this.$store.commit("currentDataset", res.data.items);
       this.processing = false;
       this.items[1].text = res.data.name;
-      this.items[1].href = `/user/datasets/${this.res.data.id}`;
+      this.items[1].href = `/user/datasets/${res.data.id}`;
     });
   },
-  // this.$store.dispatch("getUserDataset", this.$route.params.id);
-  // this.data = this.assignedDataset.items;
-  // console.log("Dataset", this.assignedDataset);
-  // console.log(this.items[1]);
-  // },
 };
 </script>
 
