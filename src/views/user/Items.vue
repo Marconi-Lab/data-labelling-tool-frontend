@@ -104,6 +104,7 @@ export default {
     axios.get(`/user/datasets/${this.$route.params.id}/`).then((res) => {
       console.log("Response here", res);
       // this.data = res.data.items;
+      localStorage.setItem("currentDataset", JSON.stringify(res.data.items));
       this.$store.commit("currentDataset", res.data.items);
       this.processing = false;
       this.items[1].text = res.data.name;
