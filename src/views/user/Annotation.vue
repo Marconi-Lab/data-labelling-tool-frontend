@@ -22,14 +22,16 @@
       <Spinner />
     </div>
     <div class="main-body" v-else>
-      <b-row style="margin: 0px" class="mt-2">
-        <b-col class="text-center">
-          <h4 v-if="data.labelled" class="text-info">
-            {{ data.name }} is labelled {{ data.label }}
-          </h4>
-          <h4 v-else class="text-danger">{{ data.name }} is not labelled</h4>
-        </b-col>
-      </b-row>
+      <FolderPaginate
+        :labelled="currentItem.labelled"
+        :name="currentItem.name"
+        :label="currentItem.label"
+        :itemid="currentItem.id"
+      />
+      <hr
+        style="border-top: solid 0.1rem #17a2b8; width: 100vw; margin-top: 0px;"
+      />
+
       <b-row class="px-4 m-0 justify-content-center">
         <b-col
           v-for="image in imageGroup"
@@ -40,7 +42,6 @@
         >
           <ImageCard :image="image" :options="options" />
         </b-col>
-        <hr style="border-top: solid 0.1rem #17a2b8; width: 100vw" />
       </b-row>
     </div>
     <b-modal
@@ -93,12 +94,13 @@ import datasets from "@/services/datasets";
 import { mapActions, mapGetters } from "vuex";
 import Annotator from "@/components/user/annotator.vue";
 import ImageCard from "@/components/user/imageCard.vue";
-
+import FolderPaginate from "@/components/folderPaginate.vue";
 export default {
   name: "annotations",
   components: {
     Annotator,
     ImageCard,
+    FolderPaginate,
   },
   data() {
     return {
@@ -148,11 +150,6 @@ export default {
         .name[0];
       console.log(label);
       var comment;
-      // if (!(label.toLowerCase() == "not sure")) {
-      //   comment = "";
-      // } else {
-      //   comment = this.text;
-      // }
       comment = this.text;
 
       const labeller = JSON.parse(localStorage.getItem("user")).id;
