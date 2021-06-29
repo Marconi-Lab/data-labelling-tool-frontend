@@ -11,6 +11,7 @@ const state = {
   allDatasets: [],
   annotating: false,
   boundingBox: { active: false, top: 0, left: 0, height: 0, width: 0 },
+  currentDataset: "",
 };
 
 const mutations = {
@@ -59,6 +60,9 @@ const mutations = {
   },
   isUploading: (state, payload) => {
     state.isUploading = payload;
+  },
+  currentDataset: (state, payload) => {
+    state.currentDataset = payload;
   },
 };
 
@@ -171,6 +175,7 @@ const getters = {
   uploadValue: (state) => state.uploadValue,
   uploadMaxValue: (state) => state.uploadMaxValue,
   isUploading: (state) => state.isUploading,
+  currentDataset: (state) => state.currentDataset,
 };
 
 export default { state, mutations, actions, getters };
