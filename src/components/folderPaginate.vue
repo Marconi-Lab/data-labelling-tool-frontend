@@ -1,6 +1,8 @@
 <template>
   <b-row style="margin: 0px" class="mt-2 container mx-auto">
-    <a class="text-info" @click="handleLoadPrevious">&lt;&lt; previous</a>
+    <a class="text-info" @click="handleLoadPrevious" disabled
+      >&lt;&lt; previous</a
+    >
     <h4 v-if="labelled" class="text-info mx-auto">
       {{ name }} is labelled {{ label }}
     </h4>
@@ -20,7 +22,7 @@ export default {
   },
   computed: {
     ...mapGetters(["currentDataset"]),
-    currentFolderID() {
+    currentFolderIndex() {
       var itemID = this.itemid;
       return this.dataset.indexOf(
         Object.values(this.dataset).filter((x) => x.id == itemID)[0]
@@ -30,28 +32,38 @@ export default {
   methods: {
     async handleLoadNext(e) {
       e.preventDefault();
-
-      this.$store.commit("isLoading", true);
-      await this.$store.dispatch(
-        "getUserItem",
-        this.dataset[this.currentFolderID + 1].id
-      );
-      this.$router.push({
-        params: { id: this.dataset[this.currentFolderID + 1].id },
-      });
-      this.$store.commit("isLoading", false);
+      if (
+        JSON.parse(localStorage.getItem("currentDataset")).length ==
+        this.currentFolderIndex + 1
+      ) {
+        console.log("Reached end");
+      } else {
+        this.$store.commit("isLoading", true);
+        await this.$store.dispatch(
+          "getUserItem",
+          this.dataset[this.currentFolderIndex + 1].id
+        );
+        this.$router.push({
+          params: { id: this.dataset[this.currentFolderIndex + 1].id },
+        });
+        this.$store.commit("isLoading", false);
+      }
     },
     async handleLoadPrevious(e) {
       e.preventDefault();
-      this.$store.commit("isLoading", true);
-      await this.$store.dispatch(
-        "getUserItem",
-        this.dataset[this.currentFolderID - 1].id
-      );
-      this.$router.push({
-        params: { id: this.dataset[this.currentFolderID - 1].id },
-      });
-      this.$store.commit("isLoading", false);
+      if (this.currentFolderIndex == 0) {
+        console.log("Reached end");
+      } else {
+        this.$store.commit("isLoading", true);
+        await this.$store.dispatch(
+          "getUserItem",
+          this.dataset[this.currentFolderIndex - 1].id
+        );
+        this.$router.push({
+          params: { id: this.dataset[this.currentFolderIndex - 1].id },
+        });
+        this.$store.commit("isLoading", false);
+      }
     },
   },
   created() {
