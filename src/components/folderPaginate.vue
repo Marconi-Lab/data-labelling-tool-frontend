@@ -43,6 +43,15 @@ export default {
     },
     async handleLoadPrevious(e) {
       e.preventDefault();
+      this.$store.commit("isLoading", true);
+      await this.$store.dispatch(
+        "getUserItem",
+        this.dataset[this.currentFolderID - 1].id
+      );
+      this.$router.push({
+        params: { id: this.dataset[this.currentFolderID - 1].id },
+      });
+      this.$store.commit("isLoading", false);
     },
   },
   created() {
