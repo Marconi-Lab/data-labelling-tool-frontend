@@ -90,6 +90,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import datasets from "@/services/datasets";
 import { mapActions, mapGetters } from "vuex";
 import Annotator from "@/components/user/annotator.vue";
@@ -160,6 +161,14 @@ export default {
         await this.$router.go(0);
         this.$store.commit("isLoading", false);
       });
+    },
+  },
+  watch: {
+    $route(to, from) {
+      this.data = this.currentItem;
+      this.$store.commit("imageGroup", this.currentItem.images);
+      this.items[1].href = `/user/datasets/${this.currentItem.dataset_id}`;
+      this.items[2].text = this.currentItem.name;
     },
   },
   created() {
