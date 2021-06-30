@@ -37,7 +37,7 @@
     </div>
     <img
       @click="handleImageClick(image)"
-      :src="image.image"
+      v-lazy="image.image"
       alt="data image"
       class="data-image"
     />
@@ -132,6 +132,16 @@ export default {
 </script>
 
 <style>
+.data {
+  padding-bottom: 0px;
+}
+.data-image {
+  border: solid #17a2b8 1px;
+  background-image: url("../../assets/loading.gif");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 #label-icon {
   position: absolute;
   color: rgb(252, 252, 143);
