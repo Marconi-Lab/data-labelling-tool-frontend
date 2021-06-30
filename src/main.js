@@ -6,6 +6,7 @@ import * as rules from "vee-validate/dist/rules";
 import router from "./router";
 import store from "./store/store";
 import api from "./store/axios_setup";
+import VueLazyload from "vue-lazyload";
 
 import {
   NavbarPlugin,
@@ -106,7 +107,7 @@ Vue.use(FormInputPlugin);
 Vue.use(FormGroupPlugin);
 Vue.use(ListGroupPlugin);
 Vue.use(AlertPlugin);
-
+Vue.use(VueLazyload);
 new Vue({
   router,
   render: (h) => h(App),
