@@ -105,7 +105,7 @@ export default {
       console.log("Response here", res);
       // this.data = res.data.items;
       localStorage.setItem("currentDataset", JSON.stringify(res.data.items));
-      this.$store.commit("currentDataset", res.data.items);
+      // this.$store.commit("currentDataset", res.data.items);
       this.processing = false;
       this.items[1].text = res.data.name;
       this.items[1].href = `/user/datasets/${res.data.id}`;

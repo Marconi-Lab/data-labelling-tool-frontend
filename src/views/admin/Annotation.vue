@@ -22,13 +22,21 @@
       <Spinner />
     </div>
     <div class="main-content" v-else>
-      <div>
-        <h5 v-if="data.labelled" class="text-info">
+      <FolderPaginate
+        :labelled="currentItem.labelled"
+        :name="currentItem.name"
+        :label="currentItem.label"
+        :itemid="currentItem.id"
+      />
+      <hr
+        style="border-top: solid 0.1rem #17a2b8; width: 100vw; margin-top: 0px;"
+      />
+      <!-- <h5 v-if="data.labelled" class="text-info">
           This folder is labelled {{ data.label }}.
         </h5>
         <h5 v-else class="text-danger">This folder is not labelled!</h5>
         <hr style="width: 100vw" />
-      </div>
+      </div> -->
       <h4 v-if="!currentItem.images.length" class="text-danger pt-5">
         This folder is empty, upload images.
       </h4>
@@ -105,8 +113,10 @@
 </template>
 
 <script>
+/* eslint-disable */
 import datasets from "@/services/datasets";
 import Annotator from "@/components/admin/annotator.vue";
+import FolderPaginate from "@/components/folderPaginate";
 
 import { mapActions, mapGetters } from "vuex";
 import axios from "../../store/axios_setup";
@@ -114,6 +124,7 @@ export default {
   name: "annotations",
   components: {
     Annotator,
+    FolderPaginate,
   },
   data() {
     return {
@@ -147,6 +158,14 @@ export default {
   },
   computed: {
     ...mapGetters(["currentItem", "annotating"]),
+  },
+  watch: {
+    $route(to, from) {
+      this.data = this.currentItem;
+      this.$store.commit("imageGroup", this.currentItem.images);
+      this.items[1].href = `/user/datasets/${this.currentItem.dataset_id}`;
+      this.items[2].text = this.currentItem.name;
+    },
   },
   methods: {
     ...mapActions(["getUserItem"]),
