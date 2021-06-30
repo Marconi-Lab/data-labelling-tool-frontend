@@ -356,6 +356,7 @@ export default {
     axios.get(`/admin/${dataset_id}/item/`).then((res) => {
       console.log(res.data);
       this.data = res.data;
+      localStorage.setItem("currentDataset", JSON.stringify(res.data));
     });
 
     axios
