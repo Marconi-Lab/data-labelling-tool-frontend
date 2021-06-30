@@ -70,7 +70,7 @@
               </div>
               <img
                 @click="handleImageClick(image)"
-                :src="image.image"
+                v-lazy="image.image"
                 alt="data image"
                 class="data-image"
               />
@@ -251,6 +251,10 @@ export default {
   width: 100%;
   height: auto;
   padding: 0px;
+  background-image: url("../../assets/loading.gif");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .image-area {
   max-width: 200px;
