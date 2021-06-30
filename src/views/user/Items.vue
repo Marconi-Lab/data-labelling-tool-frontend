@@ -61,7 +61,7 @@
 <script>
 import datasets from "@/services/datasets";
 import { VueGoodTable } from "vue-good-table";
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 import axios from "../../store/axios_setup";
 
 export default {
@@ -89,21 +89,22 @@ export default {
       ],
       // data: [],
       currentPage: 1,
+      currentDataset: "",
       datasets,
       processing: true,
     };
   },
   computed: {
-    ...mapGetters(["currentDataset"]),
+    // ...mapGetters(["currentDataset"]),
     rows() {
-      return this.data.length;
+      return this.currentDataset.length;
     },
   },
   methods: {},
   created() {
     axios.get(`/user/datasets/${this.$route.params.id}/`).then((res) => {
       console.log("Response here", res);
-      // this.data = res.data.items;
+      this.currentDataset = res.data.items;
       localStorage.setItem("currentDataset", JSON.stringify(res.data.items));
       // this.$store.commit("currentDataset", res.data.items);
       this.processing = false;
