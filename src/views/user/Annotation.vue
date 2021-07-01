@@ -43,6 +43,22 @@
           <ImageCard :image="image" :options="options" />
         </b-col>
       </b-row>
+      <div class="comment-section">
+        <b-alert v-if="text" show variant="info" class="mx-4">
+          <h4>Comment</h4>
+          <hr
+            style="border-top: solid 0.1rem #17a2b8; width: 100%; margin-top: 0px;"
+          />
+          <p class="text-left">{{ text }}</p>
+        </b-alert>
+        <b-alert v-else show variant="danger" class="mx-4">
+          <h4>Comment</h4>
+          <hr
+            style="border-top: solid 0.1rem maroon; width: 100%; margin-top: 0px;"
+          />
+          <p class="text-left">No comment!</p>
+        </b-alert>
+      </div>
     </div>
     <b-modal
       id="modal-images"
@@ -169,6 +185,7 @@ export default {
       this.$store.commit("imageGroup", this.currentItem.images);
       this.items[1].href = `/user/datasets/${this.currentItem.dataset_id}`;
       this.items[2].text = this.currentItem.name;
+      this.text = this.currentItem.comment;
     },
   },
   created() {
