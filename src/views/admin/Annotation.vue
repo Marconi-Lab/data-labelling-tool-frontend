@@ -37,9 +37,9 @@
         <h5 v-else class="text-danger">This folder is not labelled!</h5>
         <hr style="width: 100vw" />
       </div> -->
-      <h4 v-if="!currentItem.images.length" class="text-danger pt-5">
+      <h5 v-if="!currentItem.images.length" class="text-danger pt-5">
         This folder is empty, upload images.
-      </h4>
+      </h5>
 
       <b-row class="justify-content-center" v-else>
         <b-col
@@ -78,6 +78,22 @@
           </div>
         </b-col>
       </b-row>
+      <div class="comment-section m-4">
+        <b-alert v-if="text" show variant="info" class="mx-4">
+          <h5>Comment</h5>
+          <hr
+            style="border-top: solid 0.1rem #17a2b8; width: 100%; margin-top: 0px;"
+          />
+          <p class="text-left">{{ text }}</p>
+        </b-alert>
+        <b-alert v-else show variant="danger" class="mx-4">
+          <h5>Comment</h5>
+          <hr
+            style="border-top: solid 0.1rem maroon; width: 100%; margin-top: 0px;"
+          />
+          <p class="text-left">No comment!</p>
+        </b-alert>
+      </div>
     </div>
 
     <!-- modal -->
@@ -165,6 +181,7 @@ export default {
       this.$store.commit("imageGroup", this.currentItem.images);
       this.items[1].href = `/user/datasets/${this.currentItem.dataset_id}`;
       this.items[2].text = this.currentItem.name;
+      this.text = this.currentItem.comment;
     },
   },
   methods: {
@@ -235,7 +252,7 @@ export default {
         )[0].item;
 
         // populating comment
-        this.text = this.data.comment;
+        this.text = this.currentItem.comment;
       }
       this.processing = false;
     });
@@ -244,6 +261,9 @@ export default {
 </script>
 
 <style scoped>
+.comment-section {
+  font-size: 0.8rem;
+}
 .col-6 {
   padding: 0px;
 }
