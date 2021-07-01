@@ -7,7 +7,7 @@
       {{ name }} is labelled {{ label }}
     </h4>
     <h4 v-else class="text-danger mx-auto">{{ name }} is not labelled</h4>
-    <a class="text-info" @click="handleLoadNext">next &gt;&gt;</a>
+    <a class="text-info next" @click="handleLoadNext">next &gt;&gt;</a>
   </b-row>
 </template>
 
@@ -85,5 +85,11 @@ a:hover {
   /* background-color: rgb(252, 252, 143); */
   border-radius: 2px;
   cursor: pointer;
+}
+@media (max-width: 460px) {
+  .next {
+    position: absolute;
+    right: 10px;
+  }
 }
 </style>
