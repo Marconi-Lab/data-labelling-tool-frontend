@@ -179,7 +179,7 @@ export default {
     $route(to, from) {
       this.data = this.currentItem;
       this.$store.commit("imageGroup", this.currentItem.images);
-      this.items[1].href = `/user/datasets/${this.currentItem.dataset_id}`;
+      this.items[1].href = `/admin/datasets/${this.currentItem.dataset_id}`;
       this.items[2].text = this.currentItem.name;
       this.text = this.currentItem.comment;
     },
