@@ -1,21 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import Landing from "../views/Landing";
-// import Login from "../views/user/Login";
-// import Home from "../views/user/Home";
-// import HomeView from "../views/user/HomeView";
-// import Datasets from "../views/user/Datasets";
-// import Items from "../views/user/Items";
-// import Annotation from "../views/user/Annotation";
-// import SignUp from "../views/user/SignUp";
 
-// import AdminLogin from "../views/admin/Login";
-// import AdminMain from "../views/admin/Main";
-// import AdminHome from "../views/admin/Home";
-// import Users from "../views/admin/Users";
-// import AdminDatasets from "../views/admin/Datasets";
-// import AdminItems from "../views/admin/Items";
-// import AdminAnnotation from "../views/admin/Annotation";
 
 Vue.use(VueRouter);
 
@@ -179,6 +164,18 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "AdminAnnotation" */ "../views/admin/Annotation.vue"
+          ),
+        meta: {
+          requires_auth: true,
+          is_admin: true,
+        },
+      },
+      {
+        path: "downloads",
+        name: "admin-downloads",
+        component: () =>
+          import(
+            /* webpackChunkName: "AdminDownloads" */ "../views/admin/Downloads.vue"
           ),
         meta: {
           requires_auth: true,
