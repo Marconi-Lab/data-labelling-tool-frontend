@@ -26,6 +26,7 @@ import {
   FormGroupPlugin,
   ListGroupPlugin,
   AlertPlugin,
+  TabsPlugin
 } from "bootstrap-vue";
 
 api.interceptors.request.use(
@@ -107,6 +108,7 @@ Vue.use(FormInputPlugin);
 Vue.use(FormGroupPlugin);
 Vue.use(ListGroupPlugin);
 Vue.use(AlertPlugin);
+Vue.use(TabsPlugin)
 Vue.use(VueLazyload);
 new Vue({
   router,
