@@ -40,6 +40,15 @@
             ></b-nav-item
           >
           <b-nav-item
+            ><router-link
+              :class="[
+                currentRoute.includes('downloads') ? 'link-active' : 'link-normal',
+              ]"
+              to="/admin/downloads"
+              >Downloads</router-link
+            ></b-nav-item
+          >
+          <b-nav-item
             ><b-icon
               icon="power"
               class="link-normal"
