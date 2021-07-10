@@ -26,7 +26,8 @@ import {
   FormGroupPlugin,
   ListGroupPlugin,
   AlertPlugin,
-  TabsPlugin
+  TabsPlugin,
+  FormCheckboxPlugin
 } from "bootstrap-vue";
 
 api.interceptors.request.use(
@@ -110,6 +111,7 @@ Vue.use(ListGroupPlugin);
 Vue.use(AlertPlugin);
 Vue.use(TabsPlugin)
 Vue.use(VueLazyload);
+Vue.use(FormCheckboxPlugin)
 new Vue({
   router,
   render: (h) => h(App),
