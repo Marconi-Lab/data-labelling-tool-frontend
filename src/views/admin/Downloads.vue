@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <div >
     <b-card no-body>
-      <b-tabs class="text-info" card>
-        <b-tab title="Object Detection" :title-link-class="'text-info'" active>
+      <b-tabs v-model="tabIndex" :active-nav-item-class="['bg-info', 'active-text']" card>
+        <b-tab :title-link-class="linkClass(0)" title="Object Detection">
           <b-card-text>Tab contents 1</b-card-text>
         </b-tab>
-        <b-tab title="Organised by Case" :title-link-class="'text-info'">
+        <b-tab title="Organised by Case" :title-link-class="linkClass(1)">
           <b-card-text>Tab contents 2</b-card-text>
         </b-tab>
       </b-tabs>
@@ -14,8 +14,26 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+      return {
+        tabIndex: 0
+      }
+    },
+    methods: {
+      linkClass(idx) {
+        if (this.tabIndex === idx) {
+          return ['bg-primary', 'text-light']
+        } else {
+          return ['bg-light', 'text-info']
+        }
+      }
+    }
+};
 </script>
 
-<style>
+<style scoped>
+.active-text{
+  color: rgb(252, 252, 143);
+}
 </style>
