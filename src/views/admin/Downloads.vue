@@ -8,13 +8,14 @@
       >
         <b-tab :title-link-class="linkClass(0)" title="Object Detection">
           <b-card-text>
-            <div class="container p-0">
-              <h5 class="text-info text-center mt-1 pb-0 mb-1">Select annotators to include</h5>
+            <div class="container p-0 pb-3">
+              <h5 class="text-info text-center mt-1 p-2 mb-1">Select annotators to include</h5>
               <hr class="m-0">
               <b-form-checkbox-group
                 id="checkbox-group-2"
                 v-model="selected"
                 name="flavour-2"
+                class="px-3"
               >
                 <b-row cols="1" cols-sm="1" cols-md="2" cols-lg="4">
                   <b-col v-for="user in users" :key="user.id" class="text-left"
@@ -24,8 +25,7 @@
                   >
                 </b-row>
               </b-form-checkbox-group>
-              <b-form-checkbox v-model="allSelected" :indeterminate="indeterminate" type="checkbox" @change="selectAll">Select All</b-form-checkbox>
-              <p>Selected: {{ selected }}</p>
+              <b-form-checkbox v-model="allSelected" :indeterminate="indeterminate" type="checkbox" @change="selectAll" class="mt-1">Select All</b-form-checkbox>
             </div>
           </b-card-text>
         </b-tab>
