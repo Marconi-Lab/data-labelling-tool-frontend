@@ -24,7 +24,7 @@
                   >
                 </b-row>
               </b-form-checkbox-group>
-              <input type="checkbox" class="btn btn-info" @click="selectAll(this)">
+              <b-form-checkbox v-model="allSelected" :indeterminate="indeterminate" type="checkbox" @change="selectAll">Select All</b-form-checkbox>
               <p>Selected: {{ selected }}</p>
             </div>
           </b-card-text>
@@ -48,6 +48,8 @@ export default {
       tabIndex: 0,
       selected: [],
       users: {},
+      allSelected: false,
+      indeterminate: false
     };
   },
   methods: {
@@ -57,15 +59,25 @@ export default {
       } else {
         return ["bg-light", "text-info"];
       }
-    },selectAll(source){
-      const checkboxes = document.getElementsByClassName("box")
-      console.log("This", source)
-      console.log("Checkboxes", checkboxes)
-      for(var checkbox in checkboxes){
-        checkbox.checked = source.checked
-      }
+    },selectAll(checked){
+      this.selected = checked ? this.users.map(x=>x.id) : []
     }
   },
+  watch: {
+      selected(newValue) {
+        // Handle changes in individual user checkboxes
+        if (newValue.length === 0) {
+          this.indeterminate = false
+          this.allSelected = false
+        } else if (newValue.length === this.users.length) {
+          this.indeterminate = false
+          this.allSelected = true
+        } else {
+          this.indeterminate = true
+          this.allSelected = false
+        }
+      }
+    },
   created() {
     axios.get(`/admin/users/`).then((res) => {
       console.log(res);
