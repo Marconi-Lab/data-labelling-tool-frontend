@@ -81,6 +81,16 @@ export default {
           console.log(res);
           fileDownload(res.data, "object_detection_dataset.csv");
         });
+      }else{
+        axios({
+          url: "/admin/download/by_case",
+          method: "GET",
+          responseType: "text",
+          params: {users: this.selectedIDs}
+        }).then((res) => {
+          console.log(res);
+          fileDownload(res.data, "ordered_by_dataset.csv");
+        });
       }
     },
   },
