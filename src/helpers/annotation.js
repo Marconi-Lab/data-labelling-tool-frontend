@@ -41,22 +41,21 @@ module.exports = {
             this.ctx.strokeStyle = "aqua";
             this.ctx.fillStyle = "rgba(0, 255, 255, 0.25)";
             for (let i = 0, pts = points[i], j, p; i < points.length; i++) {
-                console.log("Printing shape: ", pts);
+                // console.log("Printing shape: ", pts);
                 this.ctx.beginPath();
                 this.ctx.moveTo(pts[0][0], pts[0][1]);
-                console.log("Begin with: ", pts[0][0], pts[0][1]);
+                // console.log("Begin with: ", pts[0][0], pts[0][1]);
                 for (j = 1; j < pts.length; j++) {
                     p = pts[j];
                     this.ctx.lineTo(p[0], p[1]);
                     this.ctx.stroke();
-
-                    console.log("Printing points: ", p);
+                    // console.log("Printing points: ", p);
                 }
                 this.ctx.lineTo(pts[0][0], pts[0][1]);
                 this.ctx.stroke();
                 this.ctx.closePath();
                 this.ctx.fill();
-                console.log("Concluding shape: ", i);
+                // console.log("Concluding shape: ", i);
             }
         };
     }
