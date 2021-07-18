@@ -26,4 +26,12 @@ exports.Segment = function (painting, ctx) {
         this.ctx.strokeStyle = "aqua";
         this.ctx.fillStyle = "rgba(0, 255, 255, 0.25)";
     }
+    this.stopPainting = () => {
+        this.ctx.lineTo(this.initialX, this.initialY);
+        this.ctx.stroke();
+        this.ctx.strokeStyle = "rgba(0, 255, 255, 0.25)";
+        this.ctx.closePath();
+        this.ctx.fill();
+        this.painting = false;
+    };
 }
