@@ -22,7 +22,7 @@ module.exports = {
             this.points.push([]);
             this.points[this.points.length - 1].push([e.offsetX, e.offsetY]);
             this.ctx.moveTo(e.offsetX, e.offsetY);
-            this.drawSegment(e);
+            this.draw(e);
         }
         this.draw = (e) => {
             if (!this.painting) return;
@@ -82,6 +82,20 @@ module.exports = {
         this.ctx = ctx;
         this.initialX = 0;
         this.initialY = 0;
+        this.box = {
+            width: 0,
+            height: 0,
+            left: this.initialX,
+            right: this.initialY
+        }
+
+        this.startPainting = (e) => {
+            this.initialX = e.offsetX;
+            this.initialY = e.offsetY;
+            this.ctx.beginPath();
+            this.draw()
+        }
+        this
     }
 }
 
