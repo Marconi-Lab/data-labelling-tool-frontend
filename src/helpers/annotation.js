@@ -24,7 +24,7 @@ module.exports = {
             this.ctx.moveTo(e.offsetX, e.offsetY);
             this.drawSegment(e);
         }
-        this.drawSegment = (e) => {
+        this.draw = (e) => {
             if (!this.painting) return;
             this.ctx.lineWidth = 1;
             this.ctx.lineCap = "round";
@@ -82,7 +82,6 @@ module.exports = {
         this.ctx = ctx;
         this.initialX = 0;
         this.initialY = 0;
-        
     }
 }
 
