@@ -58,5 +58,13 @@ module.exports = {
                 // console.log("Concluding shape: ", i);
             }
         };
+        this.undoDrawing = () => {
+            console.log("Points array: ", this.points)
+            this.ctx.clearRect(0,0,512,512)
+            console.log("Removing path")
+            this.points.pop()
+            console.log("Points ", this.points)
+            this.drawShape(this.points)
+        }
     }
 }
