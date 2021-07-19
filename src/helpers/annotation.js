@@ -76,6 +76,13 @@ module.exports = {
             console.log("Points array after pop: ", this.pointsArray.length, this.pointsArray)
             this.drawShape(this.pointsArray)
         }
+    },
+    BoundingBox: function(painting, ctx){
+        this.painting = painting;
+        this.ctx = ctx;
+        this.initialX = 0;
+        this.initialY = 0;
+        
     }
 }
 
