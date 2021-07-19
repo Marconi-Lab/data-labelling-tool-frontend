@@ -6,6 +6,13 @@ module.exports = {
         this.initialY = 0;
         this.points = [];
 
+        Object.defineProperties(this, {
+            "pointsArray": {
+                "get": () => this.points,
+                "set": (payload) => this.points = payload
+            }
+        })
+
         this.startPainting = (e) => {
             this.painting = true;
             this.initialX = e.offsetX;
@@ -40,8 +47,8 @@ module.exports = {
             this.ctx.lineCap = "round";
             this.ctx.strokeStyle = "aqua";
             this.ctx.fillStyle = "rgba(0, 255, 255, 0.25)";
-            for (let i = 0, pts = points[i], j, p; i < points.length; i++) {
-                // console.log("Printing shape: ", pts);
+            for (let i = 0, j, p; i < points.length; i++) {
+                let pts = points[i]
                 this.ctx.beginPath();
                 this.ctx.moveTo(pts[0][0], pts[0][1]);
                 // console.log("Begin with: ", pts[0][0], pts[0][1]);
@@ -59,12 +66,16 @@ module.exports = {
             }
         };
         this.undoDrawing = () => {
-            console.log("Points array: ", this.points)
+            console.log("Points array: ", this.pointsArray.length, this.pointsArray)
             this.ctx.clearRect(0,0,512,512)
             console.log("Removing path")
-            this.points.pop()
-            console.log("Points ", this.points)
-            this.drawShape(this.points)
+            let points = this.pointsArray
+            points.pop()
+            this.pointsArray = points
+            console.log(this.pointsArray)
+            console.log("Points array after pop: ", this.pointsArray.length, this.pointsArray)
+            this.drawShape(this.pointsArray)
         }
     }
 }
+
