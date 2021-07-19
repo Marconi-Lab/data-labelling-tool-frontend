@@ -1,3 +1,7 @@
+const {
+    BIconTelephoneMinusFill
+} = require("bootstrap-vue");
+
 module.exports = {
     Segment: function (painting, ctx) {
         this.painting = painting;
@@ -67,7 +71,7 @@ module.exports = {
         };
         this.undoDrawing = () => {
             console.log("Points array: ", this.pointsArray.length, this.pointsArray)
-            this.ctx.clearRect(0,0,512,512)
+            this.ctx.clearRect(0, 0, 512, 512)
             console.log("Removing path")
             let points = this.pointsArray
             points.pop()
@@ -77,7 +81,7 @@ module.exports = {
             this.drawShape(this.pointsArray)
         }
     },
-    BoundingBox: function(painting, ctx){
+    BoundingBox: function (painting, ctx) {
         this.painting = painting;
         this.ctx = ctx;
         this.initialX = 0;
@@ -95,7 +99,13 @@ module.exports = {
             this.ctx.beginPath();
             this.draw()
         }
-        this
+        this.draw = (e) => {
+            if (!this.painting)
+                return
+            this.ctx.rect(this.initialX, this.initialY, e.offsetX - this.initialX, this.initialY - e.offsetY);
+            this.ctx.stroke();
+            this.ctx.strokeStyle = "aqua";
+            this.ctx.fillStyle = "rgba(0, 255, 255, 0.25)";
+        }
     }
 }
-
