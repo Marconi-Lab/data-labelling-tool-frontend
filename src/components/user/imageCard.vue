@@ -1,6 +1,6 @@
 <template>
   <div class="data">
-    <div style="background-color: #17a2b8; font-size: 0.9rem">
+    <div style="background-color: #007fff; font-size: 0.9rem; border-top-left-radius: 0.4rem; border-top-right-radius: 0.4rem;">
       <div v-if="image.id == imageUpdating">
         <b-icon
           icon="three-dots"
@@ -15,7 +15,7 @@
           Labelled: {{ image.label }}
         </p>
 
-        <p v-else class="text-warning text-left ml-2 py-2">
+        <p v-else class="text-warning-custom text-left ml-2 py-2">
           This image is not labelled
         </p>
         <p
@@ -23,15 +23,15 @@
           class="text-white"
           style="position: absolute; right: 1rem; top: 0.8rem"
         >
-          box <b-icon scale="1" icon="check"></b-icon>
+          box <b-icon scale="1.2" icon="check" ></b-icon>
         </p>
         <p
           v-else
-          class="text-danger"
+          class="text-warning-custom"
           style="position: absolute; right: 1rem; top: 0.8rem"
-        >
+        ><strong>
           box
-          <b-icon icon="x-circle" scale="1" variant="danger"></b-icon>
+          <b-icon icon="x-circle" scale="1.2"></b-icon></strong>
         </p>
       </div>
     </div>
@@ -41,11 +41,11 @@
       alt="data image"
       class="data-image"
     />
-    <div style="background-color: #17a2b8">
+    <div style="background-color: #007fff; border-bottom-left-radius: 0.4rem; border-bottom-right-radius: 0.4rem;">
       <b-nav-form
         label-size="md"
         label-for="input-sm"
-        class="mb-0 m-1 justify-content-left"
+        class="mb-0 mx-2 justify-content-left"
         style="max-width: 500px"
       >
         <b-form-select
@@ -82,21 +82,7 @@ export default {
   },
   computed: {
     ...mapGetters(["imageUpdating"]),
-    // selectedImageClass: {
-    //   //   get() {
-    //   //     let value = this.imageObject
-    //   //       ? this.options.filter(
-    //   //           (x) => x.name[0].toLowerCase() == this.imageObject.toLowerCase()
-    //   //         )[0].item
-    //   //       : "A";
-    //   //     console.log(value);
-    //   //     return value;
-    //   //   },
-    //   //   set(selectedValue) {
-    //   //     this.selected = selectedValue;
-    //   //     return selectedValue;
-    //   //   },
-    // },
+    
   },
   methods: {
     ...mapActions(["labelImage"]),
@@ -132,11 +118,14 @@ export default {
 </script>
 
 <style>
+.text-warning-custom {
+  color: rgb(252, 252, 143);
+}
 .data {
   padding-bottom: 0px;
 }
 .data-image {
-  border: solid #17a2b8 1px;
+  border: solid #007fff 1px;
   background-image: url("../../assets/loading.gif");
   background-size: auto;
   background-repeat: no-repeat;

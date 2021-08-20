@@ -22,7 +22,7 @@ export default {
 <style lang="scss" scoped>
 .box {
   position: absolute;
-  border: 3px aqua solid;
+  border: 3px rgb(252, 252, 143) solid;
   &:hover,
   &.active {
     background-color: rgba(144, 238, 189, 0.2);

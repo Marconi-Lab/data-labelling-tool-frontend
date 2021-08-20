@@ -1,7 +1,7 @@
 <template>
   <div id="landing-page">
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand>Data Labelling Tool</b-navbar-brand>
+      <b-navbar-brand class="py-0 my-0"><img class="brand-image" src="../assets/marconi_lab.png" alt=""></b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -31,6 +31,10 @@ export default {};
 </script>
 
 <style>
+.brand-image{
+  height: 3rem;
+  border-radius: 0.2rem;
+}
 .button:hover {
   color: white;
 }
