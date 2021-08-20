@@ -182,6 +182,11 @@ const routes = [
           is_admin: true,
         },
       },
+      {
+        path: "dashboard",
+        name: "admin-dashboard",
+        component: () => import(/* webpackChunkName: "AdminDashboard" */ "../views/admin/Dashboard.vue")
+      }
     ],
   },
 ];

@@ -11,12 +11,12 @@
           <b-nav-item
             ><router-link
               :class="[
-                currentRoute.includes('/admin/home')
+                currentRoute.includes('/admin/dashboard')
                   ? 'link-active'
                   : 'link-normal',
               ]"
-              to="/admin/home"
-              >Home</router-link
+              to="/admin/dashboard"
+              >Dashboard</router-link
             ></b-nav-item
           >
           <b-nav-item
