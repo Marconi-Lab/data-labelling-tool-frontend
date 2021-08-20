@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://20.73.19.71:5000";
+const API_URL = "http://marconimlannotator.com/api/v1";
 
 let settings = {
   baseURL: API_URL,

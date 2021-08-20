@@ -170,7 +170,7 @@ export default {
         : "";
       let { width, height } = this.drawingBox;
       console.log(width, outerHeight);
-      if (width < 100 || height < 100) {
+      if (width < 50 || height < 50) {
         // this.clearBoxes();
         this.boxError = true;
         this.drawingBox = "";

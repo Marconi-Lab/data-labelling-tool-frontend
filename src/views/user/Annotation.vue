@@ -29,7 +29,7 @@
         :itemid="currentItem.id"
       />
       <hr
-        style="border-top: solid 0.1rem #17a2b8; width: 100vw; margin-top: 0px;"
+        style="border-top: solid 0.1rem #007fff; width: 100vw; margin-top: 0px;"
       />
 
       <b-row class="px-4 m-0 justify-content-center">
@@ -47,7 +47,7 @@
         <b-alert v-if="text" show variant="info" class="mx-4">
           <h4>Comment</h4>
           <hr
-            style="border-top: solid 0.1rem #17a2b8; width: 100%; margin-top: 0px;"
+            style="border-top: solid 0.1rem #007fff; width: 100%; margin-top: 0px;"
           />
           <p class="text-left">{{ text }}</p>
         </b-alert>

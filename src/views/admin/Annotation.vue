@@ -29,7 +29,7 @@
         :itemid="currentItem.id"
       />
       <hr
-        style="border-top: solid 0.1rem #17a2b8; width: 100vw; margin-top: 0px;"
+        style="border-top: solid 0.1rem #007fff; width: 100vw; margin-top: 0px;"
       />
       <!-- <h5 v-if="data.labelled" class="text-info">
           This folder is labelled {{ data.label }}.
@@ -52,10 +52,10 @@
         >
           <div
             class="mt-3"
-            style="border-bottom: solid 1px gray; border-left: solid 1px gray; border-right: solid 1px gray"
+            
           >
             <div class="data">
-              <div style="background-color: #17a2b8">
+              <div style="background-color: #007fff; border-top-left-radius: 0.4rem; border-top-right-radius: 0.4rem;">
                 <div>
                   <p
                     v-if="image.labelled"
@@ -72,6 +72,7 @@
                 @click="handleImageClick(image)"
                 v-lazy="image.image"
                 alt="data image"
+                style="border-bottom: solid 1px gray; border-left: solid 1px gray; border-right: solid 1px gray"
                 class="data-image"
               />
             </div>
@@ -82,7 +83,7 @@
         <b-alert v-if="text" show variant="info" class="mx-4">
           <h5>Comment</h5>
           <hr
-            style="border-top: solid 0.1rem #17a2b8; width: 100%; margin-top: 0px;"
+            style="border-top: solid 0.1rem #007fff; width: 100%; margin-top: 0px;"
           />
           <p class="text-left">{{ text }}</p>
         </b-alert>
@@ -261,6 +262,9 @@ export default {
 </script>
 
 <style scoped>
+.card-custom {
+  border-radius: 1rem;
+}
 .comment-section {
   font-size: 0.8rem;
 }
