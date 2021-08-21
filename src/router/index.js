@@ -185,7 +185,11 @@ const routes = [
       {
         path: "dashboard",
         name: "admin-dashboard",
-        component: () => import(/* webpackChunkName: "AdminDashboard" */ "../views/admin/Dashboard.vue")
+        component: () => import(/* webpackChunkName: "AdminDashboard" */ "../views/admin/Dashboard.vue"),
+        meta: {
+          requires_auth: true,
+          is_admin: true
+        }
       }
     ],
   },
