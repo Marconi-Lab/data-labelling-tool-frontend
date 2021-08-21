@@ -4,12 +4,12 @@
       <!-- Sidebar -->
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="list-group list-group-flush">
-          <a href="#" class="list-group-item list-group-item-action bg-light text-left">All Sites</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light text-left">Mayuge</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light text-left">UCI</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light text-left">Mbarara</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light text-left">Jinja</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light text-left">Arua</a>
+          <router-link to="/admin/dashboard/allsites" class="list-group-item list-group-item-action bg-light text-left">All Sites</router-link>
+          <router-link to="/admin/dashboard/mayuge" class="list-group-item list-group-item-action bg-light text-left">Mayuge</router-link>
+          <router-link to="/admin/dashboard/uci" class="list-group-item list-group-item-action bg-light text-left">UCI</router-link>
+          <router-link to="/admin/dashboard/mbarara" class="list-group-item list-group-item-action bg-light text-left">Mbarara</router-link>
+          <router-link to="/admin/dashboard/jinja" class="list-group-item list-group-item-action bg-light text-left">Jinja</router-link>
+          <router-link to="/admin/dashboard/arua" class="list-group-item list-group-item-action bg-light text-left">Arua</router-link>
         </div>
       </div>
       <!-- /#sidebar-wrapper -->
@@ -32,7 +32,14 @@
 import 'jquery/dist/jquery.min.js';
 import $ from 'jquery'; 
 export default {
- 
+ data(){
+   return {
+
+   }
+ },
+ computed: {
+   currentRoute: () => this.$route.path
+ },
   mounted(){
     //toggle sidebar
     $("#menu-toggle").click(function(e) {
