@@ -103,7 +103,7 @@
             Toggle Dashboard
           </button>
         </nav>
-        <div class="p-3 content-view">
+        <div class="p-3 content-view container">
           <router-view></router-view>
         </div>
       </div>
