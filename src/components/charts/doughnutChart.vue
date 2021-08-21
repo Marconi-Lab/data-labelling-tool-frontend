@@ -7,10 +7,10 @@ export default {
   data(){
       return{
           data: {
-              labels: ["total cases", "labeled cases"],
+              labels: ["labeled cases", " Un labeled cases"],
               datasets: [{
                   label: 'dataset 1',
-                  backgroundColor: ["#52a6fa", "#20c997"],
+                  backgroundColor: ["#20c997", "#52a6fa"],
                   data: [this.labelled, this.unlabelled]
               }]
           },
