@@ -18,8 +18,8 @@
         <nav class="navbar navbar-expand-lg navbar-secondary p-1 bg-light border-bottom">
           <button class="btn btn-info ml-2" id="menu-toggle" style="font-size: 0.9rem;">Toggle Dashboard</button>
         </nav>
-        <div class="bg-light">
-          
+        <div class="p-3">
+          <router-view></router-view>  
         </div>
       </div>
       <!-- /#page-content-wrapper -->
