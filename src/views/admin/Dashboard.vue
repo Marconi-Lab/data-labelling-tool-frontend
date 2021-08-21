@@ -9,7 +9,11 @@
             :class="[
               currentRoute.includes('/admin/dashboard/allsites')
                 ? 'link-active'
-                : 'link-normal', 'text-left', 'p-2', 'pl-3', 'custom-link'
+                : 'link-normal',
+              'text-left',
+              'p-2',
+              'pl-3',
+              'custom-link',
             ]"
             >All Sites</router-link
           >
@@ -18,7 +22,11 @@
             :class="[
               currentRoute.includes('/admin/dashboard/mayuge')
                 ? 'link-active'
-                : 'link-normal', 'text-left', 'p-2', 'pl-3', 'custom-link'
+                : 'link-normal',
+              'text-left',
+              'p-2',
+              'pl-3',
+              'custom-link',
             ]"
             >Mayuge</router-link
           >
@@ -27,7 +35,11 @@
             :class="[
               currentRoute.includes('/admin/dashboard/uci')
                 ? 'link-active'
-                : 'link-normal', 'text-left', 'p-2', 'pl-3', 'custom-link'
+                : 'link-normal',
+              'text-left',
+              'p-2',
+              'pl-3',
+              'custom-link',
             ]"
             >UCI</router-link
           >
@@ -36,7 +48,11 @@
             :class="[
               currentRoute.includes('/admin/dashboard/mbarara')
                 ? 'link-active'
-                : 'link-normal', 'text-left', 'p-2', 'pl-3', 'custom-link'
+                : 'link-normal',
+              'text-left',
+              'p-2',
+              'pl-3',
+              'custom-link',
             ]"
             >Mbarara</router-link
           >
@@ -45,7 +61,11 @@
             :class="[
               currentRoute.includes('/admin/dashboard/jinja')
                 ? 'link-active'
-                : 'link-normal', 'text-left', 'p-2', 'pl-3', 'custom-link'
+                : 'link-normal',
+              'text-left',
+              'p-2',
+              'pl-3',
+              'custom-link',
             ]"
             >Jinja</router-link
           >
@@ -54,7 +74,11 @@
             :class="[
               currentRoute.includes('/admin/dashboard/arua')
                 ? 'link-active'
-                : 'link-normal', 'text-left', 'p-2', 'pl-3', 'custom-link'
+                : 'link-normal',
+              'text-left',
+              'p-2',
+              'pl-3',
+              'custom-link',
             ]"
             >Arua</router-link
           >
@@ -79,7 +103,7 @@
             Toggle Dashboard
           </button>
         </nav>
-        <div class="p-3">
+        <div class="p-3 content-view">
           <router-view></router-view>
         </div>
       </div>
@@ -96,7 +120,9 @@ export default {
     return {};
   },
   computed: {
-    currentRoute(){return this.$route.path},
+    currentRoute() {
+      return this.$route.path;
+    },
   },
   mounted() {
     //toggle sidebar
@@ -132,6 +158,7 @@ body {
 
 #page-content-wrapper {
   min-width: 100vw;
+  height: 100%;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -146,6 +173,7 @@ body {
   #page-content-wrapper {
     min-width: 0;
     width: 100%;
+    height: 100%;
   }
 
   #wrapper.toggled #sidebar-wrapper {
@@ -157,20 +185,28 @@ body {
 }
 #page-content-wrapper {
   background-color: white;
+  overflow: fixed;
 }
-.link-normal{
+.link-normal {
   color: #272727;
 }
-.link-active{
+.link-active {
   color: #007fff;
   background-color: #0080ff0e;
 }
 
-.custom-link{
+.custom-link {
   border-bottom: solid 1px #dee2e6;
 }
-.custom-link:hover{
+.custom-link:hover {
   background-color: #f8f9fa;
   text-decoration: none;
+}
+.content-view {
+  width: 100%;
+  height: 85vh;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-view">
     <NavBar />
     <router-view></router-view>
   </div>
@@ -18,4 +18,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.main-view{
+  display: block;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: fixed;
+}
+</style>
