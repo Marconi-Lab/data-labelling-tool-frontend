@@ -189,7 +189,14 @@ const routes = [
         meta: {
           requires_auth: true,
           is_admin: true
-        }
+        },
+        children: [
+          {
+            path: "allsites",
+            name: "admin-dashboard-allsites",
+            component: ()=>import(/* webpackChunkName: "AdminDasbhoardAllsites" */ "../views/admin/AllSitesStats.vue")
+          }
+        ]
       }
     ],
   },
