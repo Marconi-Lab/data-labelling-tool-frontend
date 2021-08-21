@@ -15,7 +15,7 @@ export default {
               }]
           },
           options: {
-
+              cutoutPercentage: 85
           }
       }
   },
