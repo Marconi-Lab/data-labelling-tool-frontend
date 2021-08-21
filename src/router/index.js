@@ -194,8 +194,52 @@ const routes = [
           {
             path: "allsites",
             name: "admin-dashboard-allsites",
-            component: ()=>import(/* webpackChunkName: "AdminDasbhoardAllsites" */ "../views/admin/AllSitesStats.vue")
-          }
+            component: ()=>import(/* webpackChunkName: "AdminDasbhoardAllsites" */ "../views/admin/AllSitesStats.vue"),
+            meta: {
+              requires_auth: true,
+              is_admin: true
+            }
+          },{
+            path: "mayuge",
+            name: "admin-dashboard-mayuge",
+            component: ()=>import(/* webpackChunkName: "AdminDasbhoardMayuge" */ "../views/admin/OneSiteStats.vue"),
+            meta: {
+              requires_auth: true,
+              is_admin: true
+            }
+          },{
+            path: "uci",
+            name: "admin-dashboard-uci",
+            component: ()=>import(/* webpackChunkName: "AdminDasbhoardUCI" */ "../views/admin/OneSiteStats.vue"),
+            meta: {
+              requires_auth: true,
+              is_admin: true
+            }
+          },{
+            path: "mbarara",
+            name: "admin-dashboard-Mbarara",
+            component: ()=>import(/* webpackChunkName: "AdminDasbhoardMbarara" */ "../views/admin/OneSiteStats.vue"),
+            meta: {
+              requires_auth: true,
+              is_admin: true
+            }
+          },{
+            path: "jinja",
+            name: "admin-dashboard-jinja",
+            component: ()=>import(/* webpackChunkName: "AdminDasbhoardJinja" */ "../views/admin/OneSiteStats.vue"),
+            meta: {
+              requires_auth: true,
+              is_admin: true
+            }
+          },{
+            path: "arua",
+            name: "admin-dashboard-arua",
+            component: ()=>import(/* webpackChunkName: "AdminDasbhoardArua" */ "../views/admin/OneSiteStats.vue"),
+            meta: {
+              requires_auth: true,
+              is_admin: true
+            }
+          },
         ]
       }
     ],
