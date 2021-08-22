@@ -113,7 +113,7 @@
       <b-list-group>
         <p class="text-dark my-2">Select dataset to assign {{currentUserName}}</p>
         <b-form-select
-          v-model="selected"
+          v-model="selectedSite"
           :options="sites"
           class="mb-3"
           value-field="id"
@@ -171,13 +171,14 @@ export default {
       ],
       rows: [],
       options: ["dataset1", "dataset2"],
-      sites: ["arua", "jinja", "mayuge", "mbarara", "uci"],
+      sites: ["arua", "jinja", "mayuge", "mbarara", "uci", "gynecologist"],
       deletingSelected: false,
       selected: "",
       currentDatasets: [],
       currentUser: "",
       currentUserName: "",
       processing: true,
+      selectedSite: ""
     };
   },
   methods: {
@@ -207,7 +208,14 @@ export default {
           this.$store.commit("isLoading", false);
         });
     },
-    
+    handleUserSiteUpdate(e){
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      axios.put(`/admin/users/${this.currentUser}/`, {site: this.selectedSite}).then( async () =>{
+        await this.$router.go(0);
+        this.$store.commit("isLoading", false);
+      })
+    }
   },
   created() {
     axios.get(`/admin/users/`).then((res) => {
