@@ -29,6 +29,18 @@
               'custom-link',
             ]"
             >Mayuge</router-link
+          ><router-link
+            to="/admin/dashboard/gynecologist"
+            :class="[
+              currentRoute.includes('/admin/dashboard/gynecologist')
+                ? 'link-active'
+                : 'link-normal',
+              'text-left',
+              'p-3',
+              'pl-3',
+              'custom-link',
+            ]"
+            >Gynecologists</router-link
           >
           <router-link
             to="/admin/dashboard/uci"

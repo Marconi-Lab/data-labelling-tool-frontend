@@ -132,6 +132,8 @@ export default {
         return "Mbarara";
       } else if (path.includes("jinja")) {
         return "Jinja";
+      } else if (path.includes("gynecologist")) {
+        return "Gynecologists";
       } else {
         return "Arua";
       }
@@ -142,10 +144,10 @@ export default {
     this.getSiteStats(site);
   },
   watch: {
-    '$route.params.site'(newSite){
-      this.getSiteStats(newSite)
-    }
-  }
+    "$route.params.site"(newSite) {
+      this.getSiteStats(newSite);
+    },
+  },
 };
 </script>
 
