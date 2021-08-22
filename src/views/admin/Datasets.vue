@@ -19,7 +19,7 @@
     >
       <Spinner />
     </div>
-    <div v-else>
+    <div v-else class="content-area">
       <vue-good-table
         v-if="rows && rows.length"
         :columns="columns"
@@ -310,5 +310,10 @@ export default {
 .dataset:hover {
   cursor: "pointer";
   color: teal;
+}
+.content-area{
+  height: 85vh;
+  overflow-y: auto;
+  padding-bottom: 4rem;
 }
 </style>

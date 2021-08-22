@@ -5,14 +5,14 @@
     <b-nav style="">
       <b-nav-item
         active
-        style="position: absolute; z-index: 2222; right: 8rem; top: 3.3em;"
+        style="position: absolute; z-index: 2222; right: 8rem; top: 3.3em"
         ><b-btn variant="info" v-b-modal.modal-folder-classes>
           folder classes
           <b-icon icon="plus" style="float: right"></b-icon></b-btn
       ></b-nav-item>
       <b-nav-item
         active
-        style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
+        style="position: absolute; z-index: 2222; right: 0; top: 3.3em"
         ><b-btn variant="info" v-b-modal.modal-folder>
           Add folder
           <b-icon icon="plus" style="float: right"></b-icon></b-btn
@@ -41,8 +41,9 @@
           v-b-modal.modal-imgclass
         ></b-icon>
       </b-nav>
-      <hr style="width: 100vw;" />
+      <hr style="width: 100vw" />
       <vue-good-table
+        class="content-area"
         v-if="data && data.length"
         :columns="fields"
         :rows="data"
@@ -87,7 +88,7 @@
               icon="trash"
               variant="danger"
               class="delete-icon"
-              style="float: left; font-weight: bold; font-size: 1.3rem;"
+              style="float: left; font-weight: bold; font-size: 1.3rem"
               v-b-modal.modal-delete
               @click="folderToDelete = props.row.id"
             ></b-icon>
@@ -117,7 +118,7 @@
       <h4 class="text-danger">
         You are deleting a folder <b-icon icon="exclamation-circle"></b-icon>
       </h4>
-      <template #modal-footer="{cancel} " class="mx-auto">
+      <template #modal-footer="{ cancel }" class="mx-auto">
         <b-button size="sm" variant="outline-info" @click="cancel()"
           >cancel</b-button
         >
@@ -145,7 +146,7 @@
           accept="image/jpeg, image/png"
         ></b-form-file>
       </b-form-group>
-      <template #modal-footer="{cancel} " class="mx-auto">
+      <template #modal-footer="{ cancel }" class="mx-auto">
         <b-button size="sm" variant="outline-info" @click="cancel()"
           >cancel</b-button
         >
@@ -169,7 +170,7 @@
           placeholder="Enter classes e.g (Positive, Negative, not sure)"
         ></b-form-input>
       </b-form-group>
-      <template #modal-footer="{cancel} " class="mx-auto">
+      <template #modal-footer="{ cancel }" class="mx-auto">
         <b-button size="sm" variant="outline-info" @click="cancel()"
           >cancel</b-button
         >
@@ -194,7 +195,7 @@
         v-model="imageClasses"
         placeholder="Enter classes e.g (Ascetic Acid, No Ascetic Acid)"
       ></b-form-input>
-      <template #modal-footer="{cancel} " class="mx-auto">
+      <template #modal-footer="{ cancel }" class="mx-auto">
         <b-button size="sm" variant="outline-info" @click="cancel()"
           >cancel</b-button
         >
@@ -357,6 +358,7 @@ export default {
       console.log(res.data);
       this.data = res.data;
       localStorage.setItem("currentDataset", JSON.stringify(res.data));
+      this.processing = false;
     });
 
     axios
@@ -369,7 +371,6 @@ export default {
         if (res.data.classes2) {
           this.classes2 = res.data.classes2;
         }
-        this.processing = false;
       })
       .catch((err) => {
         console.log(err);
@@ -391,5 +392,10 @@ p {
 }
 .list-table {
   border: 1px solid rgb(167, 167, 167);
+}
+.content-area {
+  height: 85vh;
+  overflow-y: auto;
+  padding-bottom: 5rem;
 }
 </style>

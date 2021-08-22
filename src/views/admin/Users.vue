@@ -7,7 +7,7 @@
     >
       <Spinner />
     </div>
-    <div v-else>
+    <div v-else class="content-area">
       <vue-good-table
         :columns="columns"
         :rows="rows"
@@ -243,5 +243,10 @@ export default {
 }
 .delete-dataset:hover {
   cursor: pointer;
+}
+.content-area {
+  height: 90vh;
+  overflow-y: auto;
+  padding-bottom: 5rem;
 }
 </style>

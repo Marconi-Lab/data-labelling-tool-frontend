@@ -41,7 +41,7 @@
         This folder is empty, upload images.
       </h5>
 
-      <b-row class="justify-content-center" v-else>
+      <b-row class="justify-content-center content-area" v-else>
         <b-col
           class="image-area mx-1"
           md="4"
@@ -346,5 +346,10 @@ export default {
     object-fit: cover;
     padding: 1em;
   }
+}
+.content-area {
+  height: 85vh;
+  overflow-y: auto;
+  padding-bottom: 5rem;
 }
 </style>
