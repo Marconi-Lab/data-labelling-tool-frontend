@@ -2,7 +2,14 @@
   <div class="">
     <h4 class="text-left p-0 m-0 pb-1">Labeling Progress From All Sites</h4>
     <hr class="my-1" />
-    <b-row cols="1" cols-md="2" cols-lg="3">
+    <div
+      v-if="processing"
+      class="d-flex align-items-center justify-content-center"
+      style="height: 65vh"
+    >
+      <Spinner />
+    </div>
+    <b-row v-else cols="1" cols-md="2" cols-lg="3">
       <b-col v-for="site in sites" :key="site.id">
         <b-card class="mt-2 mb-2 custom-card">
             <h6>{{site.name}}</h6>
@@ -26,12 +33,15 @@
 <script>
 // import doughnutChart from "@/components/charts/doughnutChart.vue";
 import DoughnutChart from "../../components/charts/doughnutChart.vue";
+import axios from "../../store/axios_setup";
+// import Spinner from "../../components/"
 export default {
   components: {
     DoughnutChart,
   },
   data() {
     return {
+      processing: true,
       sites: [
         {
           id: 1,
@@ -47,6 +57,12 @@ export default {
       ],
     };
   },
+  created(){
+    axios.get(`/admin/dashboard/allsites/`).then(res=>{
+      this.sites=res.data
+      this.processing = false
+    })
+  }
 };
 </script>
 
