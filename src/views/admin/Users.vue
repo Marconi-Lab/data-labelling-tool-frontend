@@ -21,19 +21,37 @@
         }"
       >
         <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'username'">
+            <span>{{ props.row.username }}</span> </span
+          ><span v-if="props.column.field == 'email'">
+            <span>{{ props.row.email }}</span> </span
+          ><span v-if="props.column.field == 'site'">
+            <span>{{ props.row.site }}</span
+            ><button
+              class="btn btn-secondary btn-sm"
+              style="float: right"
+              v-b-modal.modal-center-site
+              @click="(currentUser = props.row.id), (currentUserName = props.row.username)"
+            >
+              edit
+            </button>
+          </span>
           <span v-if="props.column.field == 'dataset_count'">
             <span>{{ props.row.dataset_count }}</span
             ><b-icon
               icon="plus"
               variant="success"
               class="dataset-icon"
-              style="float: right; font-weight: bold; font-size: 1.3rem;"
+              style="float: right; font-weight: bold; font-size: 1.3rem"
               v-b-modal.modal-center
               @click="
                 (currentDatasets = props.row.datasets),
                   (currentUser = props.row.id)
               "
             ></b-icon>
+          </span>
+          <span v-if="props.column.field == 'record_count'">
+            <span>{{ props.row.record_count }}</span>
           </span>
         </template>
       </vue-good-table>
@@ -72,11 +90,43 @@
           aria-placeholder="Select dataset to add"
         ></b-form-select>
       </b-list-group>
-      <template #modal-footer="{cancel} " class="mx-auto">
+      <template #modal-footer="{ cancel }" class="mx-auto">
         <b-button size="sm" variant="outline-info" @click="cancel()"
           >cancel</b-button
         >
         <b-button size="sm" variant="outline-info" @click="handleDatasetUpdate"
+          >update</b-button
+        >
+      </template>
+    </b-modal>
+    <b-modal
+      id="modal-center-site"
+      centered
+      title="Edit user's site"
+      header-bg-variant="light"
+      header-text-variant="dark"
+      footer-border-variant="Secondary"
+    >
+      <b-nav v-if="deletingSelected">
+        <b-nav-item><b-icon icon="trash"></b-icon></b-nav-item>
+      </b-nav>
+      <b-list-group>
+        <p class="text-dark my-2">Select dataset to assign {{currentUserName}}</p>
+        <b-form-select
+          v-model="selected"
+          :options="sites"
+          class="mb-3"
+          value-field="id"
+          text-field="name"
+          disabled-field="notEnabled"
+          aria-placeholder="Select dataset to add"
+        ></b-form-select>
+      </b-list-group>
+      <template #modal-footer="{ cancel }" class="mx-auto">
+        <b-button size="sm" variant="outline-danger" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-info" @click="handleUserSiteUpdate"
           >update</b-button
         >
       </template>
@@ -107,6 +157,10 @@ export default {
           field: "email",
         },
         {
+          label: "Site",
+          field: "site",
+        },
+        {
           label: "Datasets",
           field: "dataset_count",
         },
@@ -117,10 +171,12 @@ export default {
       ],
       rows: [],
       options: ["dataset1", "dataset2"],
+      sites: ["arua", "jinja", "mayuge", "mbarara", "uci"],
       deletingSelected: false,
       selected: "",
       currentDatasets: [],
       currentUser: "",
+      currentUserName: "",
       processing: true,
     };
   },
@@ -151,6 +207,7 @@ export default {
           this.$store.commit("isLoading", false);
         });
     },
+    
   },
   created() {
     axios.get(`/admin/users/`).then((res) => {
