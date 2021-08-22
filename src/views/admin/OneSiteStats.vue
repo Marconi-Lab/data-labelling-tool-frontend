@@ -141,6 +141,11 @@ export default {
     let site = this.$route.params.site;
     this.getSiteStats(site);
   },
+  watch: {
+    '$route.params.site'(newSite){
+      this.getSiteStats(newSite)
+    }
+  }
 };
 </script>
 
