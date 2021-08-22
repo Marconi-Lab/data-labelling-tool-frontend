@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card-text>
-      <div class="container ct1 px-0 pb-3">
+      <div class="container container-custom ct1 px-0 pb-3">
         <div>
           <h5 class="text-info text-center mt-1 p-2 pl-5 mb-1">
             Select annotators to include
@@ -30,7 +30,7 @@
       </div>
     </b-card-text>
 
-    <div class="px-3">
+    <div class="px-3 pt-4 container">
       <b-form-checkbox
         v-model="allSelected"
         :indeterminate="indeterminate"
@@ -105,7 +105,7 @@ export default {
 </script>
 
 <style>
-.container {
+.container-custom {
   border: 1px solid rgb(207, 207, 207);
   border-radius: 0.4rem;
 }
