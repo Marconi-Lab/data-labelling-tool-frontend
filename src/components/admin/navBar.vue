@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand>Username</b-navbar-brand>
+      <b-navbar-brand>Admin</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -11,11 +11,11 @@
           <b-nav-item
             ><router-link
               :class="[
-                currentRoute.includes('/admin/dashboard')
+                currentRoute.includes('/admin/dashboard/')
                   ? 'link-active'
                   : 'link-normal',
               ]"
-              to="/admin/dashboard"
+              to="/admin/dashboard/allsites"
               >Dashboard</router-link
             ></b-nav-item
           >
