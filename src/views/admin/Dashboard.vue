@@ -11,7 +11,7 @@
                 ? 'link-active'
                 : 'link-normal',
               'text-left',
-              'p-2',
+              'p-3',
               'pl-3',
               'custom-link',
             ]"
@@ -24,7 +24,7 @@
                 ? 'link-active'
                 : 'link-normal',
               'text-left',
-              'p-2',
+              'p-3',
               'pl-3',
               'custom-link',
             ]"
@@ -37,7 +37,7 @@
                 ? 'link-active'
                 : 'link-normal',
               'text-left',
-              'p-2',
+              'p-3',
               'pl-3',
               'custom-link',
             ]"
@@ -50,7 +50,7 @@
                 ? 'link-active'
                 : 'link-normal',
               'text-left',
-              'p-2',
+              'p-3',
               'pl-3',
               'custom-link',
             ]"
@@ -63,7 +63,7 @@
                 ? 'link-active'
                 : 'link-normal',
               'text-left',
-              'p-2',
+              'p-3',
               'pl-3',
               'custom-link',
             ]"
@@ -76,7 +76,7 @@
                 ? 'link-active'
                 : 'link-normal',
               'text-left',
-              'p-2',
+              'p-3',
               'pl-3',
               'custom-link',
             ]"
@@ -96,7 +96,7 @@
           "
         >
           <button
-            class="btn btn-info ml-2"
+            class="btn btn-secondary ml-2"
             id="menu-toggle"
             style="font-size: 0.9rem"
           >
@@ -181,7 +181,7 @@ body {
   }
 }
 .bg-light {
-  background-color: rgb(255, 255, 255) !important;
+  background-color: #f8f9fa !important;
 }
 #page-content-wrapper {
   background-color: white;
