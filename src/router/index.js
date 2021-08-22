@@ -201,7 +201,7 @@ const routes = [
             }
           },{
             path: ":site",
-            name: "admin-dashboard-mayuge",
+            name: "admin-dashboard",
             component: ()=>import(/* webpackChunkName: "AdminDashboardOneSite" */ "../views/admin/OneSiteStats.vue"),
             meta: {
               requires_auth: true,
