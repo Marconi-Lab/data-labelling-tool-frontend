@@ -2,10 +2,22 @@
   <div>
     <h5 class="text-left p-0 m-0">{{ currentSite }}</h5>
     <hr class="my-1" />
-    <b-row v-for="nurse in nurses" :key="nurse.id" class="custom-row mx-2 mt-3 p-4">
+    <div
+      v-if="processing"
+      class="d-flex align-items-center justify-content-center"
+      style="height: 65vh"
+    >
+      <Spinner />
+    </div>
+    <b-row
+      v-else
+      v-for="nurse in nurses"
+      :key="nurse.id"
+      class="custom-row mx-2 mt-3 p-4"
+    >
       <b-col cols sm="8">
-          <h5>{{nurse.name}}</h5>
-          <hr class="m-0 mb-3">
+        <h5>{{ nurse.name }}</h5>
+        <hr class="m-0 mb-3" />
         <div v-for="dataset in nurse.datasets" :key="dataset.id">
           <p class="text-left mb-1" style="font-size: 0.9rem">
             Dataset {{ dataset.id }} ({{ dataset.labelled }} of
@@ -20,7 +32,14 @@
             class="mb-3"
           ></b-progress>
         </div>
-          <h6>In total <strong>{{nurse.totalLabelled}} / {{nurse.totalLabelled+nurse.totalUnlabelled}}</strong> cases annotated.</h6>
+        <h6>
+          In total
+          <strong
+            >{{ nurse.totalLabelled }} /
+            {{ nurse.totalLabelled + nurse.totalUnlabelled }}</strong
+          >
+          cases annotated.
+        </h6>
       </b-col>
       <b-col col sm="4" style="border-left: solid 1px #dee2e6">
         <doughnut-chart
@@ -34,12 +53,14 @@
 
 <script>
 import DoughnutChart from "../../components/charts/doughnutChart.vue";
+import axios from "../../store/axios_setup";
 export default {
   components: {
     DoughnutChart,
   },
   data() {
     return {
+      processing: true,
       nurses: [
         {
           id: 1,
@@ -91,6 +112,15 @@ export default {
       ],
     };
   },
+  methods: {
+    getSiteStats(site) {
+      this.processing = true;
+      axios.get(`/admin/dashboard/${site}/`).then((res) => {
+        this.nurses = res.data;
+        this.processing = false;
+      });
+    },
+  },
   computed: {
     currentSite() {
       const path = this.$route.path;
@@ -107,15 +137,19 @@ export default {
       }
     },
   },
+  mounted() {
+    let site = this.$route.params.site;
+    this.getSiteStats(site);
+  },
 };
 </script>
 
 <style>
-.custom-row{
-    border: solid 1px #dee2e6;
-    border-radius: 0.5rem;
-    box-shadow: 12px 10px 7px -10px rgba(0,0,0,0.41);
--webkit-box-shadow: 12px 10px 7px -10px rgba(0,0,0,0.41);
--moz-box-shadow: 12px 10px 7px -10px rgba(0,0,0,0.41);
+.custom-row {
+  border: solid 1px #dee2e6;
+  border-radius: 0.5rem;
+  box-shadow: 12px 10px 7px -10px rgba(0, 0, 0, 0.41);
+  -webkit-box-shadow: 12px 10px 7px -10px rgba(0, 0, 0, 0.41);
+  -moz-box-shadow: 12px 10px 7px -10px rgba(0, 0, 0, 0.41);
 }
 </style>
