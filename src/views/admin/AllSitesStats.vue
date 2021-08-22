@@ -1,10 +1,11 @@
 <template>
   <div class="">
-    <h5 class="text-left p-0 m-0">Labeling Progress From All Sites</h5>
+    <h4 class="text-left p-0 m-0 pb-1">Labeling Progress From All Sites</h4>
     <hr class="my-1" />
     <b-row cols="1" cols-md="2" cols-lg="3">
       <b-col v-for="site in sites" :key="site.id">
-        <b-card class="mt-2 mb-2 custom-card" :title="site.name">
+        <b-card class="mt-2 mb-2 custom-card">
+            <h6>{{site.name}}</h6>
           <doughnut-chart
             :labelled="site.labelledCases"
             :unlabelled="site.unLabelledCases"
