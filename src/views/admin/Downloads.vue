@@ -6,10 +6,10 @@
         :active-nav-item-class="['bg-info', 'active-text']"
         card
       >
-        <b-tab :title-link-class="linkClass(0)" title="Object Detection">
+        <b-tab :title-link-class="linkClass(0)" title="Object Detection" class="content-area">
             <UsersCheckList :users="users" :selected="selected" :datasetName="'object detection'"/>
         </b-tab>
-        <b-tab title="Organised by Case" :title-link-class="linkClass(1)">
+        <b-tab title="Organised by Case" :title-link-class="linkClass(1)" class="content-area">
             <UsersCheckList :users="users" :selected="selected" :datasetName="'organized by case'" />
         </b-tab>
       </b-tabs>
@@ -51,5 +51,10 @@ export default {
 </script>
 
 <style scoped>
-
+.content-area{
+  height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 5rem;
+}
 </style>
