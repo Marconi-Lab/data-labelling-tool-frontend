@@ -62,7 +62,6 @@ export default {
       selectedIDs: [],
       allSelected: false,
       indeterminate: false,
-      isDisabled: true
     };
   },
   props: ["users", "selected", "datasetName"],
@@ -110,9 +109,9 @@ export default {
     },
   },
   computed: {
-    // isDisabled() {
-    //   return this.selectedIDs.length ? false : true;
-    // },
+    isDisabled() {
+      return this.selectedIDs.length ? false : true;
+    },
   },
   created() {
     this.selectedIDs = this.selected;
