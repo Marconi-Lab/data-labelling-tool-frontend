@@ -69,27 +69,83 @@ export default {
     selectAll(checked) {
       this.selectedIDs = checked ? this.users.map((x) => x.id) : [];
     },
+    downloadBlob(blob, filename) {
+      let link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
     downloadDataset() {
       if (this.datasetName === "object detection") {
-        axios({
-          url: "/admin/download/object_detection",
+        fetch(`http://marconimlannotator.com/api/v1/admin/download/object_detection?users[]=${this.selectedIDs.join("&users[]=")}`, {
           method: "GET",
-          responseType: "text",
-          params: {users: this.selectedIDs}
-        }).then((res) => {
-          console.log(res);
-          fileDownload(res.data, "object_detection_dataset.csv");
-        });
-      }else{
-        axios({
-          url: "/admin/download/by_case",
+          params: { users: this.selectedIDs },
+          responseType: "stream",
+        }).then((response) => {
+          const reader  = response.body.getReader();
+          let charsReceived = 0;
+          let result = "";
+
+          reader.read().then(function processText({done, value}){
+            if(done){
+              console.log("Stream complete");
+              // para.textContent = result;
+              return result
+            }
+            const decoder = new TextDecoder();
+            charsReceived += value.length;
+            let chunk = value;
+            chunk = decoder.decode(value);
+            console.log(chunk)
+            result += chunk;
+            console.log(charsReceived);
+            // console.log(result);
+            return reader.read().then(processText);
+
+          }).then(result=> {
+            console.log(result)
+            fileDownload(result, "object_detection.csv")
+          })
+        }
+     
+        );
+        
+      } else {
+         fetch(`http://marconimlannotator.com/api/v1/admin/download/by_case?users[]=${this.selectedIDs.join("&users[]=")}`, {
           method: "GET",
-          responseType: "text",
-          params: {users: this.selectedIDs}
-        }).then((res) => {
-          console.log(res);
-          fileDownload(res.data, "ordered_by_dataset.csv");
-        });
+          params: { users: this.selectedIDs },
+          responseType: "stream",
+        }).then((response) => {
+          const reader  = response.body.getReader();
+          let charsReceived = 0;
+          let result = "";
+
+          reader.read().then(function processText({done, value}){
+            if(done){
+              console.log("Stream complete");
+              // para.textContent = result;
+              return result
+            }
+            const decoder = new TextDecoder();
+            charsReceived += value.length;
+            let chunk = value;
+            chunk = decoder.decode(value);
+            console.log(chunk)
+            result += chunk;
+            console.log(charsReceived);
+            // console.log(result);
+            return reader.read().then(processText);
+
+          }).then(result=> {
+            console.log(result)
+            fileDownload(result, "organised_by_case.csv")
+          })
+        }
+     
+        );
       }
     },
   },
