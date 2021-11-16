@@ -46,7 +46,7 @@
         @click="downloadDataset"
         :disabled="isDisabled"
       >
-        Download {{ datasetName + " dataset"}}
+        Download {{ datasetName + " dataset" }}
       </b-btn>
     </div>
   </div>
@@ -55,7 +55,7 @@
 <script>
 /* eslint-disable */
 import axios from "../../store/axios_setup";
-
+import fileDownload from "js-file-download";
 export default {
   data() {
     return {
@@ -71,12 +71,27 @@ export default {
       this.selectedIDs = checked ? this.users.map((x) => x.id) : [];
     },
     downloadDataset() {
-        if(this.datasetName === "object detection"){
-            // axios.get("/admin/download/object_detection", {"users": this.selectedIDs}).then(res=>{
-            //     console.log(res)
-            // })
-        }
-
+      if (this.datasetName === "object detection") {
+        axios({
+          url: "/admin/download/object_detection",
+          method: "GET",
+          responseType: "text",
+          params: {users: this.selectedIDs}
+        }).then((res) => {
+          console.log(res);
+          fileDownload(res.data, "object_detection_dataset.csv");
+        });
+      }else{
+        axios({
+          url: "/admin/download/by_case",
+          method: "GET",
+          responseType: "text",
+          params: {users: this.selectedIDs}
+        }).then((res) => {
+          console.log(res);
+          fileDownload(res.data, "ordered_by_dataset.csv");
+        });
+      }
     },
   },
   watch: {
