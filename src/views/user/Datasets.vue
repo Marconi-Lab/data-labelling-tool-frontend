@@ -35,10 +35,10 @@
               style="float: left; font-weight: bold; font-size: 1.3rem; margin-right: 20px; margin-top: 4px;"
             >
             </b-icon>
-            <router-link
-              class="text-info"
-              :to="`/user/datasets/${props.row.id}`"
-              >{{ props.row.name }}</router-link
+            <a
+              class="text-info nav-link p-0"
+              @click="handleDatasetClick(props.row.id)"
+              >{{ props.row.name }}</a
             >
           </span>
           <span
@@ -93,6 +93,16 @@ export default {
       processing: true,
     };
   },
+  methods: {
+    handleDatasetClick(id){
+      let project_type = "label"
+      if(project_type == "label"){
+        this.$router.push({name: "label-dataset", params:{id: id}})
+      }else{
+        this.$router.push({name:"data-item", params: {id: id}})
+      }
+    }
+  },
   computed: {
     ...mapGetters(["assignedDatasets"]),
   },
@@ -105,4 +115,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+a:hover{
+  cursor: pointer;
+}
+</style>
