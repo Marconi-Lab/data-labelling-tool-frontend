@@ -80,6 +80,15 @@ const routes = [
         },
       },
       {
+        path: "label/:id",
+        name: "label-dataset",
+        component: () => import("../views/user/Label.vue"),
+        meta:{
+          requires_auth: true,
+          is_user:true
+        }
+      },
+      {
         path: "datasets/:dataset/:id",
         name: "annotation",
         component: () =>
