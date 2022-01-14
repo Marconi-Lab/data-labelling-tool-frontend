@@ -20,7 +20,7 @@
                 name="radios-stacked1"
                 stacked
               ></b-form-radio-group>
-              <hr class="m-1">
+              <hr class="m-1" />
               <p>{{ attributes[1].name }}</p>
               <b-form-radio-group
                 v-model="form.option2"
@@ -28,23 +28,23 @@
                 name="radios-stacked2"
                 stacked
               ></b-form-radio-group>
-              <hr class="m-1">
-              <p>{{attributes[2].name}}</p>
+              <hr class="m-1" />
+              <p>{{ attributes[2].name }}</p>
               <b-form-radio-group
                 v-model="form.option3"
                 :options="attributes[2].values"
                 name="radios-stacked3"
                 stacked
               ></b-form-radio-group>
-              <hr class="m-1">
-              <p>{{attributes[3].name}}</p>
+              <hr class="m-1" />
+              <p>{{ attributes[3].name }}</p>
               <b-form-radio-group
                 v-model="form.option4"
                 :options="attributes[3].values"
                 name="radios-stacked4"
                 stacked
               ></b-form-radio-group>
-              <hr class="m-1">
+              <hr class="m-1" />
               <p>{{ attributes[4].name }}</p>
               <b-form-radio-group
                 v-model="form.option5"
@@ -74,7 +74,9 @@
             >
               Toggle form
             </button>
-            <p class="ml-3" style="font-weight: lighter; font-size: 0.9rem">0 out of 40</p>
+            <p class="ml-3" style="font-weight: lighter; font-size: 0.9rem; position: absolute; left: 7rem;">
+              0 out of 40
+            </p>
             <button
               class="btn btn-primary ml-2"
               id="menu-toggle"
@@ -84,7 +86,19 @@
             </button>
           </nav>
           <div class="p-3 content-view container">
-            <img class="image-fluid cervix-image" src="https://anhvanyds.com/wp-content/uploads/2019/12/cervical-cancer-tieng-anh-y-khoa-drduy.jpeg" alt="">
+            <div
+              v-if="processing"
+              class="d-flex align-items-center justify-content-center"
+              style="height: 80vh"
+            >
+              <Spinner />
+            </div>
+            <img
+              v-else
+              class="cervix-image"
+              :src="current_image"
+              alt=""
+            />
           </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -97,6 +111,7 @@
 <script>
 import "jquery/dist/jquery.min.js";
 import $ from "jquery";
+import axios from "../../store/axios_setup";
 export default {
   data() {
     return {
@@ -157,7 +172,19 @@ export default {
           ],
         },
       ],
+      current_image: "",
+      processing: true
     };
+  },
+  created(){
+      this.processing = true;
+      let dataset_id = this.$route.params.id
+      axios.get(`/user/images/${dataset_id}/random`, {dataset_id}).then(res => {
+          const data = res.data
+          console.log(data)
+          this.current_image = data.image;
+          this.processing = false;
+      })
   },
   mounted() {
     //toggle sidebar
@@ -173,9 +200,9 @@ export default {
 body {
   overflow-x: hidden;
 }
-p{
-    margin: 0px;
-    font-weight: bold;
+p {
+  margin: 0px;
+  font-weight: bold;
 }
 
 #sidebar-wrapper {
@@ -234,8 +261,10 @@ p{
   color: #007fff;
   background-color: #ffffff0e;
 }
-.cervix-image{
-    max-height: 80vh;
+.cervix-image {
+  max-height: 80vh;
+  width: 100%;
+  object-fit: contain;
 }
 .custom-link {
   border-bottom: solid 1px #dee2e6;
