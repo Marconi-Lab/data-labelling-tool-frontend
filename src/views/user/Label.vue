@@ -15,7 +15,7 @@
             <b-form-group class="list-group list-group-flush p-2">
               <p>{{ attributes[0].name }}</p>
               <b-form-radio-group
-                v-model="form.option1"
+                v-model="form.option1.answer"
                 :options="attributes[0].values"
                 name="radios-stacked1"
                 stacked
@@ -23,7 +23,7 @@
               <hr class="m-1" />
               <p>{{ attributes[1].name }}</p>
               <b-form-radio-group
-                v-model="form.option2"
+                v-model="form.option2.answer"
                 :options="attributes[1].values"
                 name="radios-stacked2"
                 stacked
@@ -31,7 +31,7 @@
               <hr class="m-1" />
               <p>{{ attributes[2].name }}</p>
               <b-form-radio-group
-                v-model="form.option3"
+                v-model="form.option3.answer"
                 :options="attributes[2].values"
                 name="radios-stacked3"
                 stacked
@@ -39,7 +39,7 @@
               <hr class="m-1" />
               <p>{{ attributes[3].name }}</p>
               <b-form-radio-group
-                v-model="form.option4"
+                v-model="form.option4.answer"
                 :options="attributes[3].values"
                 name="radios-stacked4"
                 stacked
@@ -47,7 +47,7 @@
               <hr class="m-1" />
               <p>{{ attributes[4].name }}</p>
               <b-form-radio-group
-                v-model="form.option5"
+                v-model="form.option5.answer"
                 :options="attributes[4].values"
                 name="radios-stacked5"
                 stacked
@@ -119,7 +119,21 @@ import axios from "../../store/axios_setup";
 export default {
   data() {
     return {
-      form: { option1: "", option2: "", option3: "", option4: "", option5: "" },
+      form: {
+        option1: { question: "Is SCJ fully visible?", answer: "" },
+        option2: {
+          question:
+            "Is the quality of the picture good enough to make a diagnosis?",
+          answer: "",
+        },
+        option3: { question: "Is SCJ fully visible?", answer: "" },
+        option4: { question: "What is the VIA assessment?", answer: "" },
+        option5: {
+          question:
+            "What is the size of lesion (propotion of cervix area involved)?",
+          answer: "",
+        },
+      },
       attributes: [
         {
           id: 1,
@@ -184,6 +198,27 @@ export default {
   methods: {
     handleLoadNext(e) {
       e.preventDefault();
+      this.processing = true;
+      let dataset_id = this.$route.params.id;
+      return axios
+        .get(`/user/images/${dataset_id}/random`, { dataset_id })
+        .then((res) => {
+          const data = res.data;
+          console.log(data);
+          this.current_image = data.image;
+          this.progress = data.progress;
+          this.processing = false;
+        
+          let annotations = JSON.stringify(this.form)
+          let annotation_payload = {
+            dataset_id: dataset_id,
+            project_id: data.project_id,
+            image_id: data.id,
+            annotations: annotations,
+          };
+        //   axios.post(``);
+        console.log(annotation_payload)
+        });
     },
   },
   created() {
@@ -200,7 +235,9 @@ export default {
       });
   },
   computed: {
-      progress_message: function(){return this.progress},
+    progress_message: function () {
+      return this.progress;
+    },
   },
   mounted() {
     //toggle sidebar
