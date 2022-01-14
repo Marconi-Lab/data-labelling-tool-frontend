@@ -4,7 +4,7 @@
       <div class="d-flex text-left" id="wrapper">
         <!-- Sidebar -->
         <div
-          class="bg-light border-right p-2"
+          class="bg-light border-right"
           id="sidebar-wrapper"
           style="font-size: 0.8rem"
         >
@@ -12,7 +12,7 @@
           <hr class="m-0 mb-1" />
           <!-- labels form -->
           <b-form>
-            <b-form-group class="list-group list-group-flush">
+            <b-form-group class="list-group list-group-flush p-2">
               <p>{{ attributes[0].name }}</p>
               <b-form-radio-group
                 v-model="form.option1"
@@ -74,13 +74,22 @@
             >
               Toggle form
             </button>
-            <p class="ml-3" style="font-weight: lighter; font-size: 0.9rem; position: absolute; left: 7rem;">
-              0 out of 40
+            <p
+              class="ml-3"
+              style="
+                font-weight: lighter;
+                font-size: 0.9rem;
+                position: absolute;
+                left: 7rem;
+              "
+            >
+              {{ progress_message }}
             </p>
             <button
               class="btn btn-primary ml-2"
               id="menu-toggle"
               style="font-size: 0.9rem; position: absolute; right: 1rem"
+              @click="handleLoadNext"
             >
               load next
             </button>
@@ -93,12 +102,7 @@
             >
               <Spinner />
             </div>
-            <img
-              v-else
-              class="cervix-image"
-              :src="current_image"
-              alt=""
-            />
+            <img v-else class="cervix-image" :src="current_image" alt="" />
           </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -173,18 +177,30 @@ export default {
         },
       ],
       current_image: "",
-      processing: true
+      progress: "",
+      processing: true,
     };
   },
-  created(){
-      this.processing = true;
-      let dataset_id = this.$route.params.id
-      axios.get(`/user/images/${dataset_id}/random`, {dataset_id}).then(res => {
-          const data = res.data
-          console.log(data)
-          this.current_image = data.image;
-          this.processing = false;
-      })
+  methods: {
+    handleLoadNext(e) {
+      e.preventDefault();
+    },
+  },
+  created() {
+    this.processing = true;
+    let dataset_id = this.$route.params.id;
+    axios
+      .get(`/user/images/${dataset_id}/random`, { dataset_id })
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+        this.current_image = data.image;
+        this.progress = data.progress;
+        this.processing = false;
+      });
+  },
+  computed: {
+      progress_message: function(){return this.progress},
   },
   mounted() {
     //toggle sidebar
