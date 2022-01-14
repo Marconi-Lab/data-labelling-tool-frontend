@@ -84,7 +84,7 @@
             </button>
           </nav>
           <div class="p-3 content-view container">
-            <router-view></router-view>
+            <img class="image-fluid cervix-image" src="https://anhvanyds.com/wp-content/uploads/2019/12/cervical-cancer-tieng-anh-y-khoa-drduy.jpeg" alt="">
           </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -234,7 +234,9 @@ p{
   color: #007fff;
   background-color: #ffffff0e;
 }
-
+.cervix-image{
+    max-height: 80vh;
+}
 .custom-link {
   border-bottom: solid 1px #dee2e6;
 }
