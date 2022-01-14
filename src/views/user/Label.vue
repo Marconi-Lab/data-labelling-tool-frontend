@@ -10,6 +10,7 @@
         >
           <h5>Complete Form</h5>
           <hr class="m-0 mb-1" />
+          <!-- labels form -->
           <b-form>
             <b-form-group class="list-group list-group-flush">
               <p>{{ attributes[0].name }}</p>
@@ -60,6 +61,7 @@
           <nav
             class="
               navbar navbar-expand-lg navbar-secondary
+              text-center
               p-1
               bg-light
               border-bottom
@@ -71,6 +73,14 @@
               style="font-size: 0.9rem"
             >
               Toggle form
+            </button>
+            <p class="ml-3" style="font-weight: lighter; font-size: 0.9rem">0 out of 40</p>
+            <button
+              class="btn btn-primary ml-2"
+              id="menu-toggle"
+              style="font-size: 0.9rem; position: absolute; right: 1rem"
+            >
+              load next
             </button>
           </nav>
           <div class="p-3 content-view container">
