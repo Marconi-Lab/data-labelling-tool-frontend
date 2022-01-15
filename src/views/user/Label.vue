@@ -36,7 +36,7 @@
                 <hr class="m-1" />
                 <p>{{ attributes[1].name }}</p>
                 <validation-provider
-                  name="option1"
+                  name="option2"
                   :rules="{ required: true }"
                   v-slot="validationContext"
                 >
@@ -53,7 +53,7 @@
                 <hr class="m-1" />
                 <p>{{ attributes[2].name }}</p>
                 <validation-provider
-                  name="option1"
+                  name="option3"
                   :rules="{ required: true }"
                   v-slot="validationContext"
                 >
@@ -70,7 +70,7 @@
                 <hr class="m-1" />
                 <p>{{ attributes[3].name }}</p>
                 <validation-provider
-                  name="option1"
+                  name="option4"
                   :rules="{ required: true }"
                   v-slot="validationContext"
                 >
@@ -87,7 +87,7 @@
                 <hr class="m-1" />
                 <p>{{ attributes[4].name }}</p>
                 <validation-provider
-                  name="option1"
+                  name="option5"
                   :rules="{ required: true }"
                   v-slot="validationContext"
                 >
@@ -144,7 +144,15 @@
               load next
             </label>
           </nav>
-          <div class="p-3 content-view container">
+          <div v-if="progress=='done'" class="container">
+            <div
+              class="d-flex align-items-center justify-content-center"
+              style="height: 80vh"
+            >
+              <h1 class="text-secondary">All images have been labelled</h1>
+            </div>
+          </div>
+          <div v-else class="p-3 content-view container">
             <div
               v-if="processing"
               class="d-flex align-items-center justify-content-center"
@@ -221,7 +229,7 @@ export default {
         this.progress = data.progress;
 
         axios.get(`/user/images/${dataset_id}/random`).then((res) => {
-          const data = res.data;
+          const data = res.data;    
           console.log(data);
           this.current_image = data.image;
           this.progress = data.progress;
