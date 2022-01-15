@@ -174,8 +174,10 @@ export default {
       form: labelUtilities.data,
       attributes: labelUtilities.attributes,
       current_image: "",
+      current_image_id: null,
       progress: "",
       processing: true,
+      project_id: null,
     };
   },
   methods: {
@@ -207,26 +209,27 @@ export default {
       // e.preventDefault();
       this.processing = true;
       let dataset_id = this.$route.params.id;
-      return axios
-        .get(`/user/images/${dataset_id}/random`, { dataset_id })
-        .then((res) => {
+      let annotations = JSON.stringify(this.form);
+      let annotation_payload = {
+        dataset_id,
+        project_id: this.project_id,
+        image_id: this.current_image_id,
+        annotations: annotations,
+      };
+      axios.post(`/user/label/${this.current_image_id}`, annotation_payload).then((res) => {
+        const data = res.data;
+        this.progress = data.progress;
+
+        axios.get(`/user/images/${dataset_id}/random`).then((res) => {
           const data = res.data;
           console.log(data);
           this.current_image = data.image;
           this.progress = data.progress;
+          console.log("annotations payload: ", annotation_payload);
           this.resetForm();
           this.processing = false;
-
-          let annotations = JSON.stringify(this.form);
-          let annotation_payload = {
-            dataset_id: dataset_id,
-            project_id: data.project_id,
-            image_id: data.id,
-            annotations: annotations,
-          };
-          //   axios.post(``);
-          console.log(annotation_payload);
         });
+      });
     },
   },
   created() {
@@ -239,8 +242,11 @@ export default {
         const data = res.data;
         console.log(data);
         this.current_image = data.image;
+        this.current_image_id = data.id;
         this.progress = data.progress;
+        this.project_id = data.project_id;
         this.processing = false;
+        console.log("Progress: ", this.progress);
       });
   },
   computed: {
