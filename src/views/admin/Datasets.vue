@@ -343,7 +343,7 @@ export default {
       axios
         .post(`/admin/datasets/`, {
           name: this.title,
-          project_id: 3 // need to make this dynamic
+          project_id: 1 // need to make this dynamic
         })
         .then(async (res) => {
           this.$store.commit("isLoading", false);
