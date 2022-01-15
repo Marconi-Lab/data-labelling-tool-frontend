@@ -250,7 +250,23 @@ export default {
     getValidationState({ dirty, validated, valid = null }) {
       return dirty || validated ? valid : null;
     },
-    resetForm() {},
+    resetForm() {
+      this.form = {
+        option1: { question: "Is SCJ fully visible?", answer: "" },
+        option2: {
+          question:
+            "Is the quality of the picture good enough to make a diagnosis?",
+          answer: "",
+        },
+        option3: { question: "Is SCJ fully visible?", answer: "" },
+        option4: { question: "What is the VIA assessment?", answer: "" },
+        option5: {
+          question:
+            "What is the size of lesion (propotion of cervix area involved)?",
+          answer: "",
+        },
+      };
+    },
     handleLoadNext() {
       // e.preventDefault();
       this.processing = true;
@@ -262,6 +278,7 @@ export default {
           console.log(data);
           this.current_image = data.image;
           this.progress = data.progress;
+          this.resetForm();
           this.processing = false;
 
           let annotations = JSON.stringify(this.form);
