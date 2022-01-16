@@ -61,8 +61,15 @@ const actions = {
       let res = await axios.post("/auth/login/", data);
       const admin = res.data;
       if (admin.is_admin) {
-        localStorage.setItem("jwt", admin.access_token);
-        localStorage.setItem("user", JSON.stringify(admin));
+        if (admin.is_verified) {
+          localStorage.setItem("jwt", admin.access_token);
+          localStorage.setItem("user", JSON.stringify(admin));
+          localStorage.setItem("isVerified", true);
+        } else {
+          localStorage.setItem("isVerified", admin.is_verified);
+        }
+
+        console.log("is_verified", admin.is_verified);
       } else {
         commit("authError", true);
         commit("isLoading", false);
