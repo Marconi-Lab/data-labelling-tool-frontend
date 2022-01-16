@@ -11,32 +11,87 @@
               <div class="text-center">
                 <h3 class="text-info p-0 mt-3 mb-1">Signup</h3>
               </div>
-              <ValidationProvider rules="required" name="username">
+              <div
+                class="form-group m-0 justify-content-center"
+                style="width: 100%"
+              >
+                <ValidationProvider rules="required" name="username">
+                  <div
+                    class="form-group text-left"
+                    slot-scope="{ valid, errors }"
+                  >
+                    <label for="username" class="form-label pl-1"
+                      >Username</label
+                    >
+                    <input
+                      placeholder="Enter custom username"
+                      v-model="form.username"
+                      :state="errors[0] ? false : valid ? true : null"
+                      class="form-control item field"
+                      name="username"
+                      type="name"
+                      id="username"
+                    />
+                    <small
+                      style="padding-left: 10px; margin-bottom: 10px"
+                      class="text-danger text-left"
+                      >{{ errors[0] }}
+                    </small>
+                  </div> </ValidationProvider
+                ><ValidationProvider rules="required" name="firstname">
+                  <div
+                    class="form-group text-left"
+                    slot-scope="{ valid, errors }"
+                  >
+                    <label for="firstname" class="form-label pl-1"
+                      >Firstname</label
+                    >
+                    <input
+                      placeholder="e.g Micheal"
+                      v-model="form.firstname"
+                      :state="errors[0] ? false : valid ? true : null"
+                      class="form-control item field"
+                      name="firstname"
+                      type="name"
+                      id="firstname"
+                    />
+                    <small
+                      style="padding-left: 10px; margin-bottom: 10px"
+                      class="text-danger text-left"
+                      >{{ errors[0] }}
+                    </small>
+                  </div> </ValidationProvider
+                ><ValidationProvider rules="required" name="lastname">
+                  <div
+                    class="form-group text-left"
+                    slot-scope="{ valid, errors }"
+                  >
+                    <label for="lastname" class="form-label pl-1"
+                      >Lastname</label
+                    >
+                    <input
+                      placeholder="e.g Smith"
+                      v-model="form.lastname"
+                      :state="errors[0] ? false : valid ? true : null"
+                      class="form-control item field"
+                      name="lastname"
+                      type="name"
+                      id="name"
+                    />
+                    <small
+                      style="padding-left: 10px; margin-bottom: 10px"
+                      class="text-danger text-left"
+                      >{{ errors[0] }}
+                    </small>
+                  </div>
+                </ValidationProvider>
+              </div>
+              <ValidationProvider rules="required" name="Email">
                 <div
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
                 >
-                  <input
-                    placeholder="Username"
-                    v-model="form.username"
-                    :state="errors[0] ? false : valid ? true : null"
-                    class="form-control item field"
-                    name="username"
-                    type="name"
-                    id="name"
-                  />
-                  <small
-                    style="position: absolute; padding-left:10px;"
-                    class="text-danger text-left"
-                    >{{ errors[0] }}
-                  </small>
-                </div>
-              </ValidationProvider>
-              <ValidationProvider rules="required|email" name="Email">
-                <div
-                  class="form-group text-left"
-                  slot-scope="{ valid, errors }"
-                >
+                  <label for="email" class="form-label pl-1">Email</label>
                   <input
                     placeholder="Email"
                     v-model="form.email"
@@ -47,7 +102,165 @@
                     id="email"
                   />
                   <small
-                    style="position: absolute; padding-left:10px;"
+                    style="padding-left: 10px; margin-bottom: 10px"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider rules="required">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 " name="gender">
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                >
+                  <label for="gender" class="form-label pl-1">Gender</label>
+                  <b-form-select
+                    id="gender"
+                    aria-placeholder="Gender"
+                    v-model="form.gender"
+                    :state="errors[0] ? false : valid ? true : null"
+                    :options="genderOptions"
+                    class="form-control item field"
+                  ></b-form-select>
+
+                  <small
+                    style="padding-left: 10px; margin-bottom: 10px"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider rules="required|age" name="Age">
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                >
+                  <label for="age" class="form-label pl-1">Age</label>
+                  <input
+                    placeholder="e.g 30"
+                    v-model="form.age"
+                    :state="errors[0] ? false : valid ? true : null"
+                    name="age"
+                    class="form-control item field"
+                    type="age"
+                    id="age"
+                  />
+                  <small
+                    style="padding-left: 10px; margin-bottom: 10px"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider rules="required|country" name="Country">
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                >
+                  <label for="country" class="form-label pl-1"> Country</label>
+                  <input
+                    placeholder="e.g Uganda"
+                    v-model="form.country"
+                    :state="errors[0] ? false : valid ? true : null"
+                    name="country"
+                    class="form-control item field"
+                    type="country"
+                    id="country"
+                  />
+                  <small
+                    style="padding-left: 10px; margin-bottom: 10px"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider rules="required|city" name="City">
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                >
+                  <label for="city" class="form-label pl-1"
+                    >City/District</label
+                  >
+                  <input
+                    placeholder="e.g Kampala"
+                    v-model="form.city"
+                    :state="errors[0] ? false : valid ? true : null"
+                    name="city"
+                    class="form-control item field"
+                    type="city"
+                    id="city"
+                  />
+                  <small
+                    style="padding-left: 10px; margin-bottom: 10px"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider rules="required" name="Street">
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                >
+                  <label for="street" class="form-label pl-1">Street</label>
+                  <input
+                    placeholder="e.g Kampala Road"
+                    v-model="form.street"
+                    :state="errors[0] ? false : valid ? true : null"
+                    name="street"
+                    class="form-control item field"
+                    type="street"
+                    id="street"
+                  />
+                  <small
+                    style="padding-left: 10px; margin-bottom: 10px"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider rules="required" name="Experience">
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                >
+                  <label for="experience" class="form-label pl-1"
+                    >Work experience (in years)</label
+                  >
+                  <input
+                    placeholder="e.g 4"
+                    v-model="form.experience"
+                    :state="errors[0] ? false : valid ? true : null"
+                    name="experience"
+                    class="form-control item field"
+                    type="experience"
+                    id="experience"
+                  />
+                  <small
+                    style="padding-left: 10px; margin-bottom: 10px"
+                    class="text-danger text-left"
+                    >{{ errors[0] }}
+                  </small>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider rules="required" name="description">
+                <div
+                  class="form-group text-left"
+                  slot-scope="{ valid, errors }"
+                >
+                  <label for="email" class="form-label pl-1">Job Description</label>
+                  <b-form-textarea
+                    placeholder="Job Description"
+                    v-model="form.description"
+                    :state="errors[0] ? false : valid ? true : null"
+                    name="description"
+                    class="form-control item field"
+                    rows="3"
+                    id="description"
+                  ></b-form-textarea>
+                  <small
+                    style="padding-left: 10px; margin-bottom: 10px"
                     class="text-danger text-left"
                     >{{ errors[0] }}
                   </small>
@@ -63,6 +276,7 @@
                   slot-scope="{ valid, errors }"
                   label="Password"
                 >
+                  <label for="password" class="form-label pl-1">Password</label>
                   <input
                     placeholder="password"
                     v-model="form.password"
@@ -73,7 +287,7 @@
                     id="password"
                   />
                   <small
-                    style="position: absolute; padding-left: 10px;"
+                    style="padding-left: 10px; margin-bottom: 10px"
                     class="text-danger text-left"
                     >{{ errors[0] }}
                   </small>
@@ -88,6 +302,9 @@
                   slot-scope="{ valid, errors }"
                   label="Confirm Password"
                 >
+                  <label for="password-confirm" class="form-label pl-1"
+                    >Confirm password</label
+                  >
                   <input
                     placeholder="password"
                     v-model="form.passwordConfirm"
@@ -95,10 +312,10 @@
                     class="form-control item field"
                     name="password"
                     type="password"
-                    id="password"
+                    id="password-confirm"
                   />
                   <small
-                    style="position: absolute; padding-left:10px;"
+                    style="padding-left: 10px; margin-bottom: 10px"
                     class="text-danger text-left"
                     >{{ errors[0] }}
                   </small>
@@ -140,10 +357,23 @@ export default {
     return {
       form: {
         username: "",
+        firstname: "",
+        lastname: "",
+        age: "",
+        gender: "M",
+        country: "",
+        city: "",
+        street: "",
+        description: "",
+        experience: "",
         email: "",
         password: "",
         passwordConfirm: "",
       },
+      genderOptions: [
+        { value: "M", text: "Male" },
+        { value: "F", text: "Female" },
+      ],
     };
   },
   computed: {
@@ -153,6 +383,7 @@ export default {
     ...mapActions(["registerUser"]),
     handleRegister(e) {
       e.preventDefault();
+      console.log(this.form);
       const data = this.form;
       this.$store.commit("registrationError", "");
       this.$store.commit("registrationResponse", "");
@@ -191,13 +422,16 @@ $padding: 15px;
 }
 .field {
   border-radius: 15px;
-  margin-top: 20px;
+  // margin-bottom: 20px;
+}
+.form-group {
+  margin: 0px;
 }
 .form-card {
-  max-width: 300px;
+  width: 50vw;
   height: auto;
-  max-height: 400px;
   margin: auto;
+  min-width: 350px;
   // margin-top: 20vh;
   padding: $padding;
   box-shadow: 2px 5px 10px gray;
