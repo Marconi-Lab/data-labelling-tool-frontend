@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navigation />
     <main>
       <section class="main-body">
         <div class="form-card">
@@ -16,28 +17,7 @@
                 style="width: 100%"
               >
                 <ValidationProvider rules="required" name="username">
-                  <div
-                    class="form-group text-left"
-                    slot-scope="{ valid, errors }"
-                  >
-                    <label for="username" class="form-label pl-1"
-                      >Username</label
-                    >
-                    <input
-                      placeholder="Enter custom username"
-                      v-model="form.username"
-                      :state="errors[0] ? false : valid ? true : null"
-                      class="form-control item field"
-                      name="username"
-                      type="name"
-                      id="username"
-                    />
-                    <small
-                      style="padding-left: 10px; margin-bottom: 10px"
-                      class="text-danger text-left"
-                      >{{ errors[0] }}
-                    </small>
-                  </div> </ValidationProvider
+                </ValidationProvider
                 ><ValidationProvider rules="required" name="firstname">
                   <div
                     class="form-group text-left"
@@ -108,7 +88,8 @@
                   </small>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 " name="gender">
+              <ValidationProvider rules="required">
+                " name="gender">
                 <div
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
@@ -130,7 +111,7 @@
                   </small>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required|age" name="Age">
+              <ValidationProvider rules="required|integer" name="Age">
                 <div
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
@@ -152,7 +133,7 @@
                   </small>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required|country" name="Country">
+              <ValidationProvider rules="required" name="Country">
                 <div
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
@@ -174,7 +155,7 @@
                   </small>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required|city" name="City">
+              <ValidationProvider rules="required" name="City">
                 <div
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
@@ -220,7 +201,7 @@
                   </small>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required" name="Experience">
+              <ValidationProvider rules="required|integer" name="Experience">
                 <div
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
@@ -249,7 +230,9 @@
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
                 >
-                  <label for="email" class="form-label pl-1">Job Description</label>
+                  <label for="email" class="form-label pl-1"
+                    >Job Description</label
+                  >
                   <b-form-textarea
                     placeholder="Job Description"
                     v-model="form.description"
@@ -350,13 +333,13 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import Navigation from "../../components/navigation.vue";
 export default {
   name: "login",
-  components: {},
+  components: { Navigation },
   data() {
     return {
       form: {
-        username: "",
         firstname: "",
         lastname: "",
         age: "",
@@ -369,6 +352,7 @@ export default {
         email: "",
         password: "",
         passwordConfirm: "",
+        project_id: 1,
       },
       genderOptions: [
         { value: "M", text: "Male" },
@@ -388,7 +372,9 @@ export default {
       this.$store.commit("registrationError", "");
       this.$store.commit("registrationResponse", "");
       this.$store.commit("isLoading", true);
-      this.registerUser(data).then(() => {
+      this.registerUser(data).then((res) => {
+        console.log(res)
+        this.$router.push({ name: "login" });
         this.$store.commit("isLoading", false);
       });
     },
