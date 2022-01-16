@@ -79,7 +79,8 @@ export default {
     },
   },
   created() {
-    this.username = JSON.parse(localStorage.getItem("user")).username;
+    this.username = JSON.parse(localStorage.getItem("user")).firstname + " " +
+                    JSON.parse(localStorage.getItem('user')).lastname;
   },
 };
 </script>
