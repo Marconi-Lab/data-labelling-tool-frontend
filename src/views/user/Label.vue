@@ -51,11 +51,12 @@
                   }}</b-form-invalid-feedback>
                 </validation-provider>
                 <hr class="m-1" />
-                <p>{{ attributes[2].name }}</p>
+                <p v-if="form.option2.answer!='no'">{{ attributes[2].name }}</p>
                 <validation-provider
                   name="option3"
                   :rules="{ required: true }"
                   v-slot="validationContext"
+                  v-if="form.option2.answer!='no'"
                 >
                   <b-form-radio-group
                     v-model="form.option3.answer"
@@ -68,11 +69,12 @@
                   }}</b-form-invalid-feedback>
                 </validation-provider>
                 <hr class="m-1" />
-                <p>{{ attributes[3].name }}</p>
+                <p v-if="form.option2.answer!='no'">{{ attributes[3].name }}</p>
                 <validation-provider
                   name="option4"
                   :rules="{ required: true }"
                   v-slot="validationContext"
+                  v-if="form.option2.answer!='no'"
                 >
                   <b-form-radio-group
                     v-model="form.option4.answer"
@@ -85,8 +87,9 @@
                   }}</b-form-invalid-feedback>
                 </validation-provider>
                 <hr class="m-1" />
-                <p>{{ attributes[4].name }}</p>
+                <p v-if="(form.option4.answer=='VIA positive' || form.option4.answer=='suspected cancerous lesions') && form.option2.answer!='no' " >{{ attributes[4].name }}</p>
                 <validation-provider
+                  v-if="(form.option4.answer=='VIA positive' || form.option4.answer=='suspected cancerous lesions') && form.option2.answer!='no'"
                   name="option5"
                   :rules="{ required: true }"
                   v-slot="validationContext"
@@ -136,6 +139,14 @@
             >
               {{ progress_message }}
             </p>
+            <label
+              style="font-size: 0.9rem; position: absolute; right: 8rem;"
+              class="btn btn-secondary mt-2"
+              for="submit-form"
+              @click="resetForm"
+            >
+              clear form
+            </label>
             <label
               style="font-size: 0.9rem; position: absolute; right: 1rem"
               class="btn btn-primary mt-2"
