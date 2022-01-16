@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -10,6 +9,15 @@ const routes = [
     name: "index",
     component: () =>
       import(/* webpackChunkName: "Landing" */ "../views/Landing.vue"),
+    meta: {
+      guest: true,
+      requires_auth: false,
+    },
+  },
+  {
+    path: "/verification",
+    name: "verify-email",
+    component: () => import("../views/user/VerifyEmail.vue"),
     meta: {
       guest: true,
       requires_auth: false,
@@ -83,10 +91,10 @@ const routes = [
         path: "label/:id",
         name: "label-dataset",
         component: () => import("../views/user/Label.vue"),
-        meta:{
+        meta: {
           requires_auth: true,
-          is_user:true
-        }
+          is_user: true,
+        },
       },
       {
         path: "datasets/:dataset/:id",
@@ -194,31 +202,41 @@ const routes = [
       {
         path: "dashboard",
         name: "admin-dashboard",
-        component: () => import(/* webpackChunkName: "AdminDashboard" */ "../views/admin/Dashboard.vue"),
+        component: () =>
+          import(
+            /* webpackChunkName: "AdminDashboard" */ "../views/admin/Dashboard.vue"
+          ),
         meta: {
           requires_auth: true,
-          is_admin: true
+          is_admin: true,
         },
         children: [
           {
             path: "allsites",
             name: "admin-dashboard-allsites",
-            component: ()=>import(/* webpackChunkName: "AdminDasbhoardAllsites" */ "../views/admin/AllSitesStats.vue"),
+            component: () =>
+              import(
+                /* webpackChunkName: "AdminDasbhoardAllsites" */ "../views/admin/AllSitesStats.vue"
+              ),
             meta: {
               requires_auth: true,
-              is_admin: true
-            }
-          },{
+              is_admin: true,
+            },
+          },
+          {
             path: ":site",
             name: "admin-dashboard",
-            component: ()=>import(/* webpackChunkName: "AdminDashboardOneSite" */ "../views/admin/OneSiteStats.vue"),
+            component: () =>
+              import(
+                /* webpackChunkName: "AdminDashboardOneSite" */ "../views/admin/OneSiteStats.vue"
+              ),
             meta: {
               requires_auth: true,
-              is_admin: true
-            }
-          }
-        ]
-      }
+              is_admin: true,
+            },
+          },
+        ],
+      },
     ],
   },
 ];
@@ -231,26 +249,34 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requires_auth)) {
     if (localStorage.getItem("jwt") === null) {
-      alert("You are not logged in!");
       next({
         path: "/",
         continue: to.fullPath,
       });
+      alert("You are not logged in!");
     } else {
-      const user = JSON.parse(localStorage.getItem("user"));
-      if (
-        to.matched.some((record) => record.meta.is_user) &&
-        user.is_admin === ""
-      ) {
-        next();
-      } else if (
-        to.matched.some((record) => record.meta.is_admin) &&
-        user.is_admin === "admin"
-      ) {
-        next();
+      if (!localStorage.getItem("isVerified")) {
+        alert("verify your email account!");
+        next({
+          path: "/verify",
+          continue: to.fullPath,
+        });
       } else {
-        next();
-        return;
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (
+          to.matched.some((record) => record.meta.is_user) &&
+          user.is_admin === ""
+        ) {
+          next();
+        } else if (
+          to.matched.some((record) => record.meta.is_admin) &&
+          user.is_admin === "admin"
+        ) {
+          next();
+        } else {
+          next();
+          return;
+        }
       }
     }
     next();

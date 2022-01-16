@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navigation/>
     <main>
       <section class="main-body">
         <div class="form-card">
@@ -54,10 +55,10 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-
+import Navigation from "../../components/navigation.vue"
 export default {
   name: "login",
-  components: {},
+  components: {Navigation},
   data() {
     return {
       email: "",
@@ -77,8 +78,13 @@ export default {
         .then(() => {
           if (localStorage.getItem("jwt") != null) {
             this.$emit("loggedIn");
-            this.$router.push({ name: "user-home" });
+            this.$router.push({ name: "user-datasets" });
+        
             this.$store.commit("isLoading", false);
+          }else{
+            if (localStorage.getItem("isVerified"))
+              this.$router.push({name: "verify-email"});
+              this.$store.commit("isLoading", false);
           }
         })
         .catch((err) => {
