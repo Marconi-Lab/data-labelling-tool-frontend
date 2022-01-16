@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navigation/>
     <main>
       <section class="main-body">
         <div class="form-card">
@@ -350,9 +351,10 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import Navigation from "../../components/navigation.vue"
 export default {
   name: "login",
-  components: {},
+  components: {Navigation},
   data() {
     return {
       form: {
@@ -389,6 +391,7 @@ export default {
       this.$store.commit("registrationResponse", "");
       this.$store.commit("isLoading", true);
       this.registerUser(data).then(() => {
+        this.$router.push({name: "login"})
         this.$store.commit("isLoading", false);
       });
     },
