@@ -89,16 +89,12 @@ const actions = {
   registerUser: async function({ commit }, data) {
     try {
       // console.log("Register data", data);
-      const email = data.email;
-      const password = data.password;
-      const username = data.username;
+      // const email = data.email;
+      // const password = data.password;
+      // const username = data.username;
+      data.is_admin = "";
 
-      const res = await axios.post("/auth/register/", {
-        email: email,
-        password: password,
-        username: username,
-        is_admin: "",
-      });
+      const res = await axios.post("/auth/register/", data);
       commit("registrationResponse", res.data.message);
     } catch (err) {
       // console.log("Error .....", err);

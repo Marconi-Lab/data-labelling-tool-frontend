@@ -1,8 +1,9 @@
 import Vue from "vue";
 import App from "./App.vue";
-import { ValidationObserver, ValidationProvider, extend } from "vee-validate";
+import { ValidationObserver, ValidationProvider, extend, localize } from "vee-validate";
 import Spinner from "vue-simple-spinner";
 import * as rules from "vee-validate/dist/rules";
+import en from "vee-validate/dist/locale/en.json";
 import router from "./router";
 import store from "./store/store";
 import api from "./store/axios_setup";
@@ -27,7 +28,8 @@ import {
   ListGroupPlugin,
   AlertPlugin,
   TabsPlugin,
-  FormCheckboxPlugin
+  FormCheckboxPlugin,
+  FormRadioPlugin
 } from "bootstrap-vue";
 
 api.interceptors.request.use(
@@ -85,6 +87,7 @@ api.interceptors.response.use(
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
 });
+localize("en", en);
 
 // install components globally
 Vue.component("ValidationObserver", ValidationObserver);
@@ -112,6 +115,7 @@ Vue.use(AlertPlugin);
 Vue.use(TabsPlugin)
 Vue.use(VueLazyload);
 Vue.use(FormCheckboxPlugin)
+Vue.use(FormRadioPlugin)
 new Vue({
   router,
   render: (h) => h(App),

@@ -5,11 +5,15 @@
       <b-nav-item
         active
         style="position: absolute; z-index: 2222; right:0; top: 3.3em;"
-        ><b-btn variant="info" class="mr-2" v-b-modal.modal-folder>
-          Add folder
+        ><b-btn variant="info" class="mr-2" v-b-modal.modal-folder-collection>
+          Add folder collection
           <b-icon icon="plus" style="float: right"></b-icon></b-btn
         ><b-btn variant="info" v-b-modal.modal-center>
           Add <b-icon icon="plus" style="float: right"></b-icon></b-btn
+      ></b-nav-item>
+      <b-nav-item>
+      <b-btn variant="info" v-b-modal.modal-folder>
+          Add folder<b-icon icon="plus" style="float: right"></b-icon></b-btn
       ></b-nav-item>
     </b-nav>
     <div
@@ -117,7 +121,7 @@
       </template>
     </b-modal>
     <b-modal
-      id="modal-folder"
+      id="modal-folder-collection"
       centered
       title="Create Folder"
       header-bg-variant="info"
@@ -147,6 +151,36 @@
           >cancel</b-button
         >
         <b-button size="sm" variant="outline-info" @click="handleFolderCreate"
+          >Submit</b-button
+        >
+      </template>
+    </b-modal>
+    <b-modal
+      id="modal-folder"
+      centered
+      title="Create Folder"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <b-form-group>
+        <b-form-input
+          v-model="title"
+          placeholder="Enter Dataset title"
+        ></b-form-input>
+        <b-form-file
+          id="file-small"
+          v-model="folder"
+          directory
+          multiple
+          class="mt-3"
+        ></b-form-file>
+      </b-form-group>
+      <template #modal-footer="{cancel} " class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-info" @click="handleFolderUpload"
           >Submit</b-button
         >
       </template>
@@ -278,6 +312,60 @@ export default {
             formData.append("folder", this.folder[i].$path.split("/")[1]);
             await axios
               .post(`/admin/datasets/images/`, formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              })
+              .then(async (res) => {
+                await console.log("Response 2", res);
+                // await this.$router.go(0);
+                this.$store.commit("isLoading", false);
+              })
+              .catch(async () => {
+                this.$store.commit("isLoading", false);
+              });
+          }
+
+          await this.$router.go(0);
+        });
+    },
+    handleFolderUpload(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      console.log("folder", this.folder);
+      console.log("FOLDER ", this.folder);
+      this.$store.commit("isUploading", true);
+      // let arr = [];
+      // for (var i of this.classes.split(",")) {
+      //   arr.push(i.trim());
+      // }
+
+      axios
+        .post(`/admin/datasets/`, {
+          name: this.title,
+          project_id: 1 // need to make this dynamic
+        })
+        .then(async (res) => {
+          this.$store.commit("isLoading", false);
+
+          var id = await res.data.id;
+          var project_id = await res.data.project_id
+          console.log("Response ", res);
+          // setting upload maximum value
+          await this.$store.commit("uploadMaxValue", this.folder.length);
+
+          for (var i = 0; i < this.folder.length; i++) {
+            // create form data
+            await this.$store.commit("uploadValue", i + 1);
+            var formData = new FormData();
+            let image = this.folder[i];
+            console.log(this.folder[i].$path.split("/")[1]);
+            formData.append("image", image);
+            formData.append("dataset_id", id);
+            formData.append("project_id", project_id);
+            formData.append("folder", this.folder[i].$path.split("/")[1]);
+            await axios
+              .post(`/admin/datasets/image/`, formData, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
