@@ -111,7 +111,7 @@
                   </small>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required|age" name="Age">
+              <ValidationProvider rules="required|integer" name="Age">
                 <div
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
@@ -133,7 +133,7 @@
                   </small>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required|country" name="Country">
+              <ValidationProvider rules="required" name="Country">
                 <div
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
@@ -155,7 +155,7 @@
                   </small>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required|city" name="City">
+              <ValidationProvider rules="required" name="City">
                 <div
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
@@ -201,7 +201,7 @@
                   </small>
                 </div>
               </ValidationProvider>
-              <ValidationProvider rules="required" name="Experience">
+              <ValidationProvider rules="required|integer" name="Experience">
                 <div
                   class="form-group text-left"
                   slot-scope="{ valid, errors }"
@@ -372,7 +372,8 @@ export default {
       this.$store.commit("registrationError", "");
       this.$store.commit("registrationResponse", "");
       this.$store.commit("isLoading", true);
-      this.registerUser(data).then(() => {
+      this.registerUser(data).then((res) => {
+        console.log(res)
         this.$router.push({ name: "login" });
         this.$store.commit("isLoading", false);
       });
