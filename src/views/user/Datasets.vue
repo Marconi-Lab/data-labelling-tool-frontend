@@ -37,7 +37,7 @@
             </b-icon>
             <a
               class="text-info nav-link p-0"
-              @click="handleDatasetClick(props.row.id)"
+              @click="handleDatasetClick({type:props.row.project_type, id:props.row.id})"
               >{{ props.row.name }}</a
             >
           </span>
@@ -94,12 +94,13 @@ export default {
     };
   },
   methods: {
-    handleDatasetClick(id){
-      let project_type = "label"
+    handleDatasetClick(data){
+      let project_type = data.type;
+      // console.log(id);
       if(project_type == "label"){
-        this.$router.push({name: "label-dataset", params:{id: id}})
+        this.$router.push({name: "label-dataset", params:{id: data.id}})
       }else{
-        this.$router.push({name:"data-item", params: {id: id}})
+        this.$router.push({name:"data-item", params: {id: data.id}})
       }
     }
   },
