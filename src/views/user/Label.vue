@@ -163,7 +163,7 @@
               <h1 class="text-secondary">All images have been labelled</h1>
             </div>
           </div>
-          <div v-else class="p-3 content-view container">
+          <div v-else class="p-3 content-view">
             <div
               v-if="processing"
               class="d-flex align-items-center justify-content-center"
