@@ -39,7 +39,10 @@ let attributes = [
       {
         text: "Not possible to determine",
         value: "not possible to determine",
-      },
+      },{
+        text: "I don't know",
+        value: "I don't know"
+      }
     ],
   },
   {
@@ -47,10 +50,10 @@ let attributes = [
     name: "What is the size of lesion (propotion of cervix area involved)?",
     type: "radio",
     values: [
-      { text: "quadrant (25%)", value: "quadrant (25%)" },
-      { text: "quadrants (25%-50%)", value: "quadrants(25%-50%)" },
-      { text: "quadrants (50%-75%)", value: "quadrants (50%-75%)" },
-      { text: "quadrants (75%-100%)", value: "quadrants (75%-100%)" },
+      { text: "1 quadrant (25%)", value: "quadrant (25%)" },
+      { text: "2 quadrants (25%-50%)", value: "quadrants(25%-50%)" },
+      { text: "3 quadrants (50%-75%)", value: "quadrants (50%-75%)" },
+      { text: "4 quadrants (75%-100%)", value: "quadrants (75%-100%)" },
     ],
   },
 ];
