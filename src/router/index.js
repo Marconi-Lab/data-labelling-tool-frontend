@@ -110,7 +110,13 @@ const routes = [
       },
     ],
   },
-
+  {
+    path: "/project-admin",
+    name: "project-admin",
+    component: () => import("../views/project_lead/Main.vue"),
+    meta: { requires_auth: true, is_admin: true },
+    children: [],
+  },
   {
     path: "/administrator",
     name: "admin-login",
