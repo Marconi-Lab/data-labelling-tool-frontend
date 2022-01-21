@@ -11,7 +11,7 @@
           <b-nav-item
             ><router-link
               :class="[
-                currentRoute.includes('/admin/dashboard/')
+                currentRoute.includes('/project-admin/dashboard')
                   ? 'link-active'
                   : 'link-normal',
               ]"
