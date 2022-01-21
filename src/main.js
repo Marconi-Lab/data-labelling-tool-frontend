@@ -38,12 +38,14 @@ api.interceptors.request.use(
 
     if (token) {
       const userID = JSON.parse(localStorage.getItem("user")).id;
+      const project_admin = JSON.parse(localStorage.getItem("user")).project_admin;
       const is_admin = JSON.parse(localStorage.getItem("user")).is_admin
         ? "admin"
         : "";
       config.headers.Authorization = "Bearer " + token;
       config.headers.is_admin = is_admin;
       config.headers.user_id = userID;
+      config.headers.project_admin = project_admin;
     }
     return config;
   },

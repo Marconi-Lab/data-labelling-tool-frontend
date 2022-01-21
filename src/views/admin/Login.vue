@@ -72,7 +72,12 @@ export default {
         .then(() => {
           if (localStorage.getItem("jwt") != null) {
             this.$emit("loggedIn");
-            this.$router.push({ name: "admin-dashboard-allsites" });
+            const project_admin = JSON.parse(
+              localStorage.getItem("user")
+            ).project_admin;
+            project_admin
+              ? this.$router.push({ name: "project-admin-dashboard" })
+              : this.$router.push({ name: "admin-dashboard-allsites" });
             this.$store.commit("isLoading", false);
           }
         })
