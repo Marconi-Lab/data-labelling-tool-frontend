@@ -115,7 +115,25 @@ const routes = [
     name: "project-admin",
     component: () => import("../views/project_lead/Main.vue"),
     meta: { requires_auth: true, is_admin: true },
-    children: [],
+    children: [
+      {
+      path: "users",
+      name: "project-admin-users",
+      component: () => import("../views/project_lead/Users.vue"),
+      meta: {
+        requires_auth:true,
+        is_admin: true
+      }},
+      {
+        path: "allusers",
+        name: "project-admin-allusers",
+        component: () => import("../views/project_lead/AllUsers.vue"),
+        meta: {
+          requires_auth: true,
+          is_admin: true
+        }
+      }
+    ],
   },
   {
     path: "/administrator",
