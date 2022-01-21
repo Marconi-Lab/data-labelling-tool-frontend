@@ -80,7 +80,7 @@ export default {
     },
     downloadDataset() {
       if (this.datasetName === "object detection") {
-        fetch(`http://marconimlannotator.com/api/v1/admin/download/object_detection?users[]=${this.selectedIDs.join("&users[]=")}`, {
+        fetch(`https://marconimlannotator.com/api/v1/admin/download/object_detection?users[]=${this.selectedIDs.join("&users[]=")}`, {
           method: "GET",
           params: { users: this.selectedIDs },
           responseType: "stream",
@@ -114,7 +114,7 @@ export default {
         );
         
       } else {
-         fetch(`http://marconimlannotator.com/api/v1/admin/download/by_case?users[]=${this.selectedIDs.join("&users[]=")}`, {
+         fetch(`https://marconimlannotator.com/api/v1/admin/download/by_case?users[]=${this.selectedIDs.join("&users[]=")}`, {
           method: "GET",
           params: { users: this.selectedIDs },
           responseType: "stream",
