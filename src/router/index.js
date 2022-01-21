@@ -132,6 +132,15 @@ const routes = [
           requires_auth: true,
           is_admin: true
         }
+      },
+      {
+        path: "dashboard",
+        name: "project-admin-dashboard",
+        component: () => import("../views/project_lead/Dashboard.vue"),
+        meta: {
+          requires_auth: true,
+          is_admin: true,
+        }
       }
     ],
   },
