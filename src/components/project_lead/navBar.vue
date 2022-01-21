@@ -15,7 +15,7 @@
                   ? 'link-active'
                   : 'link-normal',
               ]"
-              to=""
+              to="/project-admin/dashboard"
               >Dashboard</router-link
             ></b-nav-item
           >
