@@ -22,15 +22,25 @@
           <b-nav-item
             ><router-link
               :class="[
-                currentRoute.includes('users')
+                currentRoute.includes('project-admin/users')
                   ? 'link-active'
                   : 'link-normal',
               ]"
-              to=""
-              >Users</router-link
+              to="/project-admin/users"
+              >Project Users</router-link
             ></b-nav-item
           >
-          
+          <b-nav-item
+            ><router-link
+              :class="[
+                currentRoute.includes('project-admin/allusers')
+                  ? 'link-active'
+                  : 'link-normal',
+              ]"
+              to="/project-admin/allusers"
+              >All Users</router-link
+            ></b-nav-item
+          >
           <b-nav-item
             ><b-icon
               icon="power"
