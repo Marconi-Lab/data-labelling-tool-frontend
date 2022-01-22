@@ -59,7 +59,7 @@ let attributes = [
 ];
 
 let data = {
-  option1: { question: "Is SCJ fully visible?", answer: null },
+  option1: { question: "What is the quality of the picture?", answer: null },
   option2: {
     question: "Is the quality of the picture good enough to make a diagnosis?",
     answer: null,
