@@ -110,7 +110,41 @@ const routes = [
       },
     ],
   },
-
+  {
+    path: "/project-admin",
+    name: "project-admin",
+    component: () => import("../views/project_lead/Main.vue"),
+    meta: { requires_auth: true, is_admin: true },
+    children: [
+      {
+        path: "users",
+        name: "project-admin-users",
+        component: () => import("../views/project_lead/Users.vue"),
+        meta: {
+          requires_auth: true,
+          is_project_admin: true,
+        },
+      },
+      {
+        path: "allusers",
+        name: "project-admin-allusers",
+        component: () => import("../views/project_lead/AllUsers.vue"),
+        meta: {
+          requires_auth: true,
+          is_project_admin: true,
+        },
+      },
+      {
+        path: "dashboard",
+        name: "project-admin-dashboard",
+        component: () => import("../views/project_lead/Dashboard.vue"),
+        meta: {
+          requires_auth: true,
+          is_project_admin: true,
+        },
+      },
+    ],
+  },
   {
     path: "/administrator",
     name: "admin-login",
@@ -273,7 +307,10 @@ router.beforeEach((to, from, next) => {
           user.is_admin === "admin"
         ) {
           next();
-        } else {
+        } else if(to.matched.some((record) => record.meta.is_project_admin) &&
+          user.project_admin === "admin") {
+            next();
+        }else {
           next();
           return;
         }
@@ -284,10 +321,16 @@ router.beforeEach((to, from, next) => {
     if (localStorage.getItem("jwt") == null) {
       next({});
     } else {
-      const role = JSON.parse(localStorage.getItem("user")).is_admin
-        ? "admin"
-        : "user";
-      next({ name: `${role}-home` });
+      const role = JSON.parse(localStorage.getItem("user")).is_admin;
+      const project_admin = JSON.parse(localStorage.getItem("user"))
+        .project_admin;
+      if (project_admin == "admin") {
+        next({name: `project-admin-dashboard`});
+      } else if (role == "admin") {
+        next({ name: `admin-home` });
+      }else{
+        next({name: `user-home`})
+      }
     }
   } else {
     next();

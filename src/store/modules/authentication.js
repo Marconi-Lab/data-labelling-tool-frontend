@@ -60,7 +60,7 @@ const actions = {
     try {
       let res = await axios.post("/auth/login/", data);
       const admin = res.data;
-      if (admin.is_admin) {
+      if (admin.is_admin || admin.project_admin) {
         if (admin.is_verified) {
           localStorage.setItem("jwt", admin.access_token);
           localStorage.setItem("user", JSON.stringify(admin));
