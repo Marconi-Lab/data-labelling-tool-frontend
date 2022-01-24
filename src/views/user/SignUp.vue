@@ -352,7 +352,6 @@ export default {
         email: "",
         password: "",
         passwordConfirm: "",
-        project_id: 1,
       },
       genderOptions: [
         { value: "M", text: "Male" },
