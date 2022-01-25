@@ -51,12 +51,14 @@
                   }}</b-form-invalid-feedback>
                 </validation-provider>
                 <hr class="m-1" />
-                <p v-if="form.option2.answer!='no'">{{ attributes[2].name }}</p>
+                <p v-if="form.option2.answer != 'no'">
+                  {{ attributes[2].name }}
+                </p>
                 <validation-provider
                   name="option3"
                   :rules="{ required: true }"
                   v-slot="validationContext"
-                  v-if="form.option2.answer!='no'"
+                  v-if="form.option2.answer != 'no'"
                 >
                   <b-form-radio-group
                     v-model="form.option3.answer"
@@ -69,12 +71,14 @@
                   }}</b-form-invalid-feedback>
                 </validation-provider>
                 <hr class="m-1" />
-                <p v-if="form.option2.answer!='no'">{{ attributes[3].name }}</p>
+                <p v-if="form.option2.answer != 'no'">
+                  {{ attributes[3].name }}
+                </p>
                 <validation-provider
                   name="option4"
                   :rules="{ required: true }"
                   v-slot="validationContext"
-                  v-if="form.option2.answer!='no'"
+                  v-if="form.option2.answer != 'no'"
                 >
                   <b-form-radio-group
                     v-model="form.option4.answer"
@@ -87,9 +91,21 @@
                   }}</b-form-invalid-feedback>
                 </validation-provider>
                 <hr class="m-1" />
-                <p v-if="(form.option4.answer=='VIA positive' || form.option4.answer=='suspected cancerous lesions') && form.option2.answer!='no' " >{{ attributes[4].name }}</p>
+                <p
+                  v-if="
+                    (form.option4.answer == 'VIA positive' ||
+                      form.option4.answer == 'suspected cancerous lesions') &&
+                    form.option2.answer != 'no'
+                  "
+                >
+                  {{ attributes[4].name }}
+                </p>
                 <validation-provider
-                  v-if="(form.option4.answer=='VIA positive' || form.option4.answer=='suspected cancerous lesions') && form.option2.answer!='no'"
+                  v-if="
+                    (form.option4.answer == 'VIA positive' ||
+                      form.option4.answer == 'suspected cancerous lesions') &&
+                    form.option2.answer != 'no'
+                  "
                   name="option5"
                   :rules="{ required: true }"
                   v-slot="validationContext"
@@ -140,7 +156,7 @@
               {{ progress_message }}
             </p>
             <label
-              style="font-size: 0.9rem; position: absolute; right: 8rem;"
+              style="font-size: 0.9rem; position: absolute; right: 8rem"
               class="btn btn-secondary mt-2"
               for="submit-form"
               @click="resetForm"
@@ -150,12 +166,12 @@
             <label
               style="font-size: 0.9rem; position: absolute; right: 1rem"
               class="btn btn-primary mt-2"
-              for="submit-form"
+              @click="handleLoadNext"
             >
               load next
             </label>
           </nav>
-          <div v-if="progress=='done'" class="container">
+          <div v-if="progress == 'done'" class="container">
             <div
               class="d-flex align-items-center justify-content-center"
               style="height: 80vh"
@@ -171,7 +187,12 @@
             >
               <Spinner />
             </div>
-            <img v-else class="cervix-image" :src="current_image" alt="" />
+            <img
+              v-else
+              class="cervix-image"
+              :src="images[current_image].image"
+              alt=""
+            />
           </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -197,6 +218,8 @@ export default {
       progress: "",
       processing: true,
       project_id: null,
+      images: [],
+      labels: [],
     };
   },
   methods: {
@@ -226,29 +249,44 @@ export default {
     },
     handleLoadNext() {
       // e.preventDefault();
-      this.processing = true;
-      let dataset_id = this.$route.params.id;
-      let annotations = JSON.stringify(this.form);
-      let annotation_payload = {
-        dataset_id,
-        project_id: this.project_id,
-        image_id: this.current_image_id,
-        annotations: annotations,
-      };
-      axios.post(`/user/label/${this.current_image_id}`, annotation_payload).then((res) => {
-        const data = res.data;
-        this.progress = data.progress;
+      if (this.images.length == this.current_image) {
+        this.progress = "done";
+      } else {
+        this.processing = true;
+        this.labels.push(
+          {
+            id: this.images[this.current_image].id,
+            annotations: this.form
+          }
+        )
+        this.current_image++;
+        this.resetForm();
+        console.log("Labels: ", this.labels);
+        this.processing = false;
+      }
 
-        axios.get(`/user/images/${dataset_id}/random`).then((res) => {
-          const data = res.data;    
-          console.log(data);
-          this.current_image = data.image;
-          this.progress = data.progress;
-          console.log("annotations payload: ", annotation_payload);
-          this.resetForm();
-          this.processing = false;
-        });
-      });
+      // let dataset_id = this.$route.params.id;
+      // let annotations = JSON.stringify(this.form);
+      // let annotation_payload = {
+      //   dataset_id,
+      //   project_id: this.project_id,
+      //   image_id: this.current_image_id,
+      //   annotations: annotations,
+      // };
+      // axios.post(`/user/label/${this.current_image_id}`, annotation_payload).then((res) => {
+      //   const data = res.data;
+      //   this.progress = data.progress;
+
+      //   axios.get(`/user/images/${dataset_id}/random`).then((res) => {
+      //     const data = res.data;
+      //     console.log(data);
+      //     this.current_image = data.image;
+      //     this.progress = data.progress;
+      //     console.log("annotations payload: ", annotation_payload);
+      //     this.resetForm();
+      //     this.processing = false;
+      //   });
+      // });
     },
   },
   created() {
@@ -260,12 +298,12 @@ export default {
       .then((res) => {
         const data = res.data;
         console.log(data);
-        this.current_image = data.image;
+        this.images = data.images;
+        this.current_image = 0;
         this.current_image_id = data.id;
         this.progress = data.progress;
         this.project_id = data.project_id;
         this.processing = false;
-        console.log("Progress: ", this.progress);
       });
   },
   computed: {
