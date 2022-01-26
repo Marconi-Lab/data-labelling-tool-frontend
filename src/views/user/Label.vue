@@ -128,49 +128,74 @@
         <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="page-content-wrapper">
-          <nav
-            class="
-              navbar navbar-expand-lg navbar-secondary
-              text-center
-              p-1
-              bg-light
-              border-bottom
-            "
-          >
-            <button
-              class="btn btn-secondary ml-2"
-              id="menu-toggle"
-              style="font-size: 0.9rem"
-            >
-              Toggle form
-            </button>
-            <p
-              class="ml-3"
-              style="
-                font-weight: lighter;
-                font-size: 0.9rem;
-                position: absolute;
-                left: 7rem;
-              "
-            >
-              {{ progress_message }}
-            </p>
-            <label
-              style="font-size: 0.9rem; position: absolute; right: 8rem"
-              class="btn btn-secondary mt-2"
-              for="submit-form"
-              @click="resetForm"
-            >
-              clear form
-            </label>
-            <label
-              style="font-size: 0.9rem; position: absolute; right: 1rem"
-              class="btn btn-primary mt-2"
-              @click="handleLoadNext"
-            >
-              load next
-            </label>
-          </nav>
+          <b-navbar toggleable="sm" type="light" variant="light">
+            <b-navbar-toggle target="nav-text-collapse"></b-navbar-toggle>
+
+            <b-collapse id="nav-text-collapse" is-nav>
+              <b-navbar-nav>
+                <button
+                  class="btn btn-secondary ml-2"
+                  id="menu-toggle"
+                  style="font-size: 0.9rem"
+                >
+                  Toggle form
+                </button>
+              </b-navbar-nav>
+              <b-navbar-nav>
+                <label
+                  style="font-size: 0.9rem"
+                  class="btn btn-secondary mt-2 mx-2"
+                  for="submit-form"
+                  @click="resetForm"
+                >
+                  clear form
+                </label>
+              </b-navbar-nav>
+              <div style="width: 300px">
+                <p
+                  class="text-center"
+                  style="font-weight: lighter; font-size: 0.8rem"
+                >
+                  {{ labelled_images }} out of {{ all_images }} images labelled
+                </p>
+                <b-progress
+                  :value="100 * (labelled_images / all_images)"
+                  variant="info"
+                  height="0.5em"
+                  class="mx-2"
+                >
+                </b-progress>
+              </div>
+              <b-navbar-nav>
+                <label
+                  style="font-size: 0.9rem"
+                  class="btn btn-info mt-2 mx-2"
+                  @click="handleLoadPrevious"
+                >
+                  previous
+                </label>
+              </b-navbar-nav>
+              <b-navbar-nav>
+                <label
+                  style="font-size: 0.9rem"
+                  class="btn btn-info mt-2 mx-2"
+                  for="submit-form"
+                >
+                  next
+                </label>
+              </b-navbar-nav>
+               <b-navbar-nav>
+                <label
+                  style="font-size: 0.9rem"
+                  class="text-secondary mt-2 mx-2"
+                  for="submit-form"
+                >
+                  image {{current_image + 1}}
+                </label>
+              </b-navbar-nav>
+            </b-collapse>
+          </b-navbar>
+          <hr class="m-0" />
           <div v-if="progress == 'done'" class="container">
             <div
               class="d-flex align-items-center justify-content-center"
@@ -207,19 +232,22 @@ import "jquery/dist/jquery.min.js";
 import $ from "jquery";
 import axios from "../../store/axios_setup";
 import labelUtilities from "../../services/label.js";
+import { mapGetters } from "vuex";
 // import {validationMixin} from ""
 export default {
   data() {
     return {
       form: labelUtilities.data,
       attributes: labelUtilities.attributes,
-      current_image: "",
+      current_image: 0,
       current_image_id: null,
       progress: "",
       processing: true,
       project_id: null,
       images: [],
       labels: [],
+      labelled_images: 0,
+      all_images: 0,
     };
   },
   methods: {
@@ -247,48 +275,55 @@ export default {
         this.$refs.observer.reset();
       });
     },
-    handleLoadNext() {
+    async handleLoadNext() {
       // e.preventDefault();
-      if (this.images.length == this.current_image) {
-        this.progress = "done";
-      } else {
+      let dataset_id = this.$route.params.id;
+      let annotations = JSON.stringify(
+        this.labels[this.current_image].annotations
+      );
+      let image_id = this.labels[this.current_image].id;
+
+      let annotation_payload = {
+        dataset_id,
+        project_id: this.project_id,
+        image_id,
+        annotations
+      };
+      
+      if (this.current_image < this.all_images - 1) {
         this.processing = true;
-        this.labels.push(
-          {
-            id: this.images[this.current_image].id,
-            annotations: this.form
-          }
-        )
-        this.current_image++;
-        this.resetForm();
-        console.log("Labels: ", this.labels);
+        await this.submitImage(annotation_payload);
+        ++this.current_image;
+        this.form = this.labels[this.current_image].annotations;
+        this.processing = false;
+        console.log("Current image: ", this.current_image);
+      }
+    },
+    handleLoadPrevious() {
+      if (this.current_image > 0) {
+        this.processing = true;
+        this.current_image -= 1;
+        console.log("Current image: ", this.current_image);
+        this.form = this.labels[this.current_image].annotations;
         this.processing = false;
       }
-
-      // let dataset_id = this.$route.params.id;
-      // let annotations = JSON.stringify(this.form);
-      // let annotation_payload = {
-      //   dataset_id,
-      //   project_id: this.project_id,
-      //   image_id: this.current_image_id,
-      //   annotations: annotations,
-      // };
-      // axios.post(`/user/label/${this.current_image_id}`, annotation_payload).then((res) => {
-      //   const data = res.data;
-      //   this.progress = data.progress;
-
-      //   axios.get(`/user/images/${dataset_id}/random`).then((res) => {
-      //     const data = res.data;
-      //     console.log(data);
-      //     this.current_image = data.image;
-      //     this.progress = data.progress;
-      //     console.log("annotations payload: ", annotation_payload);
-      //     this.resetForm();
-      //     this.processing = false;
-      //   });
-      // });
+    },
+    submitImage(payload) {
+      
+      axios
+        .post(
+          `/user/label/${payload.image_id}`,
+          payload
+        )
+        .then((res) => {
+          console.log("image label response: ", res.data)
+          const data = res.data;
+          this.labelled_images = data.labelled;
+          this.all_images = data.all_images;
+        });
     },
   },
+
   created() {
     this.processing = true;
     let dataset_id = this.$route.params.id;
@@ -297,19 +332,21 @@ export default {
       .get(`/user/images/${dataset_id}/random`, { dataset_id })
       .then((res) => {
         const data = res.data;
-        console.log(data);
+        console.log("images: ", data);
         this.images = data.images;
-        this.current_image = 0;
         this.current_image_id = data.id;
-        this.progress = data.progress;
+        this.labels = data.labels;
+        this.form = this.labels[0].annotations;
+        this.$store.commit("setImages", data.images);
+        console.log(this.getImages);
         this.project_id = data.project_id;
+        this.labelled_images = data.labelled;
+        this.all_images = data.all_images;
         this.processing = false;
       });
   },
   computed: {
-    progress_message: function () {
-      return this.progress;
-    },
+    ...mapGetters(["getImages", "getLabels"]),
   },
   mounted() {
     //toggle sidebar
