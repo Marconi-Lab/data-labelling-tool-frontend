@@ -50,10 +50,10 @@ let attributes = [
     name: "What is the size of lesion (propotion of cervix area involved)?",
     type: "radio",
     values: [
-      { text: "1 quadrant (25%)", value: "quadrant (25%)" },
-      { text: "2 quadrants (25%-50%)", value: "quadrants(25%-50%)" },
-      { text: "3 quadrants (50%-75%)", value: "quadrants (50%-75%)" },
-      { text: "4 quadrants (75%-100%)", value: "quadrants (75%-100%)" },
+      { text: "1 quadrant (25%)", value: "1 quadrant (25%)" },
+      { text: "2 quadrants (25%-50%)", value: "2 quadrants(25%-50%)" },
+      { text: "3 quadrants (50%-75%)", value: "3 quadrants (50%-75%)" },
+      { text: "4 quadrants (75%-100%)", value: "4 quadrants (75%-100%)" },
     ],
   },
 ];
