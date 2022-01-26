@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import authentication from "./modules/authentication";
 import datasets from "./modules/datasets";
 import users from "./modules/users";
+import label from "./modules/users";
 
 Vue.use(Vuex);
 
@@ -11,6 +12,7 @@ export default new Vuex.Store({
     authentication,
     datasets,
     users,
+    label
   },
   plugins: [],
 });

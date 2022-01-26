@@ -30,19 +30,66 @@
           ><span v-if="props.column.field == 'gender'">
             <span>{{ props.row.gender }}</span>
           </span>
-          <span v-if="props.column.field == 'record_count'">
-            <span>
-              <button
-                class="btn btn-secondary btn-sm"
-                @click="handleUserRemove({id: props.row.id, project_id: props.row.project_id})"
-              >
-                Remove from project
-              </button></span
-            >
-          </span>
+          <span v-if="props.column.field == 'dataset_count'">
+            <span>{{ props.row.dataset_count }}</span
+            ><b-icon
+              icon="plus"
+              variant="success"
+              class="dataset-icon"
+              style="float: right; font-weight: bold; font-size: 1.3rem"
+              v-b-modal.modal-center
+              @click="
+                (currentDatasets = props.row.datasets),
+                  (currentUser = props.row.id)
+              "
+            ></b-icon
+          ></span>
         </template>
       </vue-good-table>
     </div>
+
+    <b-modal
+      id="modal-center"
+      centered
+      title="Modify Datasets"
+      header-bg-variant="info"
+      header-text-variant="white"
+      footer-border-variant="info"
+    >
+      <b-nav v-if="deletingSelected">
+        <b-nav-item><b-icon icon="trash"></b-icon></b-nav-item>
+      </b-nav>
+      <b-list-group>
+        <b-list-group-item v-for="dataset in currentDatasets" :key="dataset.id"
+          >{{ dataset.name
+          }}<b-icon
+            class="delete-dataset"
+            variant="danger"
+            icon="trash"
+            style="float: right"
+            @click="handleDeleteFromList($emit, dataset.id)"
+          ></b-icon>
+        </b-list-group-item>
+        <p class="text-info mt-2 mb-0">Select dataset to add</p>
+        <b-form-select
+          v-model="selected"
+          :options="options"
+          class="mb-3"
+          value-field="id"
+          text-field="name"
+          disabled-field="notEnabled"
+          aria-placeholder="Select dataset to add"
+        ></b-form-select>
+      </b-list-group>
+      <template #modal-footer="{ cancel }" class="mx-auto">
+        <b-button size="sm" variant="outline-info" @click="cancel()"
+          >cancel</b-button
+        >
+        <b-button size="sm" variant="outline-info" @click="handleDatasetUpdate"
+          >update</b-button
+        >
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -77,13 +124,12 @@ export default {
           field: "gender",
         },
         {
-          label: "Record",
-          field: "record_count",
+          label: "Datasets",
+          field: "dataset_count",
         },
       ],
       rows: [],
       options: ["dataset1", "dataset2"],
-      sites: ["arua", "jinja", "mayuge", "mbarara", "uci", "gynecologist"],
       deletingSelected: false,
       selected: "",
       currentDatasets: [],
@@ -94,13 +140,28 @@ export default {
     };
   },
   methods: {
-    
-    handleUserRemove(data) {
+     handleDeleteFromList(e, selected) {
+      e.preventDefault;
       this.$store.commit("isLoading", true);
+      console.log(selected);
+      console.log("Current user", this.currentUser);
       axios
-        .delete(`/admin/users/${data.id}/project/${data.project_id}`)
-        .then(async (res) => {
-          console.log(res)
+        .delete(`/admin/users/${this.currentUser}/assignments/${selected}/`)
+        .then(async () => {
+          await this.$router.go(0);
+          this.$store.commit("isLoading", false);
+        });
+    },
+    handleDatasetUpdate(e) {
+      e.preventDefault();
+      this.$store.commit("isLoading", true);
+      // console.log(this.selected);
+      // console.log("CUrrent user", this.currentUser);
+      axios
+        .post(`/admin/users/${this.currentUser}/assignments/`, {
+          dataset_id: this.selected,
+        })
+        .then(async () => {
           await this.$router.go(0);
           this.$store.commit("isLoading", false);
         });
@@ -109,12 +170,12 @@ export default {
   created() {
     axios.get(`/admin/users/`).then((res) => {
       console.log(res);
-      this.rows = res.data.filter(x=> x.project_id==1);
+      this.rows = res.data.filter((x) => x.project_id == 1);
       this.processing = false;
     });
     axios.get(`/admin/datasets/`).then((res) => {
       console.log(res);
-      this.options = res.data;
+      this.options = res.data.filter((x) => x.project_id == 1);
     });
   },
 };
