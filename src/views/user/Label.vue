@@ -298,7 +298,7 @@ export default {
         this.processing = false;
         console.log("Current image: ", this.current_image);
       }
-      if (this.current_image == this.all_images){
+      if (this.current_image == this.all_images-1){
         this.processing = true;
         await this.submitImage(annotation_payload);
         this.processing=false;
