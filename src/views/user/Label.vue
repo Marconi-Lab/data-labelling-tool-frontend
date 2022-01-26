@@ -169,7 +169,7 @@
               <b-navbar-nav>
                 <label
                   style="font-size: 0.9rem"
-                  class="btn btn-info mt-2 mx-2"
+                  class="btn btn-secondary mt-2 mx-2"
                   @click="handleLoadPrevious"
                 >
                   previous
@@ -178,7 +178,7 @@
               <b-navbar-nav>
                 <label
                   style="font-size: 0.9rem"
-                  class="btn btn-info mt-2 mx-2"
+                  class="btn btn-secondary mt-2 mx-2"
                   for="submit-form"
                 >
                   next
@@ -187,10 +187,10 @@
                <b-navbar-nav>
                 <label
                   style="font-size: 0.9rem"
-                  class="text-secondary mt-2 mx-2"
+                  class="btn btn-success text-bold mt-2 mx-2"
                   for="submit-form"
                 >
-                  image {{current_image + 1}}
+                  image {{ current_image + 1 }}
                 </label>
               </b-navbar-nav>
             </b-collapse>
