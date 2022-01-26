@@ -298,6 +298,11 @@ export default {
         this.processing = false;
         console.log("Current image: ", this.current_image);
       }
+      if (this.current_image == this.all_images){
+        this.processing = true;
+        await this.submitImage(annotation_payload);
+        this.processing=false;
+      }
     },
     handleLoadPrevious() {
       if (this.current_image > 0) {
