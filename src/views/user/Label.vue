@@ -166,7 +166,7 @@
                 >
                 </b-progress>
               </div>
-              <b-navbar-nav>
+              <!-- <b-navbar-nav>
                 <label
                   style="font-size: 0.9rem"
                   class="btn btn-secondary mt-2 mx-2"
@@ -174,12 +174,13 @@
                 >
                   previous
                 </label>
-              </b-navbar-nav>
+              </b-navbar-nav> -->
               <b-navbar-nav>
                 <label
                   style="font-size: 0.9rem"
                   class="btn btn-secondary mt-2 mx-2"
                   for="submit-form"
+                  :disabled="labelled_images==all_images"
                 >
                   next
                 </label>
@@ -196,7 +197,7 @@
             </b-collapse>
           </b-navbar>
           <hr class="m-0" />
-          <div v-if="progress == 'done'" class="container">
+          <div v-if="labelled_images == all_images" class="container">
             <div
               class="d-flex align-items-center justify-content-center"
               style="height: 80vh"
@@ -348,6 +349,9 @@ export default {
         this.labelled_images = data.labelled;
         this.all_images = data.all_images;
         this.processing = false;
+        if((data.labelled == data.all_images)){
+          this.resetForm();
+        }
       });
   },
   computed: {
