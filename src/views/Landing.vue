@@ -29,8 +29,14 @@
       <hr />
       <div class="row">
         <div class="col-md-3 side-navigation">
+          <h5>Content</h5>
           <ul>
             <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#data-collection">Data Collection</a></li>
+            <li><a href="#model-training">Model Training</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#deployment">Deployment</a></li>
+            <li><a href="#acknowledgement">Acknowledgement</a></li>
           </ul>
         </div>
         <div class="col-md-9">
@@ -47,7 +53,7 @@
               accurate alternative to diagnosie cervical cancer from colposcopy
               images with machine learning.
             </p>
-            <h4>Data Collection</h4>
+            <h4 id="data-collection">Data Collection</h4>
             <p>
               Cervical colposcopy images and corresponding attributes were
               collected from various locations in partnership with Uganda Cancer
@@ -58,18 +64,23 @@
               cervix with acetic acid and after staining. A tool was developed
               to annotate the data.
             </p>
-            <h4>Model Training</h4>
+            <h4 id="model-training">Model Training</h4>
             <p>
               Given a limited dataset shown in Table 1, we used transfer
               learning with the VGG19 CNN pretrained weights. We trained a deep
               learning classfication model and an ensemble model.
             </p>
-            <h4>Results</h4>
+            <img
+              class="content-image"
+              src="../../src/assets/Untitled Diagram.drawio (1).jpg"
+              alt=""
+            />
+            <h4 id="results">Results</h4>
             <p>
               Our single best model achieved 97% percent specificity and 77%
               specificity. Our ensemble model achieved 98% sensitivity and 82%.
             </p>
-            <h4>Deployment</h4>
+            <h4 id="deployment">Deployment</h4>
             <p>
               We are looking at three modes of deployment: 1) Mobile application
               for easy access POC 2) web application for access via the web 3)
@@ -77,7 +88,7 @@
               systems.
             </p>
 
-            <h4>Acknowledgement</h4>
+            <h4 id="acknowledgement">Acknowledgement</h4>
             <p>
               We would like to express our thanks to the Research and
               Innovations Fund (RIF) for funding this project and partners
@@ -128,6 +139,10 @@ h3 {
 }
 h4 {
   font-weight: bold;
+}
+.content-image {
+  width: 100%;
+  height: auto;
 }
 .partners-logo {
   max-width: 180px;
