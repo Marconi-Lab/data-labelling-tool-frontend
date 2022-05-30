@@ -27,52 +27,66 @@
         </div>
       </div>
       <hr />
-      <h4>Introduction</h4>
-      <p>
-        Cervical cancer is a major public health problem affecting middle-aged
-        women, especially in less privileged countries all over the world. It is
-        a highly preventable disease and thus early screening stands for the
-        most effective strategy to minimize the global challenge of cervical
-        cancer. However, there are not many economical and accurate solutions
-        out there to help with diagnosing the disease. Our work provides a
-        relatively cheap and accurate alternative to diagnosie cervical cancer
-        from colposcopy images with machine learning.
-      </p>
-      <h4>Data Collection</h4>
-      <p>
-        Cervical colposcopy images and corresponding attributes were collected
-        from various locations in partnership with Uganda Cancer Institute.
-        Locations included; Arua, Mayuge, Mbarara, Kampala, and Jinja. The
-        primary tool for collecting field data was the Open Data Kit (ODK). An
-        ODK form instance was captured for every patient case recording images
-        taken both before staining the cervix with acetic acid and after
-        staining. A tool was developed to annotate the data.
-      </p>
-      <h4>Model Training</h4>
-      <p>
-        Given a limited dataset shown in Table 1, we used transfer learning with
-        the VGG19 CNN pretrained weights. We trained a deep learning
-        classfication model and an ensemble model.
-      </p>
-      <h4>Results</h4>
-      <p>
-        Our single best model achieved 97% percent specificity and 77%
-        specificity. Our ensemble model achieved 98% sensitivity and 82%.
-      </p>
-      <h4>Deployment</h4>
-      <p>
-        We are looking at three modes of deployment: 1) Mobile application for
-        easy access POC 2) web application for access via the web 3) Application
-        Programming Interface for integration into software systems.
-      </p>
+      <div class="row">
+        <div class="col-md-3">
+          <ul>
+            <li><a href="#introduction">Introduction</a></li>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <div class="content">
+            <h4 id="introduction">Introduction</h4>
+            <p>
+              Cervical cancer is a major public health problem affecting
+              middle-aged women, especially in less privileged countries all
+              over the world. It is a highly preventable disease and thus early
+              screening stands for the most effective strategy to minimize the
+              global challenge of cervical cancer. However, there are not many
+              economical and accurate solutions out there to help with
+              diagnosing the disease. Our work provides a relatively cheap and
+              accurate alternative to diagnosie cervical cancer from colposcopy
+              images with machine learning.
+            </p>
+            <h4>Data Collection</h4>
+            <p>
+              Cervical colposcopy images and corresponding attributes were
+              collected from various locations in partnership with Uganda Cancer
+              Institute. Locations included; Arua, Mayuge, Mbarara, Kampala, and
+              Jinja. The primary tool for collecting field data was the Open
+              Data Kit (ODK). An ODK form instance was captured for every
+              patient case recording images taken both before staining the
+              cervix with acetic acid and after staining. A tool was developed
+              to annotate the data.
+            </p>
+            <h4>Model Training</h4>
+            <p>
+              Given a limited dataset shown in Table 1, we used transfer
+              learning with the VGG19 CNN pretrained weights. We trained a deep
+              learning classfication model and an ensemble model.
+            </p>
+            <h4>Results</h4>
+            <p>
+              Our single best model achieved 97% percent specificity and 77%
+              specificity. Our ensemble model achieved 98% sensitivity and 82%.
+            </p>
+            <h4>Deployment</h4>
+            <p>
+              We are looking at three modes of deployment: 1) Mobile application
+              for easy access POC 2) web application for access via the web 3)
+              Application Programming Interface for integration into software
+              systems.
+            </p>
 
-      <h4>Acknowledgement</h4>
-      <p>
-        We would like to express our thanks to the Research and Innovations Fund
-        (RIF) for funding this project and partners through Makerere University
-        and the Uganda Cancer Institute (UCI) for the support and collaborative
-        efforts.
-      </p>
+            <h4>Acknowledgement</h4>
+            <p>
+              We would like to express our thanks to the Research and
+              Innovations Fund (RIF) for funding this project and partners
+              through Makerere University and the Uganda Cancer Institute (UCI)
+              for the support and collaborative efforts.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -88,6 +102,9 @@ export default {
 </script>
 
 <style scoped>
+html {
+  scroll-behavior: smooth !important;
+}
 #landing-page {
   /* background-color: 	#5bc0de;
   width: 100vw;
@@ -117,6 +134,13 @@ h4 {
   max-height: 100px;
   display: block;
   margin: auto;
+  z-index: -1;
+}
+.content {
+  height: 85vh !important;
+  overflow: scroll;
+}
+.row {
   z-index: -1;
 }
 @media screen and (min-width: 800px) {
