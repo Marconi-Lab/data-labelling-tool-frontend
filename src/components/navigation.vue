@@ -11,9 +11,7 @@
       <!-- Right aligned nav items -->
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <router-link class="router-link nav-link" to="/">
-            landing</router-link
-          >
+          <router-link class="router-link nav-link" to="/"> home</router-link>
           <router-link class="router-link nav-link" to="/administrator">
             admin</router-link
           >
