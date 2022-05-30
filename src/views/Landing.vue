@@ -28,7 +28,7 @@
       </div>
       <hr />
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 side-navigation">
           <ul>
             <li><a href="#introduction">Introduction</a></li>
           </ul>
@@ -143,16 +143,19 @@ h4 {
 .row {
   z-index: -1;
 }
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 767px) {
   h3 {
     font-weight: bold;
     font-size: 2rem;
     text-align: center;
   }
 }
-@media screen and (max-width: 799px) {
+@media screen and (max-width: 766px) {
   .container {
     padding: 0px;
+  }
+  .side-navigation {
+    display: none;
   }
 }
 </style>
