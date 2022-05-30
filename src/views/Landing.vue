@@ -2,11 +2,31 @@
   <div id="landing-page">
     <Navigation />
     <div class="m-5"><hr /></div>
-    <div class="container text-left">
-      <h2>
+    <div class="container text-left pt-4">
+      <h3 class="my-5">
         A Computer-Aided Diagnosis System for Cervical Cancer From Colposcopic
         Images
-      </h2>
+      </h3>
+      <h4 class="text-center">Partners</h4>
+      <div class="row">
+        <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+          <img
+            class="partners-logo"
+            src="../../src/assets/marconi_lab.png"
+            alt=""
+          />
+        </div>
+        <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+          <img class="partners-logo" src="../../src/assets/air.png" alt="" />
+        </div>
+        <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+          <img class="partners-logo" src="../../src/assets/uci.png" alt="" />
+        </div>
+        <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+          <img class="partners-logo" src="../../src/assets/muk.png" alt="" />
+        </div>
+      </div>
+      <hr />
       <h4>Introduction</h4>
       <p>
         Cervical cancer is a major public health problem affecting middle-aged
@@ -79,8 +99,36 @@ export default {
   background-position-y: center; */
   /* background-repeat: space; */
 }
-.container {
+* {
   font-family: "Plus Jakarta Sans", sans-serif;
   color: black;
+}
+p {
+  font-size: 18px;
+}
+h3 {
+  text-align: center;
+}
+h4 {
+  font-weight: bold;
+}
+.partners-logo {
+  max-width: 180px;
+  max-height: 100px;
+  display: block;
+  margin: auto;
+  z-index: -1;
+}
+@media screen and (min-width: 800px) {
+  h3 {
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: center;
+  }
+}
+@media screen and (max-width: 799px) {
+  .container {
+    padding: 0px;
+  }
 }
 </style>
