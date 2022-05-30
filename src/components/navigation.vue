@@ -2,8 +2,9 @@
   <b-navbar toggleable="lg" type="light" variant="" class="custom-navigation">
     <div class="container">
       <b-navbar-brand class="py-0 my-0"
-        ><img class="brand-image" src="../assets/marconi_lab.png" alt=""
-      /></b-navbar-brand>
+        ><a href="https://marconilab.org"
+          ><img class="brand-image" src="../assets/marconi_lab.png" alt="" /></a
+      ></b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
