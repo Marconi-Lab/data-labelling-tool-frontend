@@ -50,6 +50,7 @@ export default {};
   margin-bottom: 20px;
   -webkit-box-shadow: 0px 1px 6px -1px #000000;
   box-shadow: 0px 1px 6px -1px #cccccc;
+  z-index: 22;
 }
 .router-link:hover {
   /* color: white; */
