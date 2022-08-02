@@ -1,5 +1,10 @@
 <template>
-  <b-navbar toggleable="lg" type="light" variant="" class="custom-navigation">
+  <b-navbar
+    toggleable="lg"
+    type="light"
+    variant=""
+    class="custom-navigation p-0 pt-1"
+  >
     <div class="container">
       <b-navbar-brand class="py-0 my-0"
         ><a href="https://marconilab.org"
@@ -33,7 +38,7 @@ export default {};
 
 <style>
 .brand-image {
-  height: 4.5rem;
+  height: 4.2rem;
   border-radius: 0.2rem;
 }
 .button:hover {
