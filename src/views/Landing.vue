@@ -88,13 +88,35 @@
               the Open Data Kit (ODK) app. An ODK form instance was captured for
               every patient case recording images taken both before and after
               staining the cervix with acetic acid. A tool was developed to
-              annotate the data.Ce
+              annotate the data.
             </p>
+            <img src="../assets/label1.png" alt="" class="content-image pt-3" />
+            <p class="text-center">
+              <small class="">Figure: Image labels annotation interface</small>
+            </p>
+            <img src="../assets/label2.png" alt="" class="content-image pt-3" />
+            <p class="text-center">
+              <small class=""
+                >Figure: Cervix localization annotation interface</small
+              >
+            </p>
+
             <h5 id="model-training">Model Training</h5>
             <p>
               Given a limited dataset shown in Table 1, we used transfer
               learning with the VGG19 CNN pretrained weights. We trained a deep
-              learning classfication model and an ensemble model.
+              learning classfication model and an ensemble model. The model
+              consisted of the convolution part of the pre-trained VGG19 model,
+              it was fine-tuned by freezing the first 13 layers of the
+              convolution network, a global max-pooling layer is used to bridge
+              the CNN with the ANN, the ANN consists of a dense layer with 512
+              neurons, with a 0.5 dropout and batch normalization. The network
+              has an output layer with a sigmoid activation function. The
+              network was optimized with stochastic gradient descent tuned with
+              a 0.0002 learning rate and a 0.9 momentum and trained with 512 ×
+              512 pixel images in batches of 32 for 100 epochs while
+              checkpointing on every iteration to keep a record of the best
+              model.
             </p>
             <p class="text-center">
               <small class=""
@@ -143,19 +165,8 @@
             </p>
             <h5 id="results">Results</h5>
             <p>
-              The model consisted of the convolution part of the pre-trained
-              VGG19 model, it was fine-tuned by freezing the first 13 layers of
-              the convolution network, a global max-pooling layer is used to
-              bridge the CNN with the ANN, the ANN consists of a dense layer
-              with 512 neurons, with a 0.5 dropout and batch normalization. The
-              network has an output layer with a sigmoid activation function.
-              The network was optimized with stochastic gradient descent tuned
-              with a 0.0002 learning rate and a 0.9 momentum and trained with
-              512 × 512 pixel images in batches of 32 for 100 epochs while
-              checkpointing on every iteration to keep a record of the best
-              model. Our single best model achieved 97% percent specificity and
-              77% specificity. Our ensemble model achieved 98% sensitivity and
-              82%.
+              Our single best model achieved 97% percent specificity and 77%
+              specificity. Our ensemble model achieved 98% sensitivity and 82%.
             </p>
             <img src="../assets/results1.png" alt="" class="content-image" />
             <p class="text-center">
