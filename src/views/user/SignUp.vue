@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navigation />
-    <main>
+    <main class="mt-5">
       <section class="main-body">
         <div class="form-card">
           <ValidationObserver ref="observer">
@@ -373,7 +373,7 @@ export default {
       this.$store.commit("registrationResponse", "");
       this.$store.commit("isLoading", true);
       this.registerUser(data).then((res) => {
-        console.log(res)
+        console.log(res);
         this.$router.push({ name: "login" });
         this.$store.commit("isLoading", false);
       });
