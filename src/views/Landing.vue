@@ -105,18 +105,7 @@
             <p>
               Given a limited dataset shown in Table 1, we used transfer
               learning with the VGG19 CNN pretrained weights. We trained a deep
-              learning classfication model and an ensemble model. The model
-              consisted of the convolution part of the pre-trained VGG19 model,
-              it was fine-tuned by freezing the first 13 layers of the
-              convolution network, a global max-pooling layer is used to bridge
-              the CNN with the ANN, the ANN consists of a dense layer with 512
-              neurons, with a 0.5 dropout and batch normalization. The network
-              has an output layer with a sigmoid activation function. The
-              network was optimized with stochastic gradient descent tuned with
-              a 0.0002 learning rate and a 0.9 momentum and trained with 512 ×
-              512 pixel images in batches of 32 for 100 epochs while
-              checkpointing on every iteration to keep a record of the best
-              model.
+              learning classfication model and an ensemble model.
             </p>
             <p class="text-center">
               <small class=""
@@ -154,7 +143,7 @@
                 </tr>
               </tbody>
             </table>
-            <h5>Model Architecture (VGG19 pretrained weights)</h5>
+            <!-- <h5>Model Architecture (VGG19 pretrained weights)</h5>
             <img
               class="content-image"
               src="../../src/assets/Untitled Diagram.drawio (1).jpg"
@@ -162,19 +151,19 @@
             />
             <p class="text-center">
               <small class="">Figure 1: Model architecture diagram</small>
-            </p>
+            </p> -->
             <h5 id="results">Results</h5>
             <p>
               Our single best model achieved 97% percent specificity and 77%
               specificity. Our ensemble model achieved 98% sensitivity and 82%.
             </p>
-            <img src="../assets/results1.png" alt="" class="content-image" />
-            <p class="text-center">
+            <!-- <img src="../assets/results1.png" alt="" class="content-image" /> -->
+            <!-- <p class="text-center">
               <small class=""
                 >Figure: Single best model reciever operator characteristic on
                 the left and confusion matrix on the right</small
               >
-            </p>
+            </p> -->
             <h5 id="deployment">Deployment</h5>
             <p>
               We are looking at three modes of deployment: 1) Mobile application
