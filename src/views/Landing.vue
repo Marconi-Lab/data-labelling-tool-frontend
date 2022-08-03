@@ -47,7 +47,7 @@
     <hr />
 
     <div class="text-left container">
-      <div class="row">
+      <div class="row m-0">
         <div class="col-md-3 side-navigation">
           <h5 class="pl-1 pt-3">Content</h5>
           <ul>
@@ -180,18 +180,13 @@
             <img
               src="../assets/deploy1.png"
               class="content-image"
-              style="height: 350px; width: auto; margin: auto"
               alt=""
+              style="max-width: 350px"
             />
             <p class="text-center">
               <small class="">Figure: Mobile application deployment</small>
             </p>
-            <img
-              src="../assets/deploy2.png"
-              class="content-image"
-              style="height: 350px; width: auto; margin: auto"
-              alt=""
-            />
+            <img src="../assets/deploy2.png" class="content-image" alt="" />
             <p class="text-center">
               <small class="">Figure: Web application deployment</small>
             </p>
@@ -204,28 +199,75 @@
             </p>
             <h5>Partners</h5>
             <div class="row">
-              <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+              <div
+                class="
+                  col-sm-6 col-md-4
+                  d-flex
+                  align-items-middle
+                  py-2
+                  partner-logo
+                "
+              >
                 <img
                   class="partners-logo"
                   src="../../src/assets/marconi_lab.png"
                   alt=""
                 />
               </div>
-              <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+              <div
+                class="
+                  col-sm-6 col-md-4
+                  d-flex
+                  align-items-middle
+                  py-2
+                  partner-logo
+                "
+              >
                 <img
                   class="partners-logo"
                   src="../../src/assets/air.png"
                   alt=""
                 />
               </div>
-              <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+              <div
+                class="
+                  col-sm-6 col-md-4
+                  d-flex
+                  align-items-middle
+                  py-2
+                  partner-logo
+                "
+              >
                 <img
                   class="partners-logo"
                   src="../../src/assets/uci.png"
                   alt=""
                 />
               </div>
-              <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+              <div
+                class="
+                  col-sm-6 col-md-4
+                  d-flex
+                  align-items-middle
+                  py-2
+                  partner-logo
+                "
+              >
+                <img
+                  class="partners-logo"
+                  src="../../src/assets/emergent.jpeg"
+                  alt=""
+                />
+              </div>
+              <div
+                class="
+                  col-sm-6 col-md-4
+                  d-flex
+                  align-items-middle
+                  py-2
+                  partner-logo
+                "
+              >
                 <img
                   class="partners-logo"
                   src="../../src/assets/muk.png"
@@ -352,12 +394,25 @@ ul {
 .side-navigation {
   border: 1px solid rgb(116, 116, 116);
 }
+.partners-logo {
+  height: 300px;
+  object-fit: contain;
+}
 @media screen and (max-width: 766px) {
   .container {
     padding: 0px;
   }
   .side-navigation {
     display: none;
+  }
+  .content {
+    height: 100% !important;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100vw;
   }
 }
 </style>
