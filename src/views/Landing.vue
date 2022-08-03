@@ -47,7 +47,7 @@
     <hr />
 
     <div class="text-left container">
-      <div class="row">
+      <div class="row m-0">
         <div class="col-md-3 side-navigation">
           <h5 class="pl-1 pt-3">Content</h5>
           <ul>
@@ -105,18 +105,7 @@
             <p>
               Given a limited dataset shown in Table 1, we used transfer
               learning with the VGG19 CNN pretrained weights. We trained a deep
-              learning classfication model and an ensemble model. The model
-              consisted of the convolution part of the pre-trained VGG19 model,
-              it was fine-tuned by freezing the first 13 layers of the
-              convolution network, a global max-pooling layer is used to bridge
-              the CNN with the ANN, the ANN consists of a dense layer with 512
-              neurons, with a 0.5 dropout and batch normalization. The network
-              has an output layer with a sigmoid activation function. The
-              network was optimized with stochastic gradient descent tuned with
-              a 0.0002 learning rate and a 0.9 momentum and trained with 512 ×
-              512 pixel images in batches of 32 for 100 epochs while
-              checkpointing on every iteration to keep a record of the best
-              model.
+              learning classfication model and an ensemble model.
             </p>
             <p class="text-center">
               <small class=""
@@ -154,7 +143,7 @@
                 </tr>
               </tbody>
             </table>
-            <h5>Model Architecture (VGG19 pretrained weights)</h5>
+            <!-- <h5>Model Architecture (VGG19 pretrained weights)</h5>
             <img
               class="content-image"
               src="../../src/assets/Untitled Diagram.drawio (1).jpg"
@@ -162,19 +151,19 @@
             />
             <p class="text-center">
               <small class="">Figure 1: Model architecture diagram</small>
-            </p>
+            </p> -->
             <h5 id="results">Results</h5>
             <p>
               Our single best model achieved 97% percent specificity and 77%
               specificity. Our ensemble model achieved 98% sensitivity and 82%.
             </p>
-            <img src="../assets/results1.png" alt="" class="content-image" />
-            <p class="text-center">
+            <!-- <img src="../assets/results1.png" alt="" class="content-image" /> -->
+            <!-- <p class="text-center">
               <small class=""
                 >Figure: Single best model reciever operator characteristic on
                 the left and confusion matrix on the right</small
               >
-            </p>
+            </p> -->
             <h5 id="deployment">Deployment</h5>
             <p>
               We are looking at three modes of deployment: 1) Mobile application
@@ -191,18 +180,13 @@
             <img
               src="../assets/deploy1.png"
               class="content-image"
-              style="height: 350px; width: auto; margin: auto"
               alt=""
+              style="max-width: 350px"
             />
             <p class="text-center">
               <small class="">Figure: Mobile application deployment</small>
             </p>
-            <img
-              src="../assets/deploy2.png"
-              class="content-image"
-              style="height: 350px; width: auto; margin: auto"
-              alt=""
-            />
+            <img src="../assets/deploy2.png" class="content-image" alt="" />
             <p class="text-center">
               <small class="">Figure: Web application deployment</small>
             </p>
@@ -215,28 +199,75 @@
             </p>
             <h5>Partners</h5>
             <div class="row">
-              <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+              <div
+                class="
+                  col-sm-6 col-md-4
+                  d-flex
+                  align-items-middle
+                  py-2
+                  partner-logo
+                "
+              >
                 <img
                   class="partners-logo"
                   src="../../src/assets/marconi_lab.png"
                   alt=""
                 />
               </div>
-              <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+              <div
+                class="
+                  col-sm-6 col-md-4
+                  d-flex
+                  align-items-middle
+                  py-2
+                  partner-logo
+                "
+              >
                 <img
                   class="partners-logo"
                   src="../../src/assets/air.png"
                   alt=""
                 />
               </div>
-              <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+              <div
+                class="
+                  col-sm-6 col-md-4
+                  d-flex
+                  align-items-middle
+                  py-2
+                  partner-logo
+                "
+              >
                 <img
                   class="partners-logo"
                   src="../../src/assets/uci.png"
                   alt=""
                 />
               </div>
-              <div class="col-sm-6 col-md-3 d-flex align-items-middle py-2">
+              <div
+                class="
+                  col-sm-6 col-md-4
+                  d-flex
+                  align-items-middle
+                  py-2
+                  partner-logo
+                "
+              >
+                <img
+                  class="partners-logo"
+                  src="../../src/assets/emergent.jpeg"
+                  alt=""
+                />
+              </div>
+              <div
+                class="
+                  col-sm-6 col-md-4
+                  d-flex
+                  align-items-middle
+                  py-2
+                  partner-logo
+                "
+              >
                 <img
                   class="partners-logo"
                   src="../../src/assets/muk.png"
@@ -363,12 +394,25 @@ ul {
 .side-navigation {
   border: 1px solid rgb(116, 116, 116);
 }
+.partners-logo {
+  height: 300px;
+  object-fit: contain;
+}
 @media screen and (max-width: 766px) {
   .container {
     padding: 0px;
   }
   .side-navigation {
     display: none;
+  }
+  .content {
+    height: 100% !important;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100vw;
   }
 }
 </style>
