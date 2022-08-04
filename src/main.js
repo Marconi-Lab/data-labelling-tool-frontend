@@ -1,6 +1,11 @@
 import Vue from "vue";
 import App from "./App.vue";
-import { ValidationObserver, ValidationProvider, extend, localize } from "vee-validate";
+import {
+  ValidationObserver,
+  ValidationProvider,
+  extend,
+  localize,
+} from "vee-validate";
 import Spinner from "vue-simple-spinner";
 import * as rules from "vee-validate/dist/rules";
 import en from "vee-validate/dist/locale/en.json";
@@ -8,6 +13,8 @@ import router from "./router";
 import store from "./store/store";
 import api from "./store/axios_setup";
 import VueLazyload from "vue-lazyload";
+require("dotenv").config();
+import * as VueGoogleMaps from "vue2-google-maps";
 
 import {
   NavbarPlugin,
@@ -29,7 +36,7 @@ import {
   AlertPlugin,
   TabsPlugin,
   FormCheckboxPlugin,
-  FormRadioPlugin
+  FormRadioPlugin,
 } from "bootstrap-vue";
 
 api.interceptors.request.use(
@@ -38,7 +45,8 @@ api.interceptors.request.use(
 
     if (token) {
       const userID = JSON.parse(localStorage.getItem("user")).id;
-      const project_admin = JSON.parse(localStorage.getItem("user")).project_admin;
+      const project_admin = JSON.parse(localStorage.getItem("user"))
+        .project_admin;
       const is_admin = JSON.parse(localStorage.getItem("user")).is_admin
         ? "admin"
         : "";
@@ -114,10 +122,17 @@ Vue.use(FormInputPlugin);
 Vue.use(FormGroupPlugin);
 Vue.use(ListGroupPlugin);
 Vue.use(AlertPlugin);
-Vue.use(TabsPlugin)
+Vue.use(TabsPlugin);
 Vue.use(VueLazyload);
-Vue.use(FormCheckboxPlugin)
-Vue.use(FormRadioPlugin)
+Vue.use(FormCheckboxPlugin);
+Vue.use(FormRadioPlugin);
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: process.env.VUE_APP_MAPS_API_KEY,
+  },
+});
+console.log("Maps API-KEY: ");
+console.log(process.env);
 new Vue({
   router,
   render: (h) => h(App),
