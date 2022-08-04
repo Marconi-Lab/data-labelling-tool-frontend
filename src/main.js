@@ -14,7 +14,7 @@ import store from "./store/store";
 import api from "./store/axios_setup";
 import VueLazyload from "vue-lazyload";
 require("dotenv").config();
-import * as VueGoogleMaps from "vue2-google-maps";
+import GmapVue from "gmap-vue";
 
 import {
   NavbarPlugin,
@@ -126,9 +126,10 @@ Vue.use(TabsPlugin);
 Vue.use(VueLazyload);
 Vue.use(FormCheckboxPlugin);
 Vue.use(FormRadioPlugin);
-Vue.use(VueGoogleMaps, {
+Vue.use(GmapVue, {
   load: {
     key: process.env.VUE_APP_MAPS_API_KEY,
+    libraries: "places",
   },
 });
 console.log("Maps API-KEY: ");
