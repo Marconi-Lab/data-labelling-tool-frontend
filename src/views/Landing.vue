@@ -90,6 +90,12 @@
               staining the cervix with acetic acid. A tool was developed to
               annotate the data.
             </p>
+            <GoogleMap></GoogleMap>
+            <p class="text-center">
+              <small class=""
+                >Figure: Map showing locations of satelite clinics</small
+              >
+            </p>
             <img src="../assets/label1.png" alt="" class="content-image pt-3" />
             <p class="text-center">
               <small class="">Figure: Image labels annotation interface</small>
@@ -284,10 +290,12 @@
 
 <script>
 import Navigation from "../components/navigation.vue";
+import GoogleMap from "../components/googleMap";
 export default {
   name: "landing-page",
   components: {
     Navigation,
+    GoogleMap,
   },
 };
 </script>
