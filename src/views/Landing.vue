@@ -161,7 +161,7 @@
             <h5 id="results">Results</h5>
             <p>
               Our single best model achieved 97% percent specificity and 77%
-              specificity. Our ensemble model achieved 98% sensitivity and 82%.
+              specificity. Our ensemble model achieved 98% sensitivity and 82% specificity.
             </p>
             <!-- <img src="../assets/results1.png" alt="" class="content-image" /> -->
             <!-- <p class="text-center">
