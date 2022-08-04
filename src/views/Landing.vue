@@ -91,6 +91,11 @@
               annotate the data.
             </p>
             <GoogleMap></GoogleMap>
+            <p class="text-center">
+              <small class=""
+                >Figure: Map showing locations of satelite clinics</small
+              >
+            </p>
             <img src="../assets/label1.png" alt="" class="content-image pt-3" />
             <p class="text-center">
               <small class="">Figure: Image labels annotation interface</small>
