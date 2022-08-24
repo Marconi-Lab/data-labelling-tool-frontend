@@ -11,7 +11,7 @@
           <h5>Complete Form</h5>
           <hr class="m-0 mb-1" />
           <!-- labels form -->
-          <validation-observer ref="observer" v-slot="{ handleSubmit }">
+          <!-- <validation-observer ref="observer" v-slot="{ handleSubmit }">
             <b-form @submit.stop.prevent="handleSubmit(handleLoadNext)">
               <b-form-group class="list-group list-group-flush p-2">
                 <p>{{ attributes[0].name }}</p>
@@ -122,6 +122,87 @@
                 </validation-provider>
               </b-form-group>
               <input type="submit" id="submit-form" class="hidden" />
+            </b-form> -->
+          <!-- </validation-observer> -->
+          <validation-observer ref="observer" v-slot="{ handleSubmit }">
+            <b-form @submit.stop.prevent="handleSubmit(handleLoadNext)">
+              <b-form-group class="list-group list-group-flush p-2">
+                <!-- option1 -->
+                <p>{{ attributes[0].name }}</p>
+                <validation-provider
+                  name="option1"
+                  :rules="{ required: true }"
+                  v-slot="validationContext"
+                >
+                  <b-form-group>
+                    <b-form-radio-group
+                      v-model="form.option1.answer"
+                      :options="attributes[0].values"
+                      name="radios-stacked1"
+                      :state="getValidationState(validationContext)"
+                      stacked
+                    ></b-form-radio-group>
+                    <b-form-invalid-feedback id="input-2-live-feedback">{{
+                      validationContext.errors[0]
+                    }}</b-form-invalid-feedback>
+                  </b-form-group>
+                </validation-provider>
+                <!-- option2 -->
+                <hr class="m-1" />
+                <p>{{ attributes[1].name }}</p>
+                <validation-provider
+                  name="option2"
+                  :rules="{ required: true }"
+                  v-slot="validationContext"
+                >
+                  <b-form-radio-group
+                    v-model="form.option2.answer"
+                    :options="attributes[1].values"
+                    name="radios-stacked2"
+                    stacked
+                  ></b-form-radio-group>
+                  <b-form-invalid-feedback id="input-2-live-feedback">{{
+                    validationContext.errors[0]
+                  }}</b-form-invalid-feedback>
+                </validation-provider>
+                <!-- option3 -->
+                <hr class="m-1" />
+                <p>
+                  {{ attributes[2].name }}
+                </p>
+                <validation-provider
+                  name="option3"
+                  :rules="{ required: true }"
+                  v-slot="validationContext"
+                >
+                  <b-form-input v-model="form.option3.answer" />
+                  <b-form-invalid-feedback id="input-2-live-feedback">{{
+                    validationContext.errors[0]
+                  }}</b-form-invalid-feedback>
+                </validation-provider>
+                <!-- option4 -->
+                <hr class="m-1" />
+                <p v-if="form.option2.answer != 'no'">
+                  {{ attributes[3].name }}
+                </p>
+                <validation-provider
+                  name="option4"
+                  :rules="{ required: true }"
+                  v-slot="validationContext"
+                  v-if="form.option2.answer != 'no'"
+                >
+                  <b-form-radio-group
+                    v-model="form.option4.answer"
+                    :options="attributes[3].values"
+                    name="radios-stacked4"
+                    stacked
+                  ></b-form-radio-group>
+                  <b-form-invalid-feedback id="input-2-live-feedback">{{
+                    validationContext.errors[0]
+                  }}</b-form-invalid-feedback>
+                </validation-provider>
+              </b-form-group>
+              <input type="submit" id="submit-form" class="hidden" />
             </b-form>
           </validation-observer>
         </div>
@@ -180,18 +261,18 @@
                   style="font-size: 0.9rem"
                   class="btn btn-secondary mt-2 mx-2"
                   for="submit-form"
-                  :disabled="labelled_images==all_images"
+                  :disabled="labelled_images == all_images"
                 >
                   next
                 </label>
               </b-navbar-nav>
-               <b-navbar-nav>
+              <b-navbar-nav>
                 <label
                   style="font-size: 0.9rem"
                   class="btn btn-success text-bold mt-2 mx-2"
                   for="submit-form"
                 >
-                  image {{ current_image + 1 }}
+                  image {{ labelled_images + 1 }}
                 </label>
               </b-navbar-nav>
             </b-collapse>
@@ -257,15 +338,17 @@ export default {
     },
     resetForm() {
       this.form = {
-        option1: { question: "Is SCJ fully visible?", answer: null },
-        option2: {
+        option1: {
           question:
             "Is the quality of the picture good enough to make a diagnosis?",
           answer: null,
         },
-        option3: { question: "Is SCJ fully visible?", answer: null },
-        option4: { question: "What is the VIA assessment?", answer: null },
-        option5: {
+        option2: { question: "What is the VIA assessment?", answer: null },
+        option3: {
+          question: "What is the lesion location? (None if not applicable).",
+          answer: null,
+        },
+        option4: {
           question:
             "What is the size of lesion (propotion of cervix area involved)?",
           answer: null,
@@ -288,9 +371,9 @@ export default {
         dataset_id,
         project_id: this.project_id,
         image_id,
-        annotations
+        annotations,
       };
-      
+
       if (this.current_image < this.all_images - 1) {
         this.processing = true;
         await this.submitImage(annotation_payload);
@@ -299,10 +382,10 @@ export default {
         this.processing = false;
         console.log("Current image: ", this.current_image);
       }
-      if (this.current_image == this.all_images-1){
+      if (this.current_image == this.all_images - 1) {
         this.processing = true;
         await this.submitImage(annotation_payload);
-        this.processing=false;
+        this.processing = false;
       }
     },
     handleLoadPrevious() {
@@ -315,18 +398,12 @@ export default {
       }
     },
     submitImage(payload) {
-      
-      axios
-        .post(
-          `/user/label/${payload.image_id}`,
-          payload
-        )
-        .then((res) => {
-          console.log("image label response: ", res.data)
-          const data = res.data;
-          this.labelled_images = data.labelled;
-          this.all_images = data.all_images;
-        });
+      axios.post(`/user/label/${payload.image_id}`, payload).then((res) => {
+        console.log("image label response: ", res.data);
+        const data = res.data;
+        this.labelled_images = data.labelled;
+        this.all_images = data.all_images;
+      });
     },
   },
 
@@ -349,7 +426,7 @@ export default {
         this.labelled_images = data.labelled;
         this.all_images = data.all_images;
         this.processing = false;
-        if((data.labelled == data.all_images)){
+        if (data.labelled == data.all_images) {
           this.resetForm();
         }
       });
