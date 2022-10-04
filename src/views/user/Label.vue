@@ -148,9 +148,12 @@
                   </b-form-group>
                 </validation-provider>
                 <!-- option2 -->
-                <hr class="m-1" />
-                <p>{{ attributes[1].name }}</p>
+                <hr v-if="form.option1.answer == 'yes'" class="m-1" />
+                <p v-if="form.option1.answer == 'yes'">
+                  {{ attributes[1].name }}
+                </p>
                 <validation-provider
+                  v-if="form.option1.answer == 'yes'"
                   name="option2"
                   :rules="{ required: true }"
                   v-slot="validationContext"
@@ -166,11 +169,29 @@
                   }}</b-form-invalid-feedback>
                 </validation-provider>
                 <!-- option3 -->
-                <hr class="m-1" />
-                <p>
+                <hr
+                  v-if="
+                    form.option1.answer == 'yes' &&
+                    (form.option2.answer == 'VIA positive' ||
+                      form.option2.answer == 'suspected cancerous lesions')
+                  "
+                  class="m-1"
+                />
+                <p
+                  v-if="
+                    form.option1.answer == 'yes' &&
+                    (form.option2.answer == 'VIA positive' ||
+                      form.option2.answer == 'suspected cancerous lesions')
+                  "
+                >
                   {{ attributes[2].name }}
                 </p>
                 <validation-provider
+                  v-if="
+                    form.option1.answer == 'yes' &&
+                    (form.option2.answer == 'VIA positive' ||
+                      form.option2.answer == 'suspected cancerous lesions')
+                  "
                   name="option3"
                   :rules="{ required: true }"
                   v-slot="validationContext"
@@ -181,15 +202,32 @@
                   }}</b-form-invalid-feedback>
                 </validation-provider>
                 <!-- option4 -->
-                <hr class="m-1" />
-                <p v-if="form.option2.answer != 'no'">
+                <hr
+                  v-if="
+                    form.option1.answer == 'yes' &&
+                    (form.option2.answer == 'VIA positive' ||
+                      form.option2.answer == 'suspected cancerous lesions')
+                  "
+                  class="m-1"
+                />
+                <p
+                  v-if="
+                    form.option1.answer == 'yes' &&
+                    (form.option2.answer == 'VIA positive' ||
+                      form.option2.answer == 'suspected cancerous lesions')
+                  "
+                >
                   {{ attributes[3].name }}
                 </p>
                 <validation-provider
                   name="option4"
                   :rules="{ required: true }"
                   v-slot="validationContext"
-                  v-if="form.option2.answer != 'no'"
+                  v-if="
+                    form.option1.answer == 'yes' &&
+                    (form.option2.answer == 'VIA positive' ||
+                      form.option2.answer == 'suspected cancerous lesions')
+                  "
                 >
                   <b-form-radio-group
                     v-model="form.option4.answer"
@@ -363,7 +401,8 @@ export default {
       // e.preventDefault();
       let dataset_id = this.$route.params.id;
       let annotations = JSON.stringify(
-        this.labels[this.current_image].annotations
+        // this.labels[this.current_image].annotations
+        this.form
       );
       let image_id = this.labels[this.current_image].id;
 
@@ -382,6 +421,7 @@ export default {
         this.processing = false;
         console.log("Current image: ", this.current_image);
       }
+
       if (this.current_image == this.all_images - 1) {
         this.processing = true;
         await this.submitImage(annotation_payload);
