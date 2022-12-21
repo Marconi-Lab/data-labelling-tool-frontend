@@ -105,7 +105,7 @@ let attributes = [
   },
   {
     id: 3,
-    name: "What is the lesion location? (None if not applicable)",
+    name: "What is the lesion location? (Optional)",
     values: [],
   },
   {
@@ -129,13 +129,13 @@ let data = {
   },
   option2: { question: "What is the VIA assessment?", answer: null },
   option3: {
-    question: "What is the lesion location? (None if not applicable)",
-    answer: null,
+    question: "What is the lesion location? (optional)",
+    answer: "",
   },
 
   option4: {
     question: "What is the size of lesion (propotion of cervix area involved)?",
-    answer: null,
+    answer: "",
   },
 };
 

@@ -172,16 +172,16 @@
                 <hr
                   v-if="
                     form.option1.answer == 'yes' &&
-                    (form.option2.answer == 'VIA positive' ||
-                      form.option2.answer == 'suspected cancerous lesions')
+                      (form.option2.answer == 'VIA positive' ||
+                        form.option2.answer == 'suspected cancerous lesions')
                   "
                   class="m-1"
                 />
                 <p
                   v-if="
                     form.option1.answer == 'yes' &&
-                    (form.option2.answer == 'VIA positive' ||
-                      form.option2.answer == 'suspected cancerous lesions')
+                      (form.option2.answer == 'VIA positive' ||
+                        form.option2.answer == 'suspected cancerous lesions')
                   "
                 >
                   {{ attributes[2].name }}
@@ -189,11 +189,11 @@
                 <validation-provider
                   v-if="
                     form.option1.answer == 'yes' &&
-                    (form.option2.answer == 'VIA positive' ||
-                      form.option2.answer == 'suspected cancerous lesions')
+                      (form.option2.answer == 'VIA positive' ||
+                        form.option2.answer == 'suspected cancerous lesions')
                   "
                   name="option3"
-                  :rules="{ required: true }"
+                  :rules="{ required: false }"
                   v-slot="validationContext"
                 >
                   <b-form-input v-model="form.option3.answer" />
@@ -205,28 +205,28 @@
                 <hr
                   v-if="
                     form.option1.answer == 'yes' &&
-                    (form.option2.answer == 'VIA positive' ||
-                      form.option2.answer == 'suspected cancerous lesions')
+                      (form.option2.answer == 'VIA positive' ||
+                        form.option2.answer == 'suspected cancerous lesions')
                   "
                   class="m-1"
                 />
                 <p
                   v-if="
                     form.option1.answer == 'yes' &&
-                    (form.option2.answer == 'VIA positive' ||
-                      form.option2.answer == 'suspected cancerous lesions')
+                      (form.option2.answer == 'VIA positive' ||
+                        form.option2.answer == 'suspected cancerous lesions')
                   "
                 >
                   {{ attributes[3].name }}
                 </p>
                 <validation-provider
                   name="option4"
-                  :rules="{ required: true }"
+                  :rules="{ required: false }"
                   v-slot="validationContext"
                   v-if="
                     form.option1.answer == 'yes' &&
-                    (form.option2.answer == 'VIA positive' ||
-                      form.option2.answer == 'suspected cancerous lesions')
+                      (form.option2.answer == 'VIA positive' ||
+                        form.option2.answer == 'suspected cancerous lesions')
                   "
                 >
                   <b-form-radio-group
@@ -476,7 +476,7 @@ export default {
   },
   mounted() {
     //toggle sidebar
-    $("#menu-toggle").click(function (e) {
+    $("#menu-toggle").click(function(e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
